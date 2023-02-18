@@ -3,8 +3,8 @@ module gitee.com/quant1x/data
 go 1.20
 
 require (
-	gitee.com/quant1x/gotdx v1.1.3
-	gitee.com/quant1x/pandas v0.6.6
+	gitee.com/quant1x/gotdx v1.1.4
+	gitee.com/quant1x/pandas v0.6.9
 	github.com/guonaihong/gout v0.3.6
 	github.com/mymmsc/gox v1.3.3
 	github.com/qianlnk/pgbar v0.0.0-20210208085217-8c19b9f2477e

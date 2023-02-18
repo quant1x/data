@@ -8,8 +8,9 @@ import (
 )
 
 const (
-	INFO_PATH = "info"
-	DAY_PATH  = "day"
+	DAY_PATH  = "day"  // 日线路径
+	INFO_PATH = "info" // 信息路径
+	TICK_PATH = "tick" // tick路径
 )
 
 type CacheType int

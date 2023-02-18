@@ -1,7 +1,7 @@
 gitee.com/quant1x/gotdx v1.1.4 h1:gnDszXeYKzAxtt5GohcEE3iO33qm1mHWUJlacikDNyk=
 gitee.com/quant1x/gotdx v1.1.4/go.mod h1:J1vbp9YtBR1eYAiSFdsgjniPbFW68wcldfj6zyeWwrE=
-gitee.com/quant1x/pandas v0.6.9 h1:lgM88xJsf8G5DwQ1ujo+qePdczFczZDxQwTy0+ZTjk4=
-gitee.com/quant1x/pandas v0.6.9/go.mod h1:1YaQ4FTFNKXoVzP1wQauooJwFrAR9ED0TgC+AInKIJg=
+gitee.com/quant1x/pandas v0.6.10 h1:Wf7O46fR58Uq9LCJoIji+LDu3arLbwpaGAODmLz+hQ4=
+gitee.com/quant1x/pandas v0.6.10/go.mod h1:GygP5XslswV0dxMwW9/pX7i+9sUbqtcbUlwhqH5OElk=
 github.com/andybalholm/brotli v1.0.4 h1:V7DdXeJtZscaqfNuAdSRuRFzuiKlHSC/Zh3zl9qY3JY=
 github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=

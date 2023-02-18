@@ -5,9 +5,10 @@ go 1.20
 require (
 	gitee.com/quant1x/gotdx v1.1.3
 	github.com/guonaihong/gout v0.3.6
-	github.com/mymmsc/gox v1.3.1
+	github.com/mymmsc/gox v1.3.3
 	github.com/qianlnk/pgbar v0.0.0-20210208085217-8c19b9f2477e
 	github.com/robfig/cron/v3 v3.0.1
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -30,8 +31,7 @@ require (
 	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa // indirect
-	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	golang.org/x/text v0.5.0 // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

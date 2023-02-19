@@ -93,7 +93,7 @@ func handleCodeData() {
 
 func sleep() {
 	// 休眠2秒
-	time.Sleep(time.Second * 2)
+	//time.Sleep(time.Second * 2)
 }
 
 // 拉取数据

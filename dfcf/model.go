@@ -71,9 +71,9 @@ func (k KLine) WriteCSV(_writer *csv.Writer) error {
 		fd := val.Field(i)
 		vs := ""
 		if fd.Kind() == reflect.Float32 || fd.Kind() == reflect.Float64 {
-			vs = fmt.Sprintf("%.03f", fd)
+			vs = fmt.Sprintf("%.03f", fd.Float())
 		} else {
-			vs = fmt.Sprintf("%v", fd)
+			vs = fmt.Sprintf("%v", fd.Interface())
 		}
 		line = append(line, vs)
 	}

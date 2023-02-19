@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// GetCodeList 加载全部股票代码
 func GetCodeList() []string {
 	fullCodes := make([]string, 0)
 	// 指数

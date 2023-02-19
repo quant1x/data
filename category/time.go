@@ -18,6 +18,8 @@ const (
 
 	// 历史数据获取的时间, 时, 分, 秒
 	HistoryUpdateHour = 17
-	HistoryUpdateMin = 0
-	HistoryUpdateSec = 0
+	HistoryUpdateMin  = 0
+	HistoryUpdateSec  = 0
+
+	TDX_DATE = "20060102"
 )

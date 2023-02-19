@@ -9,7 +9,7 @@ import (
 
 func Test_initTag(t *testing.T) {
 	emkl := dfcf.KLine{}
-	initTag(reflect.TypeOf(emkl), "name")
+	InitTag(reflect.TypeOf(emkl), "name")
 }
 
 func TestToCSV(t *testing.T) {

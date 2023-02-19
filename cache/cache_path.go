@@ -16,8 +16,9 @@ const (
 type CacheType int
 
 const (
-	CACHE_TARS CacheType = iota
-	CACHE_CSV
+	CACHE_TARS  CacheType = iota
+	CACHE_CSV             = 1 // CSV
+	CACHE_EXCEL           = 2 // EXCEL
 )
 
 var (
@@ -28,6 +29,12 @@ var (
 
 func init() {
 	CACHE_TYPE = CACHE_CSV
+}
+
+// FileExist 路径是否存在
+func FileExist(path string) bool {
+	_, err := os.Lstat(path)
+	return !os.IsNotExist(err)
 }
 
 // CheckFilepath
@@ -62,4 +69,8 @@ func GetInfoPath() string {
 // GetDayPath 历史数据-日线缓存路径
 func GetDayPath() string {
 	return CACHE_ROOT_PATH + "/" + DAY_PATH
+}
+
+func GetTickPath() string {
+	return CACHE_ROOT_PATH + "/" + TICK_PATH
 }

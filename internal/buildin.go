@@ -1,6 +1,8 @@
 package internal
 
 import (
+	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/utils"
 	"reflect"
 )
 
@@ -12,7 +14,8 @@ func init() {
 	mapTag = make(map[reflect.Type]map[int]string)
 }
 
-func initTag(t reflect.Type, tagName string) map[int]string {
+// InitTag 缓存Tag
+func InitTag(t reflect.Type, tagName string) map[int]string {
 	ma, mok := mapTag[t]
 	if mok {
 		return ma
@@ -34,4 +37,14 @@ func initTag(t reflect.Type, tagName string) map[int]string {
 		}
 	}
 	return ma
+}
+
+// CorrectDate 矫正日期, 统一格式
+func CorrectDate(date string) string {
+	dt, err := utils.ParseTime(date)
+	if err != nil {
+		return "20991231"
+	}
+	date = dt.Format(category.TDX_DATE)
+	return date
 }

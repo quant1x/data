@@ -1,10 +1,18 @@
 package tdx
 
 import (
+	"fmt"
+	"gitee.com/quant1x/data/cache"
+	"gitee.com/quant1x/data/internal"
+	"gitee.com/quant1x/data/security"
+	"gitee.com/quant1x/data/security/date"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
+	"github.com/mymmsc/gox/logger"
+	progressbar "github.com/qianlnk/pgbar"
+	"strconv"
 	"strings"
 )
 
@@ -91,7 +99,7 @@ func GetKLine(code string, start uint16, count uint16) pandas.DataFrame {
 	return df
 }
 
-// GetKLine 获取日K线
+// GetKLineAll GetKLine 获取日K线
 func GetKLineAll(code string) pandas.DataFrame {
 	api := prepare()
 
@@ -126,6 +134,86 @@ func GetKLineAll(code string) pandas.DataFrame {
 	if err != nil {
 		return pandas.DataFrame{}
 	}
+
+	return df
+}
+
+func GetTickAll(pgb *progressbar.Pgbar, code string) {
+	api := prepare()
+	marketId, _, code := security.DetectMarket(code)
+	info, err := api.GetFinanceInfo(marketId, code, 1)
+	if err != nil {
+		return
+	}
+	tStart := strconv.FormatInt(int64(info.IPODate), 10)
+	tEnd := "20500101"
+	dateRange := date.TradeRange(tStart, tEnd)
+	bar := progressbar.NewBar(2, fmt.Sprintf("同步[%s]", code), len(dateRange))
+	//bar := pgb.NewBar(fmt.Sprintf("同步[%s]", code), len(dateRange))
+	for _, tradeDate := range dateRange {
+		bar.Add(1)
+		//logger.Infof("同步[%s] %s tick...", code, tradeDate)
+		fname, err := cache.TickFilename(code, tradeDate)
+		if err != nil {
+			logger.Errorf("同步[%s] %s tick失败", code, tradeDate)
+			// 如果失败就直接返回
+			return
+		}
+		if cache.FileExist(fname) {
+			// 如果已经存在就跳过
+			continue
+		}
+		df := GetTickData(code, tradeDate)
+		_ = df
+		//logger.Infof("同步[%s] %s tick...OK", code, tradeDate)
+	}
+
+	return
+}
+
+func GetTickData(code string, date string) pandas.DataFrame {
+	api := prepare()
+	marketId, marketName, code := security.DetectMarket(code)
+	offset := uint16(1800)
+	start := uint16(0)
+	count := offset
+	date = internal.CorrectDate(date)
+	history := make([]quotes.HistoryTransaction, 0)
+	hs := make([]quotes.HistoryTransactionReply, 0)
+	for {
+		iDate := stat.AnyToInt64(date)
+		data, err := api.GetHistoryTransactionData(marketId, code, uint32(iDate), start, offset)
+		if err != nil {
+			panic("接口异常")
+		}
+		hs = append(hs, (*data))
+		if data.Count < count {
+			// 已经是最早的记录
+			// 需要排序
+			break
+		}
+		start += offset
+	}
+	hs = stat.Reverse(hs)
+	for _, v := range hs {
+		history = append(history, v.List...)
+	}
+	_ = marketName
+	df := pandas.LoadStructs(history)
+	df = df.Select([]string{"Time", "Price", "Vol", "Num", "BuyOrSell"})
+	err := df.SetNames("time", "price", "vol", "num", "buyorsell")
+	if err != nil {
+		return pandas.DataFrame{}
+	}
+	tickFile, err := cache.TickFilename(code, date)
+	if err != nil {
+		return pandas.DataFrame{}
+	}
+	err = cache.CheckFilepath(tickFile)
+	if err != nil {
+		return pandas.DataFrame{}
+	}
+	df.WriteCSV(tickFile)
 
 	return df
 }

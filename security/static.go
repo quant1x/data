@@ -13,12 +13,6 @@ import (
 	"os"
 )
 
-const (
-	MARKET_SH string = "sh" // 上海
-	MARKET_SZ string = "sz" // 深圳
-	MARKET_HK string = "hk" // 香港
-)
-
 var (
 	// ResourcesPath 资源路径
 	ResourcesPath = "resources"

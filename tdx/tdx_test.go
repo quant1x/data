@@ -28,3 +28,7 @@ func TestGetKLine(t *testing.T) {
 	fmt.Println(df)
 	_ = len
 }
+
+func TestGetTickAll(t *testing.T) {
+	GetTickAll(nil, "002528")
+}

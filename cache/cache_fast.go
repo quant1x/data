@@ -2,11 +2,9 @@ package cache
 
 import (
 	"errors"
-	"fmt"
 	"gitee.com/quant1x/data/category"
 	"github.com/mymmsc/gox/logger"
 	"os"
-	"strings"
 	"syscall"
 )
 
@@ -69,26 +67,6 @@ func (fc *FastCache) Close() {
 		_ = syscall.Munmap(fc.Data)
 		_ = fc.f.Close()
 	}
-}
-
-// GetKLineFilename 获取缓存的文件名
-func GetKLineFilename(fullCode string) string {
-	fullCode = strings.TrimSpace(fullCode)
-	if len(fullCode) != 7 && len(fullCode) != 8 {
-		return fullCode
-	}
-	pos := len(fullCode) - 3
-	fullCode = strings.ToLower(fullCode)
-	// 组织存储路径
-	filename := GetDayPath() + "/" + fullCode[0:pos] + "/" + fullCode
-	if CACHE_TYPE == CACHE_CSV {
-		filename += ".csv"
-	}
-	err := CheckFilepath(filename)
-	if err != nil {
-		panic(fmt.Errorf("create file %s, failed", fullCode))
-	}
-	return filename
 }
 
 func GetCache(fullCode string) *os.File {

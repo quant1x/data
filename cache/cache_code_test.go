@@ -19,8 +19,8 @@ func TestIdPath(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IdPath(tt.args.code); got != tt.want {
-				t.Errorf("IdPath() = %v, want %v", got, tt.want)
+			if got := CacheIdPath(tt.args.code); got != tt.want {
+				t.Errorf("CacheIdPath() = %v, want %v", got, tt.want)
 			}
 		})
 	}

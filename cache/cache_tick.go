@@ -9,7 +9,7 @@ const (
 	__date_format = "20060102"
 )
 
-// TickFilename tick文件比较多, 目录结构${tick}/${YYYY}/${YYYYMMDD}/${IdPath}
+// TickFilename tick文件比较多, 目录结构${tick}/${YYYY}/${YYYYMMDD}/${CacheIdPath}
 func TickFilename(code string, date string) (string, error) {
 	dt, err := utils.ParseTime(date)
 	if err != nil {

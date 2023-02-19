@@ -7,10 +7,11 @@ import (
 	"gitee.com/quant1x/data/tdx"
 	"gitee.com/quant1x/data/utils"
 	"github.com/mymmsc/gox/logger"
-	progressbar "github.com/qianlnk/pgbar"
+	"github.com/mymmsc/gox/progressbar"
 	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
 	"time"
 )
@@ -20,8 +21,14 @@ func main() {
 	//创建监听退出chan
 	c := make(chan os.Signal)
 	//监听指定信号 ctrl+c kill
-	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM,
-		syscall.SIGQUIT, syscall.SIGUSR1, syscall.SIGUSR2)
+	var stopSignals []os.Signal
+	sysType := runtime.GOOS
+	if sysType != "windows" {
+		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGSTOP}
+	} else {
+		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT}
+	}
+	signal.Notify(c, stopSignals...)
 	var (
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
@@ -51,11 +58,7 @@ func handleCodeData() {
 	logger.Info("任务开始启动...")
 	fullCodes := security.GetCodeList()
 	count := len(fullCodes)
-	pgb := progressbar.New("更新历史tick数据")
-	bar := pgb.NewBar("执行[更新历史tick数据]", 1)
-	bar.Add(1)
-	//_ = pgb.NewBar("执行[更新历史tick数据]", count)
-	bar = progressbar.NewBar(1, "执行[更新历史tick数据]", count)
+	bar := progressbar.NewBar(1, "执行[更新历史tick数据]", count)
 	for _, code := range fullCodes {
 		basicInfo, err := security.GetBasicInfo(code)
 		if err == security.ErrCodeNotExist {
@@ -76,7 +79,7 @@ func handleCodeData() {
 		}
 		bar.Add(1)
 		listTimestamp := int64(basicInfo.ListTimestamp)
-		e := pullData(pgb, code, utils.UnixTime(listTimestamp))
+		e := pullData(code, utils.UnixTime(listTimestamp))
 		if e&category.D_ENEED == 0 {
 			sleep()
 		}
@@ -90,7 +93,7 @@ func sleep() {
 }
 
 // 拉取数据
-func pullData(pgb *progressbar.Pgbar, fc string, listTime time.Time) int {
-	tdx.GetTickAll(pgb, fc)
+func pullData(fc string, listTime time.Time) int {
+	tdx.GetTickAll(fc)
 	return 0
 }

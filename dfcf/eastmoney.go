@@ -2,12 +2,17 @@ package dfcf
 
 import (
 	"fmt"
-	"gitee.com/quant1x/data/internal/http"
 	"gitee.com/quant1x/gotdx/proto"
 	"github.com/mymmsc/gox/api"
 	json "github.com/mymmsc/gox/fastjson"
+	"github.com/mymmsc/gox/http"
 	"github.com/mymmsc/gox/logger"
+	urlpkg "net/url"
 	"strings"
+)
+
+const (
+	kUrlEastMonryZhKLine = "http://push2his.eastmoney.com/api/qt/stock/kline/get"
 )
 
 var (
@@ -42,19 +47,21 @@ func stock_hist(symbol string, args ...string) ([]byte, error) {
 		adjust = args[2]
 	}
 
-	url := "http://push2his.eastmoney.com/api/qt/stock/kline/get"
 	markerId := proto.GetMarketId(symbol)
-	data, err := http.Get(url, http.Query{
-		"fields1": "f1,f2,f3,f4,f5,f6",
-		"fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f116",
-		"ut":      "7eea3edcaed734bea9cbfc24409ed989",
-		"klt":     period_dict[period],
-		"fqt":     adjust_dict[adjust],
-		"secid":   fmt.Sprintf("%d.%s", markerId, symbol),
-		"beg":     start_date,
-		"end":     end_date,
-		"_":       "1623766962675",
-	})
+
+	params := urlpkg.Values{
+		"fields1": {"f1,f2,f3,f4,f5,f6"},
+		"fields2": {"f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f116"},
+		"ut":      {"7eea3edcaed734bea9cbfc24409ed989"},
+		"klt":     {period_dict[period]},
+		"fqt":     {adjust_dict[adjust]},
+		"secid":   {fmt.Sprintf("%d.%s", markerId, symbol)},
+		"beg":     {start_date},
+		"end":     {end_date},
+		"_":       {"1623766962675"},
+	}
+	url := kUrlEastMonryZhKLine + "?" + params.Encode()
+	data, err := http.HttpGet(url)
 	return data, err
 }
 

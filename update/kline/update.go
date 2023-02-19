@@ -11,10 +11,11 @@ import (
 	"gitee.com/quant1x/data/utils"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/logger"
-	progressbar "github.com/qianlnk/pgbar"
+	"github.com/mymmsc/gox/progressbar"
 	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
 	"time"
 )
@@ -24,8 +25,14 @@ func main() {
 	//创建监听退出chan
 	c := make(chan os.Signal)
 	//监听指定信号 ctrl+c kill
-	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM,
-		syscall.SIGQUIT, syscall.SIGUSR1, syscall.SIGUSR2)
+	var stopSignals []os.Signal
+	sysType := runtime.GOOS
+	if sysType != "windows" {
+		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGSTOP}
+	} else {
+		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT}
+	}
+	signal.Notify(c, stopSignals...)
 	var (
 		//path       string // 数据路径
 		//logPath    string // 日志输出路径

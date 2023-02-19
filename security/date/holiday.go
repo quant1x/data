@@ -2,12 +2,12 @@ package date
 
 import (
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/internal/http"
 	"gitee.com/quant1x/data/internal/js"
 	"gitee.com/quant1x/data/utils"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
+	"github.com/mymmsc/gox/http"
 	"sort"
 	"strings"
 	"time"
@@ -61,7 +61,7 @@ func updateHoliday() {
 		if err != nil {
 			panic("文件路径创建失败: " + holidayFilename)
 		}
-		data, err := http.Get(url_sina_klc_td_sh)
+		data, err := http.HttpGet(url_sina_klc_td_sh)
 		if err != nil {
 			panic("获取交易日历失败: " + url_sina_klc_td_sh)
 		}

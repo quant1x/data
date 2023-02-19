@@ -11,7 +11,7 @@ import (
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/logger"
-	progressbar "github.com/qianlnk/pgbar"
+	"github.com/mymmsc/gox/progressbar"
 	"strconv"
 	"strings"
 )
@@ -138,7 +138,7 @@ func GetKLineAll(code string) pandas.DataFrame {
 	return df
 }
 
-func GetTickAll(pgb *progressbar.Pgbar, code string) {
+func GetTickAll(code string) {
 	api := prepare()
 	marketId, _, code := security.DetectMarket(code)
 	info, err := api.GetFinanceInfo(marketId, code, 1)
@@ -149,7 +149,6 @@ func GetTickAll(pgb *progressbar.Pgbar, code string) {
 	tEnd := "20500101"
 	dateRange := date.TradeRange(tStart, tEnd)
 	bar := progressbar.NewBar(2, fmt.Sprintf("同步[%s]", code), len(dateRange))
-	//bar := pgb.NewBar(fmt.Sprintf("同步[%s]", code), len(dateRange))
 	for _, tradeDate := range dateRange {
 		bar.Add(1)
 		//logger.Infof("同步[%s] %s tick...", code, tradeDate)

@@ -30,5 +30,5 @@ func TestGetKLine(t *testing.T) {
 }
 
 func TestGetTickAll(t *testing.T) {
-	GetTickAll(nil, "002528")
+	GetTickAll("002528")
 }

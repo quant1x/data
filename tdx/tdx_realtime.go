@@ -56,7 +56,7 @@ func BatchRealtime(codes []string) {
 			Amount: v.Amount,
 		}
 		//fmt.Printf("%+v\n", kl)
-		last := pandas.LoadStructs(kl)
+		last := pandas.LoadStructs([]dfcf.KLine{kl})
 		df := __kLine(v.Code)
 		df = df.Subset(0, df.Nrow()-1)
 		df = df.Concat(last)

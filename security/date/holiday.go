@@ -2,8 +2,8 @@ package date
 
 import (
 	"gitee.com/quant1x/data/cache"
+	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/internal/js"
-	"gitee.com/quant1x/data/utils"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
@@ -38,13 +38,13 @@ func IsHoliday(date string) bool {
 }
 
 func TradeRange(start, end string) []string {
-	dt, err := utils.ParseTime(start)
+	dt, err := internal.ParseTime(start)
 	if err != nil {
 		return []string{}
 	}
 	start = dt.Format(time.DateOnly)
 
-	dt, err = utils.ParseTime(end)
+	dt, err = internal.ParseTime(end)
 	if err != nil {
 		return []string{}
 	}

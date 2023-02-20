@@ -2,7 +2,7 @@ package cache
 
 import (
 	"gitee.com/quant1x/data/category"
-	"gitee.com/quant1x/data/utils"
+	"gitee.com/quant1x/data/internal"
 	"os"
 	"path/filepath"
 	"syscall"
@@ -40,7 +40,7 @@ func Today() string {
 
 // CorrectDate 矫正日期, 统一格式
 func CorrectDate(date string) string {
-	dt, err := utils.ParseTime(date)
+	dt, err := internal.ParseTime(date)
 	if err != nil {
 		return Today()
 	}

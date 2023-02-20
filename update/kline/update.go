@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/dfcf"
 	"gitee.com/quant1x/data/security"
+	"gitee.com/quant1x/data/update/cross"
 	"gitee.com/quant1x/data/utils"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/logger"
@@ -15,8 +16,6 @@ import (
 	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
-	"runtime"
-	"syscall"
 	"time"
 )
 
@@ -25,14 +24,7 @@ func main() {
 	//创建监听退出chan
 	c := make(chan os.Signal)
 	//监听指定信号 ctrl+c kill
-	var stopSignals []os.Signal
-	sysType := runtime.GOOS
-	if sysType != "windows" {
-		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGSTOP}
-	} else {
-		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT}
-	}
-	signal.Notify(c, stopSignals...)
+	signal.Notify(c, cross.StopSignals...)
 	var (
 		//path       string // 数据路径
 		//logPath    string // 日志输出路径

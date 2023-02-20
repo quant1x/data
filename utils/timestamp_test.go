@@ -106,3 +106,7 @@ func TestKLineRequireDays(t *testing.T) {
 	n := KLineRequireDays(now, last)
 	fmt.Printf("require days = %d", n)
 }
+
+func TestCanUpdateTime(t *testing.T) {
+	fmt.Println(CanUpdateTime())
+}

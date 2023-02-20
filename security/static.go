@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/constant"
-	"gitee.com/quant1x/data/utils"
+	"gitee.com/quant1x/data/internal"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/errors"
 	"github.com/mymmsc/gox/logger"
@@ -71,7 +71,7 @@ func genIndexStaticInfo(market, code, name, listTime string, id int64, lotSize i
 		return nil, ErrCodeNotExist
 	}
 	fullCode := GetStockCode(market, code)
-	listTimestamp, err := utils.ParseTime(listTime)
+	listTimestamp, err := internal.ParseTime(listTime)
 	if err != nil {
 		return nil, err
 	}

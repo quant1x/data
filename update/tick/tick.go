@@ -3,16 +3,15 @@ package main
 import (
 	"flag"
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/tdx"
-	"gitee.com/quant1x/data/utils"
+	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
 	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
-	"runtime"
-	"syscall"
 	"time"
 )
 
@@ -21,14 +20,7 @@ func main() {
 	//创建监听退出chan
 	c := make(chan os.Signal)
 	//监听指定信号 ctrl+c kill
-	var stopSignals []os.Signal
-	sysType := runtime.GOOS
-	if sysType != "windows" {
-		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGSTOP}
-	} else {
-		stopSignals = []os.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT}
-	}
-	signal.Notify(c, stopSignals...)
+	signal.Notify(c, cross.StopSignals...)
 	var (
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
@@ -79,7 +71,7 @@ func handleCodeData() {
 		}
 		bar.Add(1)
 		listTimestamp := int64(basicInfo.ListTimestamp)
-		e := pullData(code, utils.UnixTime(listTimestamp))
+		e := pullData(code, internal.UnixTime(listTimestamp))
 		if e&category.D_ENEED == 0 {
 			sleep()
 		}

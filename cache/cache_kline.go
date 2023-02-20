@@ -2,17 +2,8 @@ package cache
 
 import (
 	"fmt"
-	"gitee.com/quant1x/pandas"
 	"strings"
 )
-
-// KLine 加载K线
-func KLine(code string) pandas.DataFrame {
-	filename := KLineFilename(code)
-	df := pandas.ReadCSV(filename)
-	_ = df.SetNames("date", "open", "high", "low", "close", "volume")
-	return df
-}
 
 // KLineFilename KLine缓存路径
 func KLineFilename(code string) string {

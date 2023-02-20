@@ -21,5 +21,7 @@ const (
 	HistoryUpdateMin  = 0
 	HistoryUpdateSec  = 0
 
-	TDX_DATE = "20060102"
+	CACHE_DATE = "20060102"   // 缓存日期
+	INDEX_DATE = "2006-01-02" // 索引日期格式
+	TDX_DATE   = "20060102"   // 通达信日期
 )

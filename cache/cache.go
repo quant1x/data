@@ -2,9 +2,11 @@ package cache
 
 import (
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/utils"
 	"os"
 	"path/filepath"
 	"syscall"
+	"time"
 )
 
 const (
@@ -23,12 +25,27 @@ const (
 
 var (
 	// CACHE_ROOT_PATH cache路径
-	CACHE_ROOT_PATH = category.DATA_ROOT_PATH
-	CACHE_TYPE      CacheType
+	CACHE_ROOT_PATH           = category.DATA_ROOT_PATH
+	CACHE_TYPE      CacheType = CACHE_TARS
 )
 
 func init() {
 	CACHE_TYPE = CACHE_CSV
+}
+
+func Today() string {
+	now := time.Now()
+	return now.Format(category.CACHE_DATE)
+}
+
+// CorrectDate 矫正日期, 统一格式
+func CorrectDate(date string) string {
+	dt, err := utils.ParseTime(date)
+	if err != nil {
+		return Today()
+	}
+	date = dt.Format(category.CACHE_DATE)
+	return date
 }
 
 // FileExist 路径是否存在

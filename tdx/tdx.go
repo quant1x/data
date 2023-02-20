@@ -3,15 +3,16 @@ package tdx
 import (
 	"fmt"
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/internal"
+	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/security/date"
+	"gitee.com/quant1x/data/utils"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
-	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
+	"github.com/mymmsc/gox/util/lambda"
 	"strconv"
 	"strings"
 )
@@ -114,7 +115,7 @@ func GetKLineAll(code string) pandas.DataFrame {
 		if err != nil {
 			panic("接口异常")
 		}
-		hs = append(hs, (*data))
+		hs = append(hs, *data)
 		if data.Count < count {
 			// 已经是最早的记录
 			// 需要排序
@@ -130,10 +131,22 @@ func GetKLineAll(code string) pandas.DataFrame {
 	//data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
 	df := pandas.LoadStructs(history)
 	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err := df.SetNames("open", "close", "high", "low", "vol", "amount", "date")
+	err := df.SetNames("open", "close", "high", "low", "volume", "amount", "date")
 	if err != nil {
 		return pandas.DataFrame{}
 	}
+	ds1 := df.Col("date")
+	arr := lambda.LambdaArray(ds1.Values())
+	ds2 := arr.Map(func(date string) string {
+		dt, err := utils.ParseTime(date)
+		if err != nil {
+			return date
+		}
+		return dt.Format(category.INDEX_DATE)
+	}).Pointer().([]string)
+	ds3 := pandas.NewSeries(stat.SERIES_TYPE_STRING, ds1.Name(), ds2)
+	df = df.Select([]string{"open", "close", "high", "low", "volume", "amount"})
+	df = df.Join(ds3)
 
 	return df
 }
@@ -152,12 +165,7 @@ func GetTickAll(code string) {
 	for _, tradeDate := range dateRange {
 		bar.Add(1)
 		//logger.Infof("同步[%s] %s tick...", code, tradeDate)
-		fname, err := cache.TickFilename(code, tradeDate)
-		if err != nil {
-			logger.Errorf("同步[%s] %s tick失败", code, tradeDate)
-			// 如果失败就直接返回
-			return
-		}
+		fname := cache.TickFilename(code, tradeDate)
 		if cache.FileExist(fname) {
 			// 如果已经存在就跳过
 			continue
@@ -176,7 +184,7 @@ func GetTickData(code string, date string) pandas.DataFrame {
 	offset := uint16(1800)
 	start := uint16(0)
 	count := offset
-	date = internal.CorrectDate(date)
+	date = cache.CorrectDate(date)
 	history := make([]quotes.HistoryTransaction, 0)
 	hs := make([]quotes.HistoryTransactionReply, 0)
 	for {
@@ -204,7 +212,7 @@ func GetTickData(code string, date string) pandas.DataFrame {
 	if err != nil {
 		return pandas.DataFrame{}
 	}
-	tickFile, err := cache.TickFilename(code, date)
+	tickFile := cache.TickFilename(code, date)
 	if err != nil {
 		return pandas.DataFrame{}
 	}
@@ -212,7 +220,10 @@ func GetTickData(code string, date string) pandas.DataFrame {
 	if err != nil {
 		return pandas.DataFrame{}
 	}
-	df.WriteCSV(tickFile)
+	err = df.WriteCSV(tickFile)
+	if err != nil {
+		return pandas.DataFrame{}
+	}
 
 	return df
 }

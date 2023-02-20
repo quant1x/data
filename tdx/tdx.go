@@ -12,7 +12,6 @@ import (
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/progressbar"
-	"github.com/mymmsc/gox/util/lambda"
 	"strconv"
 	"strings"
 )
@@ -135,18 +134,26 @@ func GetKLineAll(code string) pandas.DataFrame {
 	if err != nil {
 		return pandas.DataFrame{}
 	}
-	ds1 := df.Col("date")
-	arr := lambda.LambdaArray(ds1.Values())
-	ds2 := arr.Map(func(date string) string {
-		dt, err := utils.ParseTime(date)
+	ds1 := df.Col("date", true)
+	//arr := lambda.LambdaArray(ds1.Values())
+	//ds2 := arr.Map(func(date string) string {
+	//	dt, err := utils.ParseTime(date)
+	//	if err != nil {
+	//		return date
+	//	}
+	//	return dt.Format(category.INDEX_DATE)
+	//}).Pointer().([]string)
+	//ds3 := pandas.NewSeries(stat.SERIES_TYPE_STRING, ds1.Name(), ds2)
+	//df = df.Select([]string{"open", "close", "high", "low", "volume", "amount"})
+	//df = df.Join(ds3)
+	ds1.Apply2(func(idx int, v any) any {
+		date1 := v.(string)
+		dt, err := utils.ParseTime(date1)
 		if err != nil {
-			return date
+			return date1
 		}
 		return dt.Format(category.INDEX_DATE)
-	}).Pointer().([]string)
-	ds3 := pandas.NewSeries(stat.SERIES_TYPE_STRING, ds1.Name(), ds2)
-	df = df.Select([]string{"open", "close", "high", "low", "volume", "amount"})
-	df = df.Join(ds3)
+	}, true)
 
 	return df
 }

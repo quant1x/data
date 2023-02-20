@@ -3,10 +3,8 @@ package tdx
 import (
 	"fmt"
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/security/date"
-	"gitee.com/quant1x/data/utils"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
@@ -81,81 +79,6 @@ func getStockMarketId(symbol string) uint8 {
 	//# logger.debug(f"market => {market}")
 
 	return marketId
-}
-
-// GetKLine 获取日K线
-func GetKLine(code string, start uint16, count uint16) pandas.DataFrame {
-	api := prepare()
-
-	marketId := getStockMarketId(code)
-	data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
-	df := pandas.LoadStructs(data.List)
-	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err := df.SetNames("open", "close", "high", "low", "vol", "amount", "date")
-	if err != nil {
-		return pandas.DataFrame{}
-	}
-
-	return df
-}
-
-// GetKLineAll GetKLine 获取日K线
-func GetKLineAll(code string) pandas.DataFrame {
-	api := prepare()
-
-	marketId := getStockMarketId(code)
-	history := make([]quotes.SecurityBar, 0)
-	count := uint16(800)
-	step := uint16(800)
-	start := uint16(0)
-	hs := make([]quotes.SecurityBarsReply, 0)
-	for {
-		data, err := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, uint16(start), uint16(count))
-		if err != nil {
-			panic("接口异常")
-		}
-		hs = append(hs, *data)
-		if data.Count < count {
-			// 已经是最早的记录
-			// 需要排序
-			break
-		}
-		start += step
-	}
-	hs = stat.Reverse(hs)
-	for _, v := range hs {
-		history = append(history, v.List...)
-	}
-
-	//data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
-	df := pandas.LoadStructs(history)
-	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err := df.SetNames("open", "close", "high", "low", "volume", "amount", "date")
-	if err != nil {
-		return pandas.DataFrame{}
-	}
-	ds1 := df.Col("date", true)
-	//arr := lambda.LambdaArray(ds1.Values())
-	//ds2 := arr.Map(func(date string) string {
-	//	dt, err := utils.ParseTime(date)
-	//	if err != nil {
-	//		return date
-	//	}
-	//	return dt.Format(category.INDEX_DATE)
-	//}).Pointer().([]string)
-	//ds3 := pandas.NewSeries(stat.SERIES_TYPE_STRING, ds1.Name(), ds2)
-	//df = df.Select([]string{"open", "close", "high", "low", "volume", "amount"})
-	//df = df.Join(ds3)
-	ds1.Apply2(func(idx int, v any) any {
-		date1 := v.(string)
-		dt, err := utils.ParseTime(date1)
-		if err != nil {
-			return date1
-		}
-		return dt.Format(category.INDEX_DATE)
-	}, true)
-
-	return df
 }
 
 func GetTickAll(code string) {

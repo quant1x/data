@@ -16,7 +16,7 @@ import (
 
 var (
 	source   = 0  // 数据源
-	batchMax = 10 // 批量最大100
+	batchMax = 50 // 批量最大100
 )
 
 // 更新日线数据工具

@@ -7,9 +7,10 @@ import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/dfcf"
+	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/security"
+	"gitee.com/quant1x/data/tdx"
 	"gitee.com/quant1x/data/update/cross"
-	"gitee.com/quant1x/data/utils"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
@@ -17,6 +18,10 @@ import (
 	"os"
 	"os/signal"
 	"time"
+)
+
+var (
+	source int //数据源
 )
 
 // 更新日线数据工具
@@ -35,6 +40,7 @@ func main() {
 	//flag.StringVar(&logPath, "log_path", category.LOG_ROOT_PATH+"/runtime.log", "log output dir")
 	flag.StringVar(&cronConfig, "cron_config", "0 0 17 * * ?", "pull code data cron")
 	flag.BoolVar(&cronTrue, "cron_true", false, "use crontab in application")
+	flag.IntVar(&source, "source", 0, "data source, default from tdx,1-dfcf")
 	flag.Parse()
 	//utils.InitLog(logPath, 500, 5, 5)
 	//logger.Info("data path: ", path, ",logPath:", logPath, ",cronConfig:", cronConfig)
@@ -82,7 +88,12 @@ func handleCodeData() {
 		}
 		bar.Add(1)
 		listTimestamp := int64(basicInfo.ListTimestamp)
-		e := pullData(code, utils.UnixTime(listTimestamp))
+		var e = 0
+		if source == 1 {
+			e = pullData_em(code, internal.UnixTime(listTimestamp))
+		} else {
+			e = pullData_tdx(code, internal.UnixTime(listTimestamp))
+		}
 		if e&category.D_ENEED == 0 {
 			sleep()
 		}
@@ -96,13 +107,20 @@ func sleep() {
 }
 
 // 拉取数据
-func pullData(fc string, listTime time.Time) int {
+func pullData_em(fc string, listTime time.Time) int {
 	ks, err := dfcf.A(fc)
 	if err != nil {
 		_ = fmt.Errorf("error :%v", err.Error())
 		return category.D_ENET
 	}
 	ToCSV(fc, ks)
+	return 0
+}
+
+func pullData_tdx(fc string, listTime time.Time) int {
+	df := tdx.GetKLineAll(fc)
+	filename := cache.KLineFilename(fc)
+	_ = df.WriteCSV(filename)
 	return 0
 }
 

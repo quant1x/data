@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
-	"gitee.com/quant1x/data/tdx"
 	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"

@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
-	"gitee.com/quant1x/data/dfcf"
 	"gitee.com/quant1x/data/internal"
+	dfcf2 "gitee.com/quant1x/data/internal/dfcf"
+	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
-	"gitee.com/quant1x/data/tdx"
 	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/logger"
@@ -108,7 +108,7 @@ func sleep() {
 
 // 拉取数据
 func pullData_em(fc string, listTime time.Time) int {
-	ks, err := dfcf.A(fc)
+	ks, err := dfcf2.A(fc)
 	if err != nil {
 		_ = fmt.Errorf("error :%v", err.Error())
 		return category.D_ENET
@@ -125,7 +125,7 @@ func pullData_tdx(fc string, listTime time.Time) int {
 	return 0
 }
 
-func ToCSV(code string, ks []dfcf.KLine) {
+func ToCSV(code string, ks []dfcf2.KLine) {
 	filename := cache.GetKLineFilename(code)
 	count := len(ks)
 	wrote := 0
@@ -133,7 +133,7 @@ func ToCSV(code string, ks []dfcf.KLine) {
 	fw, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, category.CACHE_FILE_MODE)
 	_writer := csv.NewWriter(fw)
 	if count > 0 {
-		var cskHead dfcf.KLine
+		var cskHead dfcf2.KLine
 		err := cskHead.Init(_writer)
 		if err != nil {
 			logger.Errorf("code[%s]: 写日线文件, failed: ", code, err)

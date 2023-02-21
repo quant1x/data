@@ -3,7 +3,7 @@ package stock
 import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
-	"gitee.com/quant1x/data/tdx"
+	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/pandas"
 )
 

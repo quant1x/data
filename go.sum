@@ -1,7 +1,7 @@
-gitee.com/quant1x/gotdx v1.2.1 h1:oGJ42nJtYAr97xAiauYaY1IX9rOgVF1lGmxnsXxmKHs=
-gitee.com/quant1x/gotdx v1.2.1/go.mod h1:tenxBV0i+c7ysRs+g8mv/1MYboaJhSy6muqJf2Uu0l0=
-gitee.com/quant1x/pandas v0.6.18 h1:a55KQng03AF8xAVXdVCjHm0MJpF/7wn34ELwv3t7uok=
-gitee.com/quant1x/pandas v0.6.18/go.mod h1:WZZUIb1779n6eISLvU5gcxYHeLmIl02ZGOiCxi5zyhI=
+gitee.com/quant1x/gotdx v1.2.2 h1:sdlGRyD8b1YynJ1DCYGcMoYldtt5cJEOydAZ0GRQQWE=
+gitee.com/quant1x/gotdx v1.2.2/go.mod h1:tenxBV0i+c7ysRs+g8mv/1MYboaJhSy6muqJf2Uu0l0=
+gitee.com/quant1x/pandas v0.6.20 h1:4Owulj+QDXGT+Paj38lADZAr/WU5Cf0/FrKQ7/9z4LA=
+gitee.com/quant1x/pandas v0.6.20/go.mod h1:Npslf4fI0u/2pKyV+mw3k5ndxcAeyIPBGX/iXSnnlRo=
 github.com/chewxy/math32 v1.10.1 h1:LFpeY0SLJXeaiej/eIp2L40VYfscTvKh/FSEZ68uMkU=
 github.com/chewxy/math32 v1.10.1/go.mod h1:dOB2rcuFrCn6UHrze36WSLVPKtzPMRAQvBvUwkSsLqs=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

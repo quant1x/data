@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"gitee.com/quant1x/data/dfcf"
+	"gitee.com/quant1x/data/internal/dfcf"
 	"reflect"
 	"testing"
 )

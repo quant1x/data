@@ -5,7 +5,6 @@ import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/dfcf"
-	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/pandas"
 	"github.com/mymmsc/gox/logger"
@@ -14,7 +13,7 @@ import (
 
 // RealTime 即时行情数据
 func RealTime(code string) {
-	marketId, _, code := security.DetectMarket(code)
+	marketId, _, code := category.DetectMarket(code)
 	tdxApi := prepare()
 	hq, err := tdxApi.GetSecurityQuotes([]proto.Market{marketId}, []string{code})
 	if err != nil {
@@ -28,7 +27,7 @@ func BatchRealtime(codes []string) {
 	symbols := []string{}
 
 	for _, code := range codes {
-		id, _, symbol := security.DetectMarket(code)
+		id, _, symbol := category.DetectMarket(code)
 		if len(symbol) == 6 {
 			marketIds = append(marketIds, id)
 			symbols = append(symbols, symbol)

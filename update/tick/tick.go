@@ -48,7 +48,7 @@ func main() {
 
 func handleCodeData() {
 	logger.Info("任务开始启动...")
-	fullCodes := security.GetCodeList()
+	fullCodes := category.GetCodeList()
 	count := len(fullCodes)
 	bar := progressbar.NewBar(1, "执行[更新历史tick数据]", count)
 	for _, code := range fullCodes {

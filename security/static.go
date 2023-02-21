@@ -2,15 +2,17 @@ package security
 
 import (
 	"embed"
-	"encoding/json"
 	"fmt"
 	"gitee.com/quant1x/data/category"
-	"gitee.com/quant1x/data/constant"
 	"gitee.com/quant1x/data/internal"
+	"gitee.com/quant1x/data/security/futu"
+	"gitee.com/quant1x/pandas"
+	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/errors"
 	"github.com/mymmsc/gox/logger"
 	"os"
+	"time"
 )
 
 var (
@@ -18,14 +20,14 @@ var (
 	ResourcesPath = "resources"
 	// MarketName 市场名称
 	MarketName = map[string]string{
-		MARKET_SH: "上海",
-		MARKET_SZ: "深圳",
-		MARKET_HK: "香港",
+		category.MARKET_SH: "上海",
+		category.MARKET_SZ: "深圳",
+		category.MARKET_HK: "香港",
 	}
 	MarketSecurity = map[string]int32{
-		MARKET_SH: int32(constant.QotMarket_QotMarket_CNSH_Security),
-		MARKET_SZ: int32(constant.QotMarket_QotMarket_CNSZ_Security),
-		MARKET_HK: int32(constant.QotMarket_QotMarket_HK_Security),
+		category.MARKET_SH: int32(futu.QotMarket_QotMarket_CNSH_Security),
+		category.MARKET_SZ: int32(futu.QotMarket_QotMarket_CNSZ_Security),
+		category.MARKET_HK: int32(futu.QotMarket_QotMarket_HK_Security),
 	}
 	// 证券市场缓存
 	cacheSecurity = map[string]StaticBasic{}
@@ -60,8 +62,8 @@ type StaticBasic struct {
 	ListTime      string   `json:"listTime,omitempty"`      //上市时间字符串
 	Delisting     bool     `json:"delisting,omitempty"`     //是否退市
 	ListTimestamp float64  `json:"listTimestamp,omitempty"` //上市时间戳, 秒数
-	CCass         string   `json:"cCass,omitempty"`         //CCASS股份编号
-	ASecurity     bool     `json:aSecurity,omitempty`       //是否A股通
+	//CCass         string   `json:"cCass,omitempty"`         //CCASS股份编号
+	//ASecurity     bool     `json:aSecurity,omitempty`       //是否A股通
 }
 
 // 生成指数静态信息
@@ -82,7 +84,7 @@ func genIndexStaticInfo(market, code, name, listTime string, id int64, lotSize i
 		},
 		Id:            id,
 		LotSize:       lotSize,
-		SecType:       int32(constant.SecurityType_SecurityType_Index),
+		SecType:       int32(futu.SecurityType_SecurityType_Index),
 		Name:          name,
 		ListTime:      listTime,
 		Delisting:     false,
@@ -93,94 +95,26 @@ func genIndexStaticInfo(market, code, name, listTime string, id int64, lotSize i
 func init() {
 	logger.Infof("开始初始化市场静态数据...")
 	// 1.上海指数
-	// 上证综合指数 000001.sh
-	/*code := GetStockCode(MARKET_SH, "000001")
-	listTime := "1990-12-19"
-	listTimestamp, _ := utils.ParseTime(listTime)
-	index := StaticBasic{
-		Security: Security{
-			Market: int32(constant.QotMarket_QotMarket_CNSH_Security),
-			Code: code,
-		},
-		Id:            1000001,
-		LotSize:       100,
-		SecType:       int32(constant.SecurityType_SecurityType_Index),
-		Name:          "上证指数",
-		ListTime:      listTime,
-		Delisting:     false,
-		ListTimestamp: float64(listTimestamp.Unix()),
-	}*/
-
-	index, err := genIndexStaticInfo(MARKET_SH, "000001", "上证指数", "1990-12-19", 1000001, 100)
+	// 上证综合指数 000001.sh 1990-12-19
+	index, err := genIndexStaticInfo(category.MARKET_SH, "000001", "上证指数", "1990-12-19", 1000001, 100)
 	if err == nil && index != nil {
 		cacheSecurity[index.Security.Code] = *index
 	}
 
 	// 中证500 sh000905 2007-01-15
-	/*code = GetStockCode(MARKET_SH, "000905")
-	listTime = "2007-01-15"
-	listTimestamp, _ = utils.ParseTime(listTime)
-	index = StaticBasic{
-		Security: Security{
-			Market: int32(constant.QotMarket_QotMarket_CNSH_Security),
-			Code: code,
-		},
-		Id:            1000905,
-		LotSize:       100,
-		SecType:       int32(constant.SecurityType_SecurityType_Index),
-		Name:          "中证500",
-		ListTime:      listTime,
-		Delisting:     false,
-		ListTimestamp: float64(listTimestamp.Unix()),
-	}
-	cacheSecurity[code] = index*/
-	index, err = genIndexStaticInfo(MARKET_SH, "000905", "中证500", "2007-01-15", 1000905, 100)
+	index, err = genIndexStaticInfo(category.MARKET_SH, "000905", "中证500", "2007-01-15", 1000905, 100)
 	if err == nil && index != nil {
 		cacheSecurity[index.Security.Code] = *index
 	}
 
 	// 2. 深圳指数
 	// 深证成指, sz399001, 1993-01-03
-	/*code = GetStockCode(MARKET_SZ, "399001")
-	listTime = "1993-01-03"
-	listTimestamp, _ = utils.ParseTime(listTime)
-	index = StaticBasic{
-		Security: Security{
-			Market: int32(constant.QotMarket_QotMarket_CNSZ_Security),
-			Code: code,
-		},
-		Id:            2399001,
-		LotSize:       100,
-		SecType:       int32(constant.SecurityType_SecurityType_Index),
-		Name:          "深证成指",
-		ListTime:      listTime,
-		Delisting:     false,
-		ListTimestamp: float64(listTimestamp.Unix()),
-	}
-	cacheSecurity[code] = index*/
-	index, err = genIndexStaticInfo(MARKET_SZ, "399001", "深证成指", "1993-01-03", 2399001, 100)
+	index, err = genIndexStaticInfo(category.MARKET_SZ, "399001", "深证成指", "1993-01-03", 2399001, 100)
 	if err == nil && index != nil {
 		cacheSecurity[index.Security.Code] = *index
 	}
 	// 创业板指, sz399006, 2010-06-02
-	/*code = GetStockCode(MARKET_SZ, "399006")
-	listTime = "2010-06-02"
-	listTimestamp, _ = utils.ParseTime(listTime)
-	index = StaticBasic{
-		Security: Security{
-			Market: int32(constant.QotMarket_QotMarket_CNSZ_Security),
-			Code: code,
-		},
-		Id:            2399001,
-		LotSize:       100,
-		SecType:       int32(constant.SecurityType_SecurityType_Index),
-		Name:          "创业板指",
-		ListTime:      listTime,
-		Delisting:     false,
-		ListTimestamp: float64(listTimestamp.Unix()),
-	}
-	cacheSecurity[code] = index*/
-	index, err = genIndexStaticInfo(MARKET_SZ, "399006", "创业板指", "2010-06-02", 2399006, 100)
+	index, err = genIndexStaticInfo(category.MARKET_SZ, "399006", "创业板指", "2010-06-02", 2399006, 100)
 	if err == nil && index != nil {
 		cacheSecurity[index.Security.Code] = *index
 	}
@@ -190,7 +124,7 @@ func init() {
 		logger.Infof("开始加载 %s 个股静态信息...", name)
 		list, err := GetStaticBasic(market)
 		if err != nil {
-			logger.Errorf("上海个股信息加载失败")
+			logger.Errorf(name + "个股信息加载失败")
 		} else {
 			for _, item := range list {
 				if item.Delisting || item.ListTimestamp == 0.00 {
@@ -207,13 +141,41 @@ func init() {
 }
 
 func GetStaticBasic(market string) (list []StaticBasic, err error) {
-	filename := fmt.Sprintf("%s/%s.json", ResourcesPath, market)
-	fileBuf, err := resources.ReadFile(filename)
-	if err != nil {
-		logger.Debugf("market[%s]: K线数据文件不存在", market)
-		return nil, ErrCacheNotExist
+	filename := fmt.Sprintf("%s/%s.csv", ResourcesPath, market)
+	reader, err := resources.Open(filename)
+	df := pandas.ReadCSV(reader)
+	if df.Nrow() == 0 {
+		return list, ErrCacheNotExist
 	}
-	err = json.Unmarshal(fileBuf, &list)
+	for i := 0; i < df.Nrow(); i++ {
+		row := df.IndexOf(i)
+		marketId := MarketSecurity[market]
+		stockId := row["stock_id"].(int64)
+		stockType := row["stock_type"].(string)
+		secType := futu.StockType[stockType]
+		code := row["code"].(string)
+		_, _, code = category.DetectMarket(code)
+		name := row["name"].(string)
+		listTime := row["listing_date"].(string)
+		lotSize := row["lot_size"].(int64)
+		delisting := row["delisting"].(string)
+		listTimestamp, err := internal.ParseTime(listTime)
+		if err != nil {
+			listTimestamp = time.Unix(0, 0)
+		}
+		info := StaticBasic{
+			Security:      Security{Market: marketId, Code: code},
+			Id:            stockId,
+			SecType:       secType,
+			LotSize:       int32(lotSize),
+			Name:          name,
+			ListTime:      listTime,
+			Delisting:     stat.AnyToBool(delisting),
+			ListTimestamp: float64(listTimestamp.Unix()),
+		}
+		list = append(list, info)
+	}
+
 	return
 }
 

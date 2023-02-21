@@ -9,8 +9,9 @@ import (
 func KLineFilename(code string) string {
 	cacheId := CacheId(code)
 	length := len(cacheId)
-	tickPath := fmt.Sprintf("%s/%s/%s.csv", GetDayPath(), cacheId[:length-3], cacheId)
-	return tickPath
+	klinePath := fmt.Sprintf("%s/%s/%s.csv", GetDayPath(), cacheId[:length-3], cacheId)
+	_ = CheckFilepath(klinePath)
+	return klinePath
 }
 
 // GetKLineFilename 获取缓存的文件名

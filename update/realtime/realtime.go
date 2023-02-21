@@ -16,7 +16,7 @@ import (
 
 var (
 	source   = 0  // 数据源
-	batchMax = 50 // 批量最大100
+	batchMax = 10 // 批量最大100
 )
 
 // 更新日线数据工具
@@ -53,7 +53,7 @@ func main() {
 
 func handleCodeData() {
 	logger.Info("任务开始启动...")
-	fullCodes := security.GetCodeList()
+	fullCodes := category.GetCodeList()
 	count := len(fullCodes)
 	bar := progressbar.NewBar(0, "执行[实时更新日线数据]", count)
 	total := len(fullCodes)

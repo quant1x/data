@@ -3,8 +3,8 @@ package tdx
 import (
 	"fmt"
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/security"
-	"gitee.com/quant1x/data/security/date"
+	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/category/date"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
@@ -83,7 +83,7 @@ func getStockMarketId(symbol string) uint8 {
 
 func GetTickAll(code string) {
 	api := prepare()
-	marketId, _, code := security.DetectMarket(code)
+	marketId, _, code := category.DetectMarket(code)
 	info, err := api.GetFinanceInfo(marketId, code, 1)
 	if err != nil {
 		return
@@ -110,7 +110,7 @@ func GetTickAll(code string) {
 
 func GetTickData(code string, date string) pandas.DataFrame {
 	api := prepare()
-	marketId, marketName, code := security.DetectMarket(code)
+	marketId, marketName, code := category.DetectMarket(code)
 	offset := uint16(1800)
 	start := uint16(0)
 	count := offset

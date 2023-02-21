@@ -3,9 +3,8 @@ package tdx
 import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/category/date"
 	"gitee.com/quant1x/data/internal"
-	"gitee.com/quant1x/data/security"
-	"gitee.com/quant1x/data/security/date"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
@@ -17,7 +16,7 @@ import (
 func GetKLine(code string, start uint16, count uint16) pandas.DataFrame {
 	api := prepare()
 
-	marketId, _, code := security.DetectMarket(code)
+	marketId, _, code := category.DetectMarket(code)
 	data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
 	df := pandas.LoadStructs(data.List)
 	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
@@ -46,7 +45,7 @@ func __kLine(code string) pandas.DataFrame {
 func GetKLineAll(code string) pandas.DataFrame {
 	api := prepare()
 	startDate := "19901219"
-	marketId, _, code := security.DetectMarket(code)
+	marketId, _, code := category.DetectMarket(code)
 	df0 := __kLine(code)
 	if df0.Nrow() > 0 {
 		ds := df0.Col("date").Values().([]string)
@@ -56,8 +55,9 @@ func GetKLineAll(code string) pandas.DataFrame {
 		if err != nil {
 			return df0
 		}
-		startDate = strconv.FormatInt(int64(info.IPODate), 10)
-
+		if info.IPODate > 0 {
+			startDate = strconv.FormatInt(int64(info.IPODate), 10)
+		}
 	}
 	endDate := cache.Today()
 	ts := date.TradeRange(startDate, endDate)
@@ -110,8 +110,13 @@ func GetKLineAll(code string) pandas.DataFrame {
 		}
 		return dt.Format(category.INDEX_DATE)
 	}, true)
+
 	df := df0.Subset(0, df0.Nrow()-1)
-	df = df.Concat(df1)
+	if df.Nrow() > 0 {
+		df = df.Concat(df1)
+	} else {
+		df = df1
+	}
 
 	return df
 }

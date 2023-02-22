@@ -14,6 +14,10 @@ const (
 
 	// DEBUG 调试开关
 	DEBUG = false
+	// CACHE_REPLACE 文件替换模式, 会用到os.TRUNC
+	CACHE_REPLACE = os.O_CREATE | os.O_RDWR | os.O_TRUNC
+	// CACHE_UPDATE 更新
+	CACHE_UPDATE = os.O_CREATE | os.O_WRONLY
 )
 
 var (

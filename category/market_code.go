@@ -67,9 +67,9 @@ func GetMarketId(symbol string) Market {
 }
 
 // DetectMarket 检测市场代码
-func DetectMarket(symbol string) (Market, string, string) {
-	code := strings.TrimSpace(symbol)
-	market := MARKET_SH
+func DetectMarket(symbol string) (marketId Market, market string, code string) {
+	code = strings.TrimSpace(symbol)
+	market = MARKET_SH
 	if api.StartsWith(code, kMarketFlags) {
 		// 前缀2位字母后面跟代码
 		market = strings.ToLower(code[0:2])
@@ -92,7 +92,7 @@ func DetectMarket(symbol string) (Market, string, string) {
 	} else if api.StartsWith(code, []string{"4", "8"}) {
 		market = MARKET_BJ
 	}
-	marketId := MARKET_ID_SHANGHAI
+	marketId = MARKET_ID_SHANGHAI
 	if market == MARKET_SH {
 		marketId = MARKET_ID_SHANGHAI
 	} else if market == MARKET_SZ {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
@@ -53,7 +54,13 @@ func main() {
 
 func handleCodeData() {
 	logger.Info("任务开始启动...")
-	fullCodes := category.GetCodeList()
+	fullCodes := tdx.GetZxgList()
+	fmt.Printf("自选股, 共计[%d]\n", len(fullCodes))
+	if len(fullCodes) == 0 {
+		fmt.Printf("没有指定自选股, 全量更新\n")
+		fullCodes = category.GetCodeList()
+	}
+	fmt.Printf("实时更新指数及个股, 共计[%d]\n", len(fullCodes))
 	count := len(fullCodes)
 	bar := progressbar.NewBar(0, "执行[实时更新日线数据]", count)
 	total := len(fullCodes)

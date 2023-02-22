@@ -7,7 +7,9 @@ p1=$(cd $(dirname $0);pwd)
 # windows amd64
 env GOOS=windows GOARCH=amd64 go build -o bin/kline-win-amd64.exe gitee.com/quant1x/data/update/kline
 env GOOS=windows GOARCH=amd64 go build -o bin/realtime-win-amd64.exe gitee.com/quant1x/data/update/realtime
+env GOOS=windows GOARCH=amd64 go build -o bin/zxg-win-amd64.exe gitee.com/quant1x/data/update/zxg
 # darwin amd64
 env GOOS=darwin GOARCH=amd64 go build -o bin/kline-mac-amd64 gitee.com/quant1x/data/update/kline
 env GOOS=darwin GOARCH=amd64 go build -o bin/realtime-mac-amd64 gitee.com/quant1x/data/update/realtime
+env GOOS=darwin GOARCH=amd64 go build -o bin/zxg-mac-amd64 gitee.com/quant1x/data/update/zxg
 cd $p0

@@ -88,6 +88,12 @@ func GetDayPath() string {
 	return CACHE_ROOT_PATH + "/" + DAY_PATH
 }
 
+// GetTickPath tick数据路径
 func GetTickPath() string {
 	return CACHE_ROOT_PATH + "/" + TICK_PATH
+}
+
+// GetZxgFile 自选股文件路径
+func GetZxgFile() string {
+	return CACHE_ROOT_PATH + "/zxg.csv"
 }

@@ -120,7 +120,6 @@ func pullData_em(fc string, listTime time.Time) int {
 func pullData_tdx(fc string, listTime time.Time) int {
 	df := tdx.GetKLineAll(fc)
 	filename := cache.KLineFilename(fc)
-	cache.CheckFilepath(filename)
 	_ = df.WriteCSV(filename)
 	return 0
 }
@@ -130,7 +129,7 @@ func ToCSV(code string, ks []dfcf2.KLine) {
 	count := len(ks)
 	wrote := 0
 	//fw, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, category.CACHE_FILE_MODE)
-	fw, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, category.CACHE_FILE_MODE)
+	fw, _ := os.OpenFile(filename, category.CACHE_UPDATE, category.CACHE_FILE_MODE)
 	_writer := csv.NewWriter(fw)
 	if count > 0 {
 		var cskHead dfcf2.KLine

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/category/date"
 	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/pandas"
@@ -54,10 +55,23 @@ func BatchRealtime(codes []string) {
 			Volume: int64(v.Vol),
 			Amount: v.Amount,
 		}
-		//fmt.Printf("%+v\n", kl)
 		last := pandas.LoadStructs([]dfcf.KLine{kl})
 		df := GetCacheKLine(v.Code)
-		df = df.Subset(0, df.Nrow()-1)
+		if df.Nrow() == 0 || last.Nrow() == 0 {
+			continue
+		}
+		lastDay := df.Col("date").IndexOf(-1).(string)
+		today := date.IndexToday()
+		ts := date.TradeRange(lastDay, today)
+		if len(ts) > 2 {
+			// 超过2天的差距, 不能用realtime更新K线数据
+			continue
+		}
+		if lastDay == today {
+			// 如果最后一条数据和当前日期相同, 那么去掉缓存中的最后一条, 用实时数据填补
+			df = df.Subset(0, df.Nrow()-1)
+		}
+		// 连接缓存和实时数据
 		df = df.Concat(last)
 		fn := cache.KLineFilename(v.Code)
 		err := df.WriteCSV(fn)

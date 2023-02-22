@@ -2,7 +2,6 @@ package date
 
 import (
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/internal/js"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
@@ -27,32 +26,13 @@ func init() {
 	updateHoliday()
 }
 
+// IsHoliday 是否节假日
 func IsHoliday(date string) bool {
-	//iRet := sort.SearchStrings(tradeDates, date)
-	//sort.StringSlice(tradeDates).Search(date)
 	iRet, found := sort.Find(len(tradeDates), func(i int) int {
 		return strings.Compare(date, tradeDates[i])
 	})
 	_ = iRet
 	return !found
-}
-
-func TradeRange(start, end string) []string {
-	dt, err := internal.ParseTime(start)
-	if err != nil {
-		return []string{}
-	}
-	start = dt.Format(time.DateOnly)
-
-	dt, err = internal.ParseTime(end)
-	if err != nil {
-		return []string{}
-	}
-	end = dt.Format(time.DateOnly)
-
-	is := sort.SearchStrings(tradeDates, start)
-	ie := sort.SearchStrings(tradeDates, end)
-	return tradeDates[is : ie+1]
 }
 
 func updateHoliday() {

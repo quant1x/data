@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	gitee.com/quant1x/gotdx v1.2.2
-	gitee.com/quant1x/pandas v0.6.20
+	gitee.com/quant1x/pandas v0.6.22
 	github.com/dop251/goja v0.0.0-20230216180835-5937a312edda
 	github.com/mymmsc/gox v1.3.7
 	github.com/robfig/cron/v3 v3.0.1

@@ -5,5 +5,5 @@ import (
 )
 
 func TestGetTickAll(t *testing.T) {
-	GetTickAll("sz002528")
+	GetTickData("sz002528", "2023-02-21")
 }

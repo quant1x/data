@@ -57,7 +57,6 @@ func updateHoliday() {
 			ds = append(ds, date)
 		}
 		td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kHoliday, ds)
-		//df := pandas.LoadRecords([][]string{ds, ds})
 		df := pandas.NewDataFrame(td)
 		err = df.WriteCSV(holidayFilename)
 		if err != nil {

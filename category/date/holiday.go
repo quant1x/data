@@ -7,6 +7,7 @@ import (
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/http"
+	"golang.org/x/exp/slices"
 	"sort"
 	"strings"
 	"time"
@@ -66,6 +67,6 @@ func updateHoliday() {
 	} else {
 		df := pandas.ReadCSV(holidayFilename)
 		ds := df.Col(kHoliday).Values().([]string)
-		tradeDates = ds
+		tradeDates = slices.Clone(ds)
 	}
 }

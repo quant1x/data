@@ -9,6 +9,7 @@ import (
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
+	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
 	"strconv"
 	"strings"
@@ -89,20 +90,31 @@ func GetTickAll(code string) {
 		return
 	}
 	tStart := strconv.FormatInt(int64(info.IPODate), 10)
-	tEnd := "20500101"
+	tEnd := cache.Today()
+	logger.Errorf("[%s]tick数据范围: %s<->%s", code, tStart, tEnd)
 	dateRange := date.TradeRange(tStart, tEnd)
+	// 反转切片
+	dateRange = stat.Reverse(dateRange)
 	bar := progressbar.NewBar(2, fmt.Sprintf("同步[%s]", code), len(dateRange))
+	today := date.IndexToday()
+	ignore := false
 	for _, tradeDate := range dateRange {
 		bar.Add(1)
-		//logger.Infof("同步[%s] %s tick...", code, tradeDate)
+		if ignore {
+			continue
+		}
 		fname := cache.TickFilename(code, tradeDate)
-		if cache.FileExist(fname) {
-			// 如果已经存在就跳过
+		if tradeDate != today && cache.FileExist(fname) {
+			// 如果已经存在, 假定之前的数据已经下载过了, 不需要继续
+			ignore = true
 			continue
 		}
 		df := GetTickData(code, tradeDate)
-		_ = df
-		//logger.Infof("同步[%s] %s tick...OK", code, tradeDate)
+		if df.Nrow() == 0 && tradeDate != today {
+			// 如果数据为空, 且不是当前日期, 认定为从这天起往前是没有分笔成交数据的
+			logger.Errorf("[%s]tick数据[%s<->%s]空, 后面忽略", code, tradeDate, today)
+			ignore = true
+		}
 	}
 
 	return

@@ -2,6 +2,7 @@ package date
 
 import (
 	"gitee.com/quant1x/data/internal"
+	"golang.org/x/exp/slices"
 	"sort"
 	"time"
 )
@@ -32,5 +33,5 @@ func TradeRange(start, end string) []string {
 
 	is := sort.SearchStrings(tradeDates, start)
 	ie := sort.SearchStrings(tradeDates, end)
-	return tradeDates[is : ie+1]
+	return slices.Clone(tradeDates[is : ie+1])
 }

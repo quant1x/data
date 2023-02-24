@@ -51,6 +51,22 @@ func GetMarket(symbol string) string {
 	return market
 }
 
+// GetMarketName 通过市场ID取得市场名称缩写
+func GetMarketName(marketId Market) string {
+	switch marketId {
+	case MARKET_ID_SHENZHEN:
+		return MARKET_SZ
+	case MARKET_ID_BEIJING:
+		return MARKET_BJ
+	case MARKET_ID_HONGKONG:
+		return MARKET_HK
+	case MARKET_ID_USA:
+		return MARKET_US
+	default:
+		return MARKET_SH
+	}
+}
+
 // GetMarketId 获得市场ID
 // Deprecated: 不推荐使用
 func GetMarketId(symbol string) Market {

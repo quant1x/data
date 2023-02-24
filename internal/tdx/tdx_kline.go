@@ -41,22 +41,35 @@ func GetCacheKLine(code string) pandas.DataFrame {
 }
 
 // GetKLineAll getKLine 获取日K线
-func GetKLineAll(code string) pandas.DataFrame {
+func GetKLineAll(fullCode string) pandas.DataFrame {
 	api := prepare()
 	startDate := "19901219"
-	marketId, _, code := category.DetectMarket(code)
-	df0 := GetCacheKLine(code)
+	marketId, market, code := category.DetectMarket(fullCode)
+	df0 := GetCacheKLine(market + code)
 	isIndex := false
+	var info *quotes.FinanceInfo
+	var err error
 	if df0.Nrow() > 0 {
 		ds := df0.Col("date").Values().([]string)
 		startDate = ds[len(ds)-1]
 	} else {
-		info, err := api.GetFinanceInfo(marketId, code, 1)
+		info, err = api.GetFinanceInfo(marketId, code, 1)
 		if err != nil {
 			return df0
 		}
 		if info.IPODate > 0 {
 			startDate = strconv.FormatInt(int64(info.IPODate), 10)
+		}
+		if info.IPODate == 0 && info.LiuTongGuBen > 0 && info.ZongGuBen > 0 && info.BaoLiu2 > 0 {
+			isIndex = true
+		}
+	}
+	if !isIndex {
+		if info == nil {
+			info, err = api.GetFinanceInfo(marketId, code, 1)
+			if err != nil {
+				return df0
+			}
 		}
 		if info.IPODate == 0 && info.LiuTongGuBen > 0 && info.ZongGuBen > 0 && info.BaoLiu2 > 0 {
 			isIndex = true
@@ -104,7 +117,7 @@ func GetKLineAll(code string) pandas.DataFrame {
 
 	df1 := pandas.LoadStructs(history)
 	df1 = df1.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err := df1.SetNames("open", "close", "high", "low", "volume", "amount", "date")
+	err = df1.SetNames("open", "close", "high", "low", "volume", "amount", "date")
 	if err != nil {
 		return pandas.DataFrame{}
 	}

@@ -56,7 +56,8 @@ func BatchRealtime(codes []string) {
 			Amount: v.Amount,
 		}
 		last := pandas.LoadStructs([]dfcf.KLine{kl})
-		df := GetCacheKLine(v.Code)
+		fullCode := category.GetMarketName(v.Market) + v.Code
+		df := GetCacheKLine(fullCode)
 		if df.Nrow() == 0 || last.Nrow() == 0 {
 			continue
 		}
@@ -73,7 +74,7 @@ func BatchRealtime(codes []string) {
 		}
 		// 连接缓存和实时数据
 		df = df.Concat(last)
-		fn := cache.KLineFilename(v.Code)
+		fn := cache.KLineFilename(fullCode)
 		err := df.WriteCSV(fn)
 		if err != nil {
 			logger.Errorf("更新K线数据文件失败:%s", v.Code)

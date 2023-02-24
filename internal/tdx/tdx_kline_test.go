@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetKLineAll(t *testing.T) {
-	df := GetKLineAll("sh881396")
+	df := GetKLineAll("sh000001")
 	fmt.Println(df)
 }

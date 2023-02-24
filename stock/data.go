@@ -9,15 +9,7 @@ import (
 
 // KLine 加载K线
 func KLine(code string) pandas.DataFrame {
-	filename := cache.KLineFilename(code)
-	var df pandas.DataFrame
-	if !cache.FileExist(filename) {
-		df = tdx.GetKLineAll(code)
-	} else {
-		df = pandas.ReadCSV(filename)
-	}
-	df = df.Select([]string{"date", "open", "high", "low", "close", "volume"})
-	return df
+	return tdx.GetCacheKLine(code)
 }
 
 // Tick 加载tick缓存数据

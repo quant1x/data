@@ -9,6 +9,7 @@ import (
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
+	"reflect"
 	"strconv"
 )
 
@@ -28,7 +29,11 @@ func getKLine(code string, start uint16, count uint16) pandas.DataFrame {
 }
 
 // GetCacheKLine 加载K线
-func GetCacheKLine(code string) pandas.DataFrame {
+func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
+	qfq := false
+	if len(argv) > 0 {
+		qfq = argv[0]
+	}
 	filename := cache.KLineFilename(code)
 	var df pandas.DataFrame
 	if !cache.FileExist(filename) {
@@ -37,6 +42,39 @@ func GetCacheKLine(code string) pandas.DataFrame {
 		df = pandas.ReadCSV(filename)
 	}
 	df = df.Select([]string{"date", "open", "close", "high", "low", "volume", "amount"})
+	if qfq {
+		drdf := GetCacheXdxr(code)
+		//fmt.Println(drdf)
+		for i := 0; i < drdf.Nrow(); i++ {
+			m0 := drdf.IndexOf(i)
+			if m0["Category"].(int64) != 1 {
+				continue
+			}
+			end := m0["Date"].(string)
+			songZhuangu := stat.AnyToFloat64(m0["SongZhuanGu"])
+			peiGu := stat.AnyToFloat64(m0["PeiGu"])
+			suoGu := stat.AnyToFloat64(m0["SuoGu"])
+			xdxrGuShu := (songZhuangu + peiGu - suoGu) / 10
+			fenHong := stat.AnyToFloat64(m0["FenHong"])
+			peiGuJia := stat.AnyToFloat64(m0["PeiGuJia"])
+			xdxrFenHong := (peiGuJia*peiGu - fenHong) / 10
+			for i := 0; i < df.Nrow(); i++ {
+				m1 := df.IndexOf(i, true)
+				dt := m1["date"].(reflect.Value).String()
+				po := m1["open"].(reflect.Value)
+				po.SetFloat((po.Float() + xdxrFenHong) / (1 + xdxrGuShu))
+				pc := m1["close"].(reflect.Value)
+				pc.SetFloat((pc.Float() + xdxrFenHong) / (1 + xdxrGuShu))
+				ph := m1["high"].(reflect.Value)
+				ph.SetFloat((ph.Float() + xdxrFenHong) / (1 + xdxrGuShu))
+				pl := m1["low"].(reflect.Value)
+				pl.SetFloat((pl.Float() + xdxrFenHong) / (1 + xdxrGuShu))
+				if dt == end {
+					break
+				}
+			}
+		}
+	}
 	return df
 }
 

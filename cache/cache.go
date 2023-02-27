@@ -13,6 +13,7 @@ const (
 	DAY_PATH  = "day"  // 日线路径
 	INFO_PATH = "info" // 信息路径
 	TICK_PATH = "tick" // tick路径
+	XDXR_PATH = "xdxr" // 除权除息路径
 )
 
 type CacheType int
@@ -96,4 +97,9 @@ func GetTickPath() string {
 // GetZxgFile 自选股文件路径
 func GetZxgFile() string {
 	return CACHE_ROOT_PATH + "/zxg.csv"
+}
+
+// GetXdxrPath 除权除息文件存储路径
+func GetXdxrPath() string {
+	return CACHE_ROOT_PATH + "/" + XDXR_PATH
 }

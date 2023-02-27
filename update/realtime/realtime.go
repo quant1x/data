@@ -7,9 +7,9 @@ import (
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/update/cross"
+	"github.com/mymmsc/gox/cron"
 	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
-	"github.com/robfig/cron/v3"
 	"os"
 	"os/signal"
 	"time"
@@ -30,7 +30,7 @@ func main() {
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
 	)
-	flag.StringVar(&cronConfig, "cron_config", "0 0 17 * * ?", "pull code data cron")
+	flag.StringVar(&cronConfig, "cron_config", "0 */2 9-15 * * ?", "pull code data cron")
 	flag.BoolVar(&cronTrue, "cron_true", false, "use crontab in application")
 	flag.IntVar(&source, "source", 0, "data source, default from tdx,1-dfcf")
 	flag.Parse()

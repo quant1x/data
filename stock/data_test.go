@@ -12,7 +12,7 @@ func TestTick(t *testing.T) {
 }
 
 func TestKLine(t *testing.T) {
-	symbol2 := "002528"
+	symbol2 := "sz002528"
 	df2 := KLine(symbol2)
 	fmt.Println(df2)
 }

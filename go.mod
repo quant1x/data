@@ -3,11 +3,10 @@ module gitee.com/quant1x/data
 go 1.20
 
 require (
-	gitee.com/quant1x/gotdx v1.2.3
-	gitee.com/quant1x/pandas v0.6.22
+	gitee.com/quant1x/gotdx v1.2.5
+	gitee.com/quant1x/pandas v0.7.0
 	github.com/dop251/goja v0.0.0-20230216180835-5937a312edda
-	github.com/mymmsc/gox v1.3.8
-	github.com/robfig/cron/v3 v3.0.1
+	github.com/mymmsc/gox v1.3.9
 	golang.org/x/exp v0.0.0-20220907003533-145caa8ea1d0
 )
 

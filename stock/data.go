@@ -9,7 +9,7 @@ import (
 
 // KLine 加载K线
 func KLine(code string) pandas.DataFrame {
-	return tdx.GetCacheKLine(code)
+	return tdx.GetCacheKLine(code, true)
 }
 
 // Tick 加载tick缓存数据
@@ -33,5 +33,4 @@ func Tick(code string, args ...string) pandas.DataFrame {
 		return Tick(code, stm)
 	}
 	return df
-
 }

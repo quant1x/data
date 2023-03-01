@@ -61,6 +61,9 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 			for i := 0; i < df.Nrow(); i++ {
 				m1 := df.IndexOf(i, true)
 				dt := m1["date"].(reflect.Value).String()
+				if dt > end {
+					break
+				}
 				po := m1["open"].(reflect.Value)
 				po.SetFloat((po.Float() + xdxrFenHong) / (1 + xdxrGuShu))
 				pc := m1["close"].(reflect.Value)

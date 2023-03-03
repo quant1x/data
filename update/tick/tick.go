@@ -38,7 +38,7 @@ func main() {
 	} else {
 		crontab := cron.New(cron.WithSeconds()) //精确到秒
 		// 添加定时任务,
-		crontab.AddFunc(cronConfig, handleCodeData)
+		_, _ = crontab.AddFunc(cronConfig, handleCodeData)
 		//启动定时器
 		crontab.Start()
 		select {
@@ -100,5 +100,6 @@ func sleep() {
 // 拉取数据
 func pullData(fc string, listTime time.Time) int {
 	tdx.GetTickAll(fc)
+	_ = listTime
 	return 0
 }

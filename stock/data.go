@@ -62,6 +62,7 @@ func Tick(code string, dates []string) pandas.DataFrame {
 		buySpeeds = append(buySpeeds, buyInflow)
 		sellSpeeds = append(sellSpeeds, sellInflow)
 	}
+	dt := pandas.NewSeries(stat.SERIES_TYPE_STRING, "date", dates)
 	bv := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "bv", buyVolumes)
 	sv := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "sv", sellVolumes)
 	ba := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "ba", buyAmounts)
@@ -70,7 +71,7 @@ func Tick(code string, dates []string) pandas.DataFrame {
 	ia := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "ia", inflowAmounts)
 	bs := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "bs", buySpeeds)
 	ss := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "ss", sellSpeeds)
-	df := pandas.NewDataFrame(bv, sv, ba, sa, iv, ia, bs, ss)
+	df := pandas.NewDataFrame(dt, bv, sv, ba, sa, iv, ia, bs, ss)
 	return df
 }
 

@@ -33,5 +33,10 @@ func TradeRange(start, end string) []string {
 
 	is := sort.SearchStrings(tradeDates, start)
 	ie := sort.SearchStrings(tradeDates, end)
+	today := IndexToday()
+	lastDay := tradeDates[ie]
+	if lastDay > today {
+		ie = ie - 1
+	}
 	return slices.Clone(tradeDates[is : ie+1])
 }

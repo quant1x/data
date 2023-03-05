@@ -49,7 +49,7 @@ func TestIsHoliday(t *testing.T) {
 }
 
 func TestTradeRange(t *testing.T) {
-	ds := TradeRange("2023-02-17", "2023-02-20")
+	ds := TradeRange("2023-02-17", "2023-03-01")
 	fmt.Println(len(ds))
 	for _, v := range ds {
 		fmt.Println(v)

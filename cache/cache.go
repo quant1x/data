@@ -5,7 +5,6 @@ import (
 	"gitee.com/quant1x/data/internal"
 	"os"
 	"path/filepath"
-	"syscall"
 	"time"
 )
 
@@ -61,13 +60,18 @@ func FileExist(path string) bool {
 func CheckFilepath(filename string) error {
 	path := filepath.Dir(filename)
 	dir, err := os.Stat(path)
-	if verr, ok := err.(*os.PathError); ok {
-		if verr.Err == syscall.ENOENT {
-			err = os.MkdirAll(path, category.CACHE_DIR_MODE)
-			if err != nil {
-				return err
-			}
-		}
+	if err == nil {
+		// 已存在
+		return nil
+	}
+	if os.IsExist(err) {
+		// 已存在
+		return nil
+	}
+	// 不存在, 创建
+	err = os.MkdirAll(path, category.CACHE_DIR_MODE)
+	if err != nil {
+		return err
 	}
 	dir, err = os.Stat(path)
 	if err != nil {
@@ -76,7 +80,7 @@ func CheckFilepath(filename string) error {
 	if dir.IsDir() {
 		return nil
 	}
-	return os.MkdirAll(path, category.CACHE_DIR_MODE)
+	return os.ErrNotExist
 }
 
 // GetInfoPath 证券信息路径

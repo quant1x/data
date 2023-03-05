@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	gitee.com/quant1x/gotdx v1.2.6
-	gitee.com/quant1x/pandas v0.8.0
+	gitee.com/quant1x/pandas v0.8.1
 	github.com/dop251/goja v0.0.0-20230216180835-5937a312edda
 	github.com/mymmsc/gox v1.3.9
 	golang.org/x/exp v0.0.0-20220907003533-145caa8ea1d0

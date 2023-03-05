@@ -21,7 +21,8 @@ import (
 )
 
 var (
-	source int //数据源
+	source     int    //数据源
+	MinVersion string // 版本号
 )
 
 // 更新日线数据工具
@@ -35,11 +36,19 @@ func main() {
 		//logPath    string // 日志输出路径
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
+		version    bool   // 显示版本号
 	)
 	flag.StringVar(&cronConfig, "cron_config", "0 0 17 * * ?", "pull code data cron")
 	flag.BoolVar(&cronTrue, "cron_true", false, "use crontab in application")
 	flag.IntVar(&source, "source", 0, "data source, default from tdx,1-dfcf")
+	flag.BoolVar(&version, "version", false, "print version")
 	flag.Parse()
+
+	if version {
+		fmt.Println(MinVersion)
+		os.Exit(0)
+	}
+
 	if !cronTrue {
 		handleCodeData()
 	} else {

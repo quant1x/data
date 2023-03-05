@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	source   = 0  // 数据源
-	batchMax = 10 // 批量最大100
+	source     = 0    // 数据源
+	batchMax   = 10   // 批量最大100
+	MinVersion string // 版本号
 )
 
 // 更新日线数据工具
@@ -29,11 +30,19 @@ func main() {
 	var (
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
+		version    bool   // 显示版本号
 	)
 	flag.StringVar(&cronConfig, "cron_config", "0 */2 9-15 * * ?", "pull code data cron")
 	flag.BoolVar(&cronTrue, "cron_true", false, "use crontab in application")
 	flag.IntVar(&source, "source", 0, "data source, default from tdx,1-dfcf")
+	flag.BoolVar(&version, "version", false, "print version")
 	flag.Parse()
+
+	if version {
+		fmt.Println(MinVersion)
+		os.Exit(0)
+	}
+
 	if !cronTrue {
 		handleCodeData()
 	} else {

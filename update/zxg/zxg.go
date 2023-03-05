@@ -24,12 +24,24 @@ const (
 	tdx_path = "/workspace/data/tdx"
 )
 
+var (
+	MinVersion string // 版本号
+)
+
 func main() {
 	var (
-		path string // 数据路径
+		path    string // 数据路径
+		version bool   // 显示版本号
 	)
 	flag.StringVar(&path, "path", "", "通达信安装目录")
+	flag.BoolVar(&version, "version", false, "print version")
 	flag.Parse()
+
+	if version {
+		fmt.Println(MinVersion)
+		os.Exit(0)
+	}
+
 	if len(path) == 0 {
 		u, err := user.Current()
 		if err != nil {

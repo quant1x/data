@@ -36,21 +36,16 @@ func main() {
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
 	)
-	//flag.StringVar(&path, "path", category.DATA_ROOT_PATH, "stock history data path")
-	//flag.StringVar(&logPath, "log_path", category.LOG_ROOT_PATH+"/runtime.log", "log output dir")
 	flag.StringVar(&cronConfig, "cron_config", "0 0 17 * * ?", "pull code data cron")
 	flag.BoolVar(&cronTrue, "cron_true", false, "use crontab in application")
 	flag.IntVar(&source, "source", 0, "data source, default from tdx,1-dfcf")
 	flag.Parse()
-	//utils.InitLog(logPath, 500, 5, 5)
-	//logger.Info("data path: ", path, ",logPath:", logPath, ",cronConfig:", cronConfig)
-	//cache.Init(path)
 	if !cronTrue {
 		handleCodeData()
 	} else {
 		crontab := cron.New(cron.WithSeconds()) //精确到秒
 		// 添加定时任务,
-		crontab.AddFunc(cronConfig, handleCodeData)
+		_, _ = crontab.AddFunc(cronConfig, handleCodeData)
 		//启动定时器
 		crontab.Start()
 		select {

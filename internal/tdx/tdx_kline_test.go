@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetKLineAll(t *testing.T) {
-	df := GetKLineAll("sz002528")
+	df := GetKLineAll("000001.sh")
 	fmt.Println(df)
 }

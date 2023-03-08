@@ -4,14 +4,14 @@ go 1.20
 
 require (
 	gitee.com/quant1x/gotdx v1.2.6
-	gitee.com/quant1x/pandas v0.8.6
+	gitee.com/quant1x/pandas v0.8.7
 	github.com/dop251/goja v0.0.0-20230216180835-5937a312edda
 	github.com/mymmsc/gox v1.3.9
 	golang.org/x/exp v0.0.0-20220907003533-145caa8ea1d0
 )
 
 require (
-	gitee.com/quant1x/vek v0.5.3 // indirect
+	gitee.com/quant1x/vek v0.5.5 // indirect
 	github.com/chewxy/math32 v1.10.1 // indirect
 	github.com/dlclark/regexp2 v1.7.0 // indirect
 	github.com/frankban/quicktest v1.11.2 // indirect

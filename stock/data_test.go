@@ -23,7 +23,12 @@ func TestKLine(t *testing.T) {
 
 func TestTick(t *testing.T) {
 	symbol := "sz002528"
-	dates := date.TradeRange("2023-02-20", "2023-03-03")
+	symbol = "sz002209"
+	dates := date.TradeRange("2023-01-17", "2023-01-19")
 	df := Tick(symbol, dates)
+	bv := df.ColAsNDArray("bv")
+	ba := df.ColAsNDArray("ba")
+	va := ba.Div(bv).Div(100)
+	df = df.Join(va)
 	fmt.Println(df)
 }

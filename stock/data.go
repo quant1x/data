@@ -30,6 +30,10 @@ func Tick(code string, dates []string) pandas.DataFrame {
 		buyAmount := stat.DType(0)
 		sellAmount := stat.DType(0)
 		tmp := TickByDate(code, date)
+		if tmp.Nrow() == 0 {
+			// 数据有缺失跳过
+			return pandas.DataFrame{}
+		}
 		if tmp.Nrow() > 0 {
 			for i := 0; i < tmp.Nrow(); i++ {
 				m := tmp.IndexOf(i)
@@ -80,9 +84,8 @@ func TickByDate(code string, date string) pandas.DataFrame {
 	var df pandas.DataFrame
 	filename := cache.TickFilename(code, date)
 	if !cache.FileExist(filename) {
-		df = tdx.GetTickData(code, date)
-	} else {
-		df = pandas.ReadCSV(filename)
+		return df
 	}
+	df = pandas.ReadCSV(filename)
 	return df
 }

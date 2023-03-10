@@ -118,7 +118,6 @@ func get_zs_file(name string) []BlockInfo {
 		}
 		blocks = append(blocks, bk)
 	}
-	//fmt.Printf("read block list:%v\n", blocks)
 	return blocks
 }
 

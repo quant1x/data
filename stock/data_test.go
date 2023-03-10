@@ -32,3 +32,8 @@ func TestTick(t *testing.T) {
 	df = df.Join(va)
 	fmt.Println(df)
 }
+
+func TestBlockList(t *testing.T) {
+	df := BlockList()
+	fmt.Println(df)
+}

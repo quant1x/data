@@ -11,6 +11,7 @@ import (
 	"gitee.com/quant1x/pandas/stat"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 // getKLine 获取日K线
@@ -93,6 +94,8 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 	if df0.Nrow() > 0 {
 		ds := df0.Col("date").Values().([]string)
 		startDate = ds[len(ds)-1]
+	} else if marketId == category.MARKET_ID_SHANGHAI && strings.HasPrefix(code, "88") {
+		isIndex = true
 	} else {
 		info, err = api.GetFinanceInfo(marketId, code, 1)
 		if err != nil {

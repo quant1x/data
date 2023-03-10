@@ -10,6 +10,7 @@ const (
 	BlockPath = "/T0002/blocknew"
 	ZxgBlk    = "zxg.blk"
 	BkltBlk   = "BKLT.blk"
+	ZdBk      = "ZDBK.blk"
 )
 
 func GetZxgList() []string {

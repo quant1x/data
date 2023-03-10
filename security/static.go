@@ -1,11 +1,11 @@
 package security
 
 import (
-	"embed"
 	"fmt"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/security/futu"
+	"gitee.com/quant1x/data/stock"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
@@ -16,8 +16,6 @@ import (
 )
 
 var (
-	// ResourcesPath 资源路径
-	ResourcesPath = "resources"
 	// MarketName 市场名称
 	MarketName = map[string]string{
 		category.MARKET_SH: "上海",
@@ -43,9 +41,6 @@ var (
 func GetStockCode(market string, code string) string {
 	return fmt.Sprintf("%s%s", market, code)
 }
-
-//go:embed resources/*
-var resources embed.FS
 
 // Security 两个字段确定一支股票
 type Security struct {
@@ -117,6 +112,22 @@ func init() {
 	index, err = genIndexStaticInfo(category.MARKET_SZ, "399006", "创业板指", "2010-06-02", 2399006, 100)
 	if err == nil && index != nil {
 		cacheSecurity[index.Security.Code] = *index
+	}
+	// 板块信息
+	df := stock.BlockList()
+	if df.Nrow() > 0 {
+		for i := 0; i < df.Nrow(); i++ {
+			m := df.IndexOf(i)
+			code := stat.AnyToString(m["code"])
+			name := stat.AnyToString(m["name"])
+			if len(code) == 0 || len(name) == 0 {
+				continue
+			}
+			index, err = genIndexStaticInfo(category.MARKET_SH, code, name, "1990-12-19", int64(8000000+i), 100)
+			if err == nil && index != nil {
+				cacheSecurity[code] = *index
+			}
+		}
 	}
 	// 3. 香港指数 恒生指数时间不准确
 	// 4. 加载 上海的个股信息

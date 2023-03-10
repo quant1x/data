@@ -89,3 +89,9 @@ func TickByDate(code string, date string) pandas.DataFrame {
 	df = pandas.ReadCSV(filename)
 	return df
 }
+
+func BlockList() pandas.DataFrame {
+	bkListFile := cache.BlockFilename()
+	df := pandas.ReadCSV(bkListFile)
+	return df
+}

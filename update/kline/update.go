@@ -10,6 +10,7 @@ import (
 	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
+	"gitee.com/quant1x/data/stock"
 	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/cron"
@@ -69,7 +70,7 @@ func main() {
 
 func handleCodeData() {
 	logger.Info("任务开始启动...")
-	fullCodes := category.GetCodeList()
+	fullCodes := stock.GetCodeList()
 	count := len(fullCodes)
 	bar := progressbar.NewBar(0, "执行[更新历史数据]", count)
 	for _, code := range fullCodes {

@@ -1,7 +1,8 @@
-package category
+package stock
 
 import (
 	"fmt"
+	"gitee.com/quant1x/pandas/stat"
 )
 
 // GetCodeList 加载全部股票代码
@@ -11,6 +12,20 @@ func GetCodeList() []string {
 	indexes := []string{"sh000001",
 		"sh000905", "sz399001", "sz399006"}
 	fullCodes = append(fullCodes, indexes...)
+
+	// 板块信息
+	df := BlockList()
+	if df.Nrow() > 0 {
+		for i := 0; i < df.Nrow(); i++ {
+			m := df.IndexOf(i)
+			code := stat.AnyToString(m["code"])
+			name := stat.AnyToString(m["name"])
+			if len(code) == 0 || len(name) == 0 {
+				continue
+			}
+			fullCodes = append(fullCodes, code)
+		}
+	}
 
 	// 更新代码
 	// 上海

@@ -9,10 +9,11 @@ import (
 )
 
 const (
-	DAY_PATH  = "day"  // 日线路径
-	INFO_PATH = "info" // 信息路径
-	TICK_PATH = "tick" // tick路径
-	XDXR_PATH = "xdxr" // 除权除息路径
+	DAY_PATH   = "day"  // 日线路径
+	INFO_PATH  = "info" // 信息路径
+	TICK_PATH  = "tick" // tick路径
+	XDXR_PATH  = "xdxr" // 除权除息路径
+	BLOCK_PATH = "bk"   // 板块数据
 )
 
 type CacheType int
@@ -106,4 +107,9 @@ func GetZxgFile() string {
 // GetXdxrPath 除权除息文件存储路径
 func GetXdxrPath() string {
 	return CACHE_ROOT_PATH + "/" + XDXR_PATH
+}
+
+// GetBkPath 板块路径
+func GetBkPath() string {
+	return CACHE_ROOT_PATH + "/" + BLOCK_PATH
 }

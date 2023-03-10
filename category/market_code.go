@@ -1,7 +1,6 @@
 package category
 
 import (
-	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/api"
 	"strings"
 )
@@ -28,29 +27,6 @@ var (
 	kMarketFlags = []string{"sh", "sz", "SH", "SZ", "bj", "BJ", "hk", "HK", "us", "US"}
 )
 
-// GetMarket 判断股票ID对应的证券市场匹配规则
-//
-//	['50', '51', '60', '90', '110'] 为 sh
-//	['00', '12'，'13', '18', '15', '16', '18', '20', '30', '39', '115'] 为 sz
-//	['5', '6', '9'] 开头的为 sh， 其余为 sz
-//
-// Deprecated: 不推荐使用
-func GetMarket(symbol string) string {
-	market := "sh"
-	if util.StartsWith(symbol, []string{"sh", "sz", "SH", "SZ"}) {
-		market = strings.ToLower(symbol[0:2])
-	} else if util.StartsWith(symbol, []string{"50", "51", "60", "68", "90", "110", "113", "132", "204"}) {
-		market = "sh"
-	} else if util.StartsWith(symbol, []string{"00", "12", "13", "18", "15", "16", "18", "20", "30", "39", "115", "1318"}) {
-		market = "sz"
-	} else if util.StartsWith(symbol, []string{"5", "6", "9", "7"}) {
-		market = "sh"
-	} else if util.StartsWith(symbol, []string{"4", "8"}) {
-		market = "bj"
-	}
-	return market
-}
-
 // GetMarketName 通过市场ID取得市场名称缩写
 func GetMarketName(marketId Market) string {
 	switch marketId {
@@ -65,21 +41,6 @@ func GetMarketName(marketId Market) string {
 	default:
 		return MARKET_SH
 	}
-}
-
-// GetMarketId 获得市场ID
-// Deprecated: 不推荐使用
-func GetMarketId(symbol string) Market {
-	market := GetMarket(symbol)
-	marketId := MARKET_ID_SHANGHAI
-	if market == "sh" {
-		marketId = MARKET_ID_SHANGHAI
-	} else if market == "sz" {
-		marketId = MARKET_ID_SHENZHEN
-	} else if market == "bj" {
-		marketId = MARKET_ID_BEIJING
-	}
-	return marketId
 }
 
 // DetectMarket 检测市场代码
@@ -104,6 +65,8 @@ func DetectMarket(symbol string) (marketId Market, market string, code string) {
 	} else if api.StartsWith(code, []string{"00", "12", "13", "18", "15", "16", "18", "20", "30", "39", "115", "1318"}) {
 		market = MARKET_SZ
 	} else if api.StartsWith(code, []string{"5", "6", "9", "7"}) {
+		market = MARKET_SH
+	} else if api.StartsWith(code, []string{"88"}) {
 		market = MARKET_SH
 	} else if api.StartsWith(code, []string{"4", "8"}) {
 		market = MARKET_BJ

@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
+	"gitee.com/quant1x/data/stock"
 	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/cron"
 	"github.com/mymmsc/gox/logger"
@@ -70,7 +71,7 @@ func handleCodeData() {
 	fmt.Printf("自选股, 共计[%d]\n", len(fullCodes))
 	if len(fullCodes) == 0 {
 		fmt.Printf("没有指定自选股, 全量更新\n")
-		fullCodes = category.GetCodeList()
+		fullCodes = stock.GetCodeList()
 	}
 	fmt.Printf("实时更新指数及个股, 共计[%d]\n", len(fullCodes))
 

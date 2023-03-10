@@ -125,7 +125,7 @@ func init() {
 			}
 			index, err = genIndexStaticInfo(category.MARKET_SH, code, name, "1990-12-19", int64(8000000+i), 100)
 			if err == nil && index != nil {
-				cacheSecurity[code] = *index
+				cacheSecurity[index.Security.Code] = *index
 			}
 		}
 	}

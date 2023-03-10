@@ -2,8 +2,6 @@ package stock
 
 import (
 	"fmt"
-	"gitee.com/quant1x/data/category"
-	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/pandas/stat"
 )
 
@@ -25,8 +23,7 @@ func GetCodeList() []string {
 			if len(code) == 0 || len(name) == 0 {
 				continue
 			}
-			_, marketName, code := category.DetectMarket(code)
-			fullCodes = append(fullCodes, security.GetStockCode(marketName, code))
+			fullCodes = append(fullCodes, "sh"+code)
 		}
 	}
 

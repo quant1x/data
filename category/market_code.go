@@ -86,7 +86,12 @@ func DetectMarket(symbol string) (marketId Market, market string, code string) {
 
 // CodeIsIndex 证券代码是否指数
 func CodeIsIndex(code string) bool {
-	marketId, _, code := DetectMarket(code)
+	marketId, _, shortCode := DetectMarket(code)
+	return IndexFromMarketAndCode(marketId, shortCode)
+}
+
+// IndexFromMarketAndCode 通过市场id和短码判断是否指数
+func IndexFromMarketAndCode(marketId Market, code string) bool {
 	if marketId == MARKET_ID_SHANGHAI && api.StartsWith(code, []string{"000", "88"}) {
 		return true
 	} else if marketId == MARKET_ID_SHENZHEN && api.StartsWith(code, []string{"399"}) {

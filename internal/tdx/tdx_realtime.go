@@ -5,11 +5,30 @@ import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/category/date"
-	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/pandas"
 	"github.com/mymmsc/gox/logger"
 	"time"
+)
+
+// RTSecurityBar K线数据
+type RTSecurityBar struct {
+	Date      string
+	Open      float64
+	Close     float64
+	High      float64
+	Low       float64
+	Volume    float64
+	Amount    float64
+	UpCount   int // 指数有效, 上涨家数
+	DownCount int // 指数有效, 下跌家数
+}
+
+var (
+	RTBarsRaw         = []string{"Date", "Open", "Close", "High", "Low", "Volume", "Amount", "UpCount", "DownCount"}
+	RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
+	RTBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount"}
+	RTBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
 )
 
 // RealTime 即时行情数据
@@ -42,27 +61,38 @@ func BatchRealtime(codes []string) {
 	}
 	//fmt.Printf("%+v\n", hq)
 	today := time.Now().Format(category.INDEX_DATE)
+	td := date.TradeRange("2023-01-01", today)
+	today = td[len(td)-1]
 	for _, v := range hq.List {
 		if v.Code == proto.StockDelisting || v.LastClose == float64(0) {
 			continue
 		}
-		kl := dfcf.KLine{
-			Date:   today,
-			Open:   v.Open,
-			Close:  v.Price,
-			High:   v.High,
-			Low:    v.Low,
-			Volume: int64(v.Vol),
-			Amount: v.Amount,
+		kl := RTSecurityBar{
+			Date:      today,
+			Open:      v.Open,
+			Close:     v.Price,
+			High:      v.High,
+			Low:       v.Low,
+			Volume:    float64(v.Vol),
+			Amount:    v.Amount,
+			UpCount:   v.BidVol1,
+			DownCount: v.AskVol1,
 		}
-		last := pandas.LoadStructs([]dfcf.KLine{kl})
+		last := pandas.LoadStructs([]RTSecurityBar{kl})
 		fullCode := category.GetMarketName(v.Market) + v.Code
+		isIndex := category.IndexFromMarketAndCode(v.Market, v.Code)
+		newFields := RTBarsRename
+		_ = last.SetNames(newFields...)
+		fields := RTBarsStockFields
+		if isIndex {
+			fields = RTBarsIndexFields
+		}
 		df := GetCacheKLine(fullCode)
 		if df.Nrow() == 0 || last.Nrow() == 0 {
 			continue
 		}
 		lastDay := df.Col("date").IndexOf(-1).(string)
-		today := date.IndexToday()
+		//today := date.IndexToday()
 		ts := date.TradeRange(lastDay, today)
 		if len(ts) > 2 {
 			// 超过2天的差距, 不能用realtime更新K线数据
@@ -73,7 +103,8 @@ func BatchRealtime(codes []string) {
 			df = df.Subset(0, df.Nrow()-1)
 		}
 		// 连接缓存和实时数据
-		df = df.Concat(last)
+		tmp := last.Select(fields)
+		df = df.Concat(tmp)
 		fn := cache.KLineFilename(fullCode)
 		err := df.WriteCSV(fn)
 		if err != nil {

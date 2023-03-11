@@ -5,6 +5,10 @@ import (
 	"gitee.com/quant1x/pandas/stat"
 )
 
+var (
+// mapIndexes = map[string]bool{}
+)
+
 // GetCodeList 加载全部股票代码
 func GetCodeList() []string {
 	fullCodes := make([]string, 0)
@@ -12,6 +16,9 @@ func GetCodeList() []string {
 	indexes := []string{"sh000001",
 		"sh000905", "sz399001", "sz399006"}
 	fullCodes = append(fullCodes, indexes...)
+	//for _, v := range indexes {
+	//	mapIndexes[v] = true
+	//}
 
 	// 板块信息
 	df := BlockList()
@@ -23,7 +30,9 @@ func GetCodeList() []string {
 			if len(code) == 0 || len(name) == 0 {
 				continue
 			}
-			fullCodes = append(fullCodes, "sh"+code)
+			code = "sh" + code
+			fullCodes = append(fullCodes, code)
+			//mapIndexes[code] = true
 		}
 	}
 

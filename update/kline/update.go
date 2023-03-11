@@ -130,7 +130,7 @@ func pullData_tdx(fc string, listTime time.Time) int {
 }
 
 func ToCSV(code string, ks []dfcf.KLine) {
-	filename := cache.GetKLineFilename(code)
+	filename := cache.KLineFilename(code)
 	count := len(ks)
 	wrote := 0
 	//fw, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, category.CACHE_FILE_MODE)

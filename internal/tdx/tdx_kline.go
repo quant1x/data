@@ -11,7 +11,16 @@ import (
 	"gitee.com/quant1x/pandas/stat"
 	"reflect"
 	"strconv"
-	"strings"
+)
+
+var (
+	FBarsStockRaw    = []string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"}
+	FBarsStockRename = []string{"open", "close", "high", "low", "volume", "amount", "date"}
+	FBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount"}
+
+	FBarsIndexRaw    = []string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime", "UpCount", "DownCount"}
+	FBarsIndexRename = []string{"open", "close", "high", "low", "volume", "amount", "date", "up", "down"}
+	FBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
 )
 
 // getKLine 获取日K线
@@ -35,6 +44,11 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 	if len(argv) > 0 {
 		qfq = argv[0]
 	}
+	isIndex := category.CodeIsIndex(code)
+	fields := FBarsStockFields
+	if isIndex {
+		fields = FBarsIndexFields
+	}
 	filename := cache.KLineFilename(code)
 	var df pandas.DataFrame
 	if !cache.FileExist(filename) {
@@ -42,10 +56,9 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 	} else {
 		df = pandas.ReadCSV(filename)
 	}
-	df = df.Select([]string{"date", "open", "close", "high", "low", "volume", "amount"})
+	df = df.Select(fields)
 	if qfq {
 		drdf := GetCacheXdxr(code)
-		//fmt.Println(drdf)
 		for i := 0; i < drdf.Nrow(); i++ {
 			m0 := drdf.IndexOf(i)
 			if m0["Category"].(int64) != 1 {
@@ -87,19 +100,30 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 	api := prepare()
 	startDate := "19901219"
 	marketId, market, code := category.DetectMarket(fullCode)
-	df0 := GetCacheKLine(market + code)
-	isIndex := false
+	dfCache := GetCacheKLine(market + code)
+	isIndex := category.CodeIsIndex(fullCode)
+	fields := FBarsStockFields
+	rawFields := FBarsStockRaw
+	newFields := FBarsStockRename
+	if isIndex {
+		fields = FBarsIndexFields
+		rawFields = FBarsIndexRaw
+		newFields = FBarsIndexRename
+	}
+	// 尝试选择一次字段, 如果出现异常, 则清空dataframe, 重新下载
+	dfCache = dfCache.Select(fields)
+	if dfCache.Nrow() == 0 {
+		dfCache = pandas.DataFrame{}
+	}
 	var info *quotes.FinanceInfo
 	var err error
-	if df0.Nrow() > 0 {
-		ds := df0.Col("date").Values().([]string)
+	if dfCache.Nrow() > 0 {
+		ds := dfCache.Col("date").Values().([]string)
 		startDate = ds[len(ds)-1]
-	} else if marketId == category.MARKET_ID_SHANGHAI && strings.HasPrefix(code, "88") {
-		isIndex = true
 	} else {
 		info, err = api.GetFinanceInfo(marketId, code, 1)
 		if err != nil {
-			return df0
+			return dfCache
 		}
 		if info.IPODate > 0 {
 			startDate = strconv.FormatInt(int64(info.IPODate), 10)
@@ -112,7 +136,7 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 		if info == nil {
 			info, err = api.GetFinanceInfo(marketId, code, 1)
 			if err != nil {
-				return df0
+				return dfCache
 			}
 		}
 		if info.IPODate == 0 && info.LiuTongGuBen > 0 && info.ZongGuBen > 0 && info.BaoLiu2 > 0 {
@@ -160,12 +184,12 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 	}
 
 	df1 := pandas.LoadStructs(history)
-	df1 = df1.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err = df1.SetNames("open", "close", "high", "low", "volume", "amount", "date")
+	df1 = df1.Select(rawFields)
+	err = df1.SetNames(newFields...)
 	if err != nil {
 		return pandas.DataFrame{}
 	}
-	df1 = df1.Select([]string{"date", "open", "close", "high", "low", "volume", "amount"})
+	df1 = df1.Select(fields)
 	ds1 := df1.Col("date", true)
 	ds1.Apply2(func(idx int, v any) any {
 		date1 := v.(string)
@@ -176,7 +200,7 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 		return dt.Format(category.INDEX_DATE)
 	}, true)
 
-	df := df0.Subset(0, df0.Nrow()-1)
+	df := dfCache.Subset(0, dfCache.Nrow()-1)
 	if df.Nrow() > 0 {
 		df = df.Concat(df1)
 	} else {

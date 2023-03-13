@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	tradeDates      []string // 交易日列表
+	gTradeDates     []string // 交易日列表
 	holidayFilename = cache.GetInfoPath() + "/holiday.csv"
 )
 
@@ -29,8 +29,8 @@ func init() {
 
 // IsHoliday 是否节假日
 func IsHoliday(date string) bool {
-	iRet, found := sort.Find(len(tradeDates), func(i int) int {
-		return strings.Compare(date, tradeDates[i])
+	iRet, found := sort.Find(len(gTradeDates), func(i int) int {
+		return strings.Compare(date, gTradeDates[i])
 	})
 	_ = iRet
 	return !found
@@ -62,10 +62,10 @@ func updateHoliday() {
 		if err != nil {
 			return
 		}
-		tradeDates = ds
+		gTradeDates = ds
 	} else {
 		df := pandas.ReadCSV(holidayFilename)
 		ds := df.Col(kHoliday).Values().([]string)
-		tradeDates = slices.Clone(ds)
+		gTradeDates = slices.Clone(ds)
 	}
 }

@@ -31,12 +31,24 @@ func TradeRange(start, end string) []string {
 	}
 	end = dt.Format(time.DateOnly)
 
-	is := sort.SearchStrings(tradeDates, start)
-	ie := sort.SearchStrings(tradeDates, end)
+	is := sort.SearchStrings(gTradeDates, start)
+	ie := sort.SearchStrings(gTradeDates, end)
 	today := IndexToday()
-	lastDay := tradeDates[ie]
+	lastDay := gTradeDates[ie]
 	if lastDay > today {
 		ie = ie - 1
 	}
-	return slices.Clone(tradeDates[is : ie+1])
+	return slices.Clone(gTradeDates[is : ie+1])
+}
+
+// LastTradeDate 获得最后一个交易日
+func LastTradeDate() string {
+	today := IndexToday()
+	end := sort.SearchStrings(gTradeDates, today)
+	lastDay := gTradeDates[end]
+	if lastDay > today {
+		end = end - 1
+	}
+	return gTradeDates[end]
+
 }

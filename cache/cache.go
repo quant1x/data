@@ -9,11 +9,12 @@ import (
 )
 
 const (
-	DAY_PATH   = "day"  // 日线路径
-	INFO_PATH  = "info" // 信息路径
-	TICK_PATH  = "tick" // tick路径
-	XDXR_PATH  = "xdxr" // 除权除息路径
-	BLOCK_PATH = "bk"   // 板块数据
+	DAY_PATH      = "day"      // 日线路径
+	INFO_PATH     = "info"     // 信息路径
+	TICK_PATH     = "tick"     // tick路径
+	XDXR_PATH     = "xdxr"     // 除权除息路径
+	BLOCK_PATH    = "bk"       // 板块数据
+	SNAPSHOT_PATH = "snapshot" // 快照数据路径
 )
 
 type CacheType int
@@ -112,4 +113,9 @@ func GetXdxrPath() string {
 // GetBkPath 板块路径
 func GetBkPath() string {
 	return CACHE_ROOT_PATH + "/" + BLOCK_PATH
+}
+
+// GetSnapshotPath 获取快照路径
+func GetSnapshotPath() string {
+	return CACHE_ROOT_PATH + "/" + SNAPSHOT_PATH
 }

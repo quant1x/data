@@ -42,6 +42,7 @@ func RealTime(code string) {
 	fmt.Printf("%+v\n", hq)
 }
 
+// BatchRealtime 批量获取实时行情数据
 func BatchRealtime(codes []string) {
 	marketIds := []proto.Market{}
 	symbols := []string{}
@@ -60,15 +61,15 @@ func BatchRealtime(codes []string) {
 		return
 	}
 	//fmt.Printf("%+v\n", hq)
-	today := time.Now().Format(category.INDEX_DATE)
-	td := date.TradeRange("2023-01-01", today)
-	today = td[len(td)-1]
+	lastTradeday := time.Now().Format(category.INDEX_DATE)
+	td := date.TradeRange("2023-01-01", lastTradeday)
+	lastTradeday = td[len(td)-1]
 	for _, v := range hq.List {
 		if v.Code == proto.StockDelisting || v.LastClose == float64(0) {
 			continue
 		}
 		kl := RTSecurityBar{
-			Date:      today,
+			Date:      lastTradeday,
 			Open:      v.Open,
 			Close:     v.Price,
 			High:      v.High,
@@ -92,13 +93,12 @@ func BatchRealtime(codes []string) {
 			continue
 		}
 		lastDay := df.Col("date").IndexOf(-1).(string)
-		//today := date.IndexToday()
-		ts := date.TradeRange(lastDay, today)
+		ts := date.TradeRange(lastDay, lastTradeday)
 		if len(ts) > 2 {
 			// 超过2天的差距, 不能用realtime更新K线数据
 			continue
 		}
-		if lastDay == today {
+		if lastDay == lastTradeday {
 			// 如果最后一条数据和当前日期相同, 那么去掉缓存中的最后一条, 用实时数据填补
 			df = df.Subset(0, df.Nrow()-1)
 		}

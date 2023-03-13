@@ -79,6 +79,7 @@ func Tick(code string, dates []string) pandas.DataFrame {
 	return df
 }
 
+// TickByDate 获取指定日期的分笔成交数据
 func TickByDate(code string, date string) pandas.DataFrame {
 	date = cache.CorrectDate(date)
 	var df pandas.DataFrame
@@ -90,8 +91,17 @@ func TickByDate(code string, date string) pandas.DataFrame {
 	return df
 }
 
+// BlockList 获取板块列表
 func BlockList() pandas.DataFrame {
 	bkListFile := cache.BlockFilename()
 	df := pandas.ReadCSV(bkListFile)
+	//ds1 := df.Col("code", true)
+	//ds1.Apply2(func(idx int, v any) any {
+	//	code := v.(string)
+	//	if api.StartsWith(code, []string{"88"}) {
+	//		code = "sh" + code
+	//	}
+	//	return code
+	//}, true)
 	return df
 }

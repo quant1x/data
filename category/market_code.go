@@ -99,3 +99,12 @@ func IndexFromMarketAndCode(marketId Market, code string) bool {
 	}
 	return false
 }
+
+// MarketLimit 涨跌停板限制
+func MarketLimit(code string) float64 {
+	_, _, shortCode := DetectMarket(code)
+	if api.StartsWith(shortCode, []string{"30", "68"}) {
+		return 0.05
+	}
+	return 0.10
+}

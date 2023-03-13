@@ -62,7 +62,7 @@ type QuoteSnapshot struct {
 }
 
 // BatchSnapShot 批量获取即时行情数据快照
-func BatchSnapShot(codes []string) {
+func BatchSnapShot(codes []string) []QuoteSnapshot {
 	marketIds := []proto.Market{}
 	symbols := []string{}
 	for _, code := range codes {
@@ -73,10 +73,11 @@ func BatchSnapShot(codes []string) {
 		}
 	}
 	tdxApi := prepare()
+	list := []QuoteSnapshot{}
 	hq, err := tdxApi.GetSecurityQuotes(marketIds, symbols)
 	if err != nil {
 		logger.Errorf("获取即时行情数据失败", err)
-		return
+		return list
 	}
 	//fmt.Printf("%+v\n", hq)
 	lastTradeday := time.Now().Format(category.INDEX_DATE)
@@ -84,7 +85,7 @@ func BatchSnapShot(codes []string) {
 	lastTradeday = td[len(td)-1]
 	for _, v := range hq.List {
 		snapshot := QuoteSnapshot{}
-		api.Copy(&snapshot, &v)
+		_ = api.Copy(&snapshot, &v)
 		if snapshot.Code == proto.StockDelisting || snapshot.LastClose == float64(0) {
 			continue
 		}
@@ -93,17 +94,12 @@ func BatchSnapShot(codes []string) {
 			continue
 		}
 		fullCode := category.GetMarketName(v.Market) + v.Code
-		//isIndex := category.IndexFromMarketAndCode(v.Market, v.Code)
-		//newFields := RTBarsRename
-		//_ = last.SetNames(newFields...)
-		//fields := RTBarsStockFields
-		//if isIndex {
-		//	fields = RTBarsIndexFields
-		//}
 		fn := cache.SnapshotFilename(fullCode)
 		err := last.WriteCSV(fn)
 		if err != nil {
 			logger.Errorf("更新快照数据文件失败:%s", v.Code)
 		}
+		list = append(list, snapshot)
 	}
+	return list
 }

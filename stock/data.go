@@ -5,6 +5,7 @@ import (
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
+	"github.com/mymmsc/gox/api"
 )
 
 // KLine 加载K线
@@ -95,13 +96,17 @@ func TickByDate(code string, date string) pandas.DataFrame {
 func BlockList() pandas.DataFrame {
 	bkListFile := cache.BlockFilename()
 	df := pandas.ReadCSV(bkListFile)
-	//ds1 := df.Col("code", true)
-	//ds1.Apply2(func(idx int, v any) any {
-	//	code := v.(string)
-	//	if api.StartsWith(code, []string{"88"}) {
-	//		code = "sh" + code
-	//	}
-	//	return code
-	//}, true)
+	codes := df.Col("code").Strings()
+	names := df.Col("name").Strings()
+	types := df.Col("type").Ints()
+	for i, v := range codes {
+		if api.StartsWith(v, []string{"88"}) {
+			codes[i] = "sh" + v
+		}
+	}
+	oc := pandas.NewSeries(stat.SERIES_TYPE_STRING, "code", codes)
+	on := pandas.NewSeries(stat.SERIES_TYPE_STRING, "name", names)
+	ot := pandas.NewSeries(stat.SERIES_TYPE_INT32, "type", types)
+	df = pandas.NewDataFrame(oc, on, ot)
 	return df
 }

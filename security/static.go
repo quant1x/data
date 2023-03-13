@@ -123,7 +123,7 @@ func init() {
 			if len(code) == 0 || len(name) == 0 {
 				continue
 			}
-			index, err = genIndexStaticInfo(category.MARKET_SH, code, name, "1990-12-19", int64(8000000+i), 100)
+			index, err = genIndexStaticInfo(category.MARKET_SH, code[2:], name, "1990-12-19", int64(8000000+i), 100)
 			if err == nil && index != nil {
 				cacheSecurity[index.Security.Code] = *index
 			}

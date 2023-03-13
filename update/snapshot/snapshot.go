@@ -72,7 +72,7 @@ func handleCodeData() {
 	blockList := stock.BlockList()
 	fmt.Printf("板块, 共计[%d]\n", blockList.Nrow())
 	if blockList.Nrow() == 0 {
-		fmt.Printf("没有指定自选股, 全量更新\n")
+		fmt.Printf("没有指定板块列表, 任务结束\n")
 		return
 	}
 	CODE := blockList.Col("code").Strings()

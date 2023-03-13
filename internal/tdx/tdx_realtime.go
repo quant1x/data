@@ -6,6 +6,7 @@ import (
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/category/date"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"github.com/mymmsc/gox/logger"
 	"time"
@@ -44,6 +45,9 @@ func RealTime(code string) {
 
 // BatchRealtime 批量获取实时行情数据
 func BatchRealtime(codes []string) {
+	if len(codes) > int(quotes.TDX_SECURITY_QUOTES_MAX) {
+		panic(fmt.Sprintf("BatchRealtime: codes count > %d", quotes.TDX_SECURITY_QUOTES_MAX))
+	}
 	marketIds := []proto.Market{}
 	symbols := []string{}
 

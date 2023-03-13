@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/stock"
 	"gitee.com/quant1x/data/update/cross"
+	"gitee.com/quant1x/gotdx/quotes"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/cron"
 	"github.com/mymmsc/gox/logger"
@@ -22,9 +23,9 @@ const (
 )
 
 var (
-	source     = 0    // 数据源
-	batchMax   = 10   // 批量最大100
-	MinVersion string // 版本号
+	source     = 0                              // 数据源
+	batchMax   = quotes.TDX_SECURITY_QUOTES_MAX // 批量最大100
+	MinVersion string                           // 版本号
 )
 
 // 更新快照数据工具

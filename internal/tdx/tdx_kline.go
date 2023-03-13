@@ -146,7 +146,7 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 	endDate := cache.Today()
 	ts := date.TradeRange(startDate, endDate)
 	history := make([]quotes.SecurityBar, 0)
-	step := uint16(800)
+	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
 	total := uint16(len(ts))
 	start := uint16(0)
 	hs := make([]quotes.SecurityBarsReply, 0)

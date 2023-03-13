@@ -4,12 +4,14 @@ import (
 	"bufio"
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/encoding/binary/struc"
 	"github.com/mymmsc/gox/text/encoding"
 	"io"
+	"os"
 	"strings"
 )
 
@@ -63,7 +65,8 @@ type __raw_block_data struct {
 }
 
 func get_block_file(blockFilename string) *__raw_block_data {
-	file, err := OpenEmbed(blockFilename)
+	fn := cache.GetBkPath() + "/" + blockFilename
+	file, err := os.Open(fn)
 	if err != nil {
 		return nil
 	}
@@ -195,7 +198,29 @@ func genBlockFile() {
 func init() {
 	// 如果板块数据不存在, 从应用内导出
 	blockFile := cache.GetBkPath() + "/block.csv"
+	reCreate := false
 	if !cache.FileExist(blockFile) {
+		reCreate = true
+	}
+	if !reCreate {
+		blockData := cache.GetBkPath() + "/" + quotes.BLOCK_DEFAULT
+		stat_, err := os.Stat(blockData)
+		if err == nil || os.IsExist(err) {
+			dataModifyTime := stat_.ModTime()
+			bk881266 := cache.GetBkPath() + "/" + "881266.csv"
+			stat_bk, err := os.Stat(bk881266)
+			if err == nil || os.IsExist(err) {
+				if stat_bk.ModTime().Before(dataModifyTime) {
+					reCreate = true
+				}
+			} else {
+				reCreate = true
+			}
+		} else {
+			reCreate = true
+		}
+	}
+	if reCreate {
 		genBlockFile()
 	}
 }

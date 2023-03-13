@@ -59,9 +59,8 @@ func GetTickAll(code string) {
 func GetTickData(code string, date string) pandas.DataFrame {
 	api := prepare()
 	marketId, marketName, code := category.DetectMarket(code)
-	offset := uint16(1800)
+	offset := uint16(quotes.TDX_TRANSACTION_MAX)
 	start := uint16(0)
-	count := offset
 	date = cache.CorrectDate(date)
 	history := make([]quotes.TickTransaction, 0)
 	hs := make([]quotes.TransactionReply, 0)
@@ -79,7 +78,7 @@ func GetTickData(code string, date string) pandas.DataFrame {
 			panic("接口异常")
 		}
 		hs = append(hs, (*data))
-		if data.Count < count {
+		if data.Count < offset {
 			// 已经是最早的记录
 			// 需要排序
 			break

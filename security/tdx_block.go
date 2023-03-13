@@ -124,16 +124,17 @@ func get_zs_file(name string) []BlockInfo {
 func get_zs_blocks() []BlockInfo {
 	bks := []string{"tdxzs.cfg", "tdxzs3.cfg"}
 	bis := []BlockInfo{}
+	tmpMap := map[string]bool{}
 	for _, v := range bks {
 		bi := get_zs_file(v)
 		if len(bi) == 0 {
 			continue
 		}
 		for _, info := range bi {
-			//if info.Count == 0 {
-			//	continue
-			//}
-			bis = append(bis, info)
+			if _, ok := tmpMap[info.Code]; !ok {
+				bis = append(bis, info)
+				tmpMap[info.Code] = true
+			}
 		}
 	}
 	return bis

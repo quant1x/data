@@ -9,8 +9,8 @@ PREFIX=stock-update
 
 version=$(git describe --tags `git rev-list --tags --max-count=1`)
 version=${version:1}
-
-# darwin amd64
+echo "version: ${version}"
+# windows amd64
 GOOS=windows
 GOARCH=amd64
 apps=("kline" "realtime" "xdxr" "zxg" "tick" "snapshot")

@@ -97,7 +97,15 @@ type BlockInfo struct {
 }
 
 func get_zs_file(name string) []BlockInfo {
-	file, err := OpenEmbed(name)
+	cacheFilename := cache.GetBkPath() + "/" + name
+	if !cache.FileExist(cacheFilename) {
+		// 如果文件不存在, 导出内嵌资源
+		err := export(cacheFilename, name)
+		if err != nil {
+			return nil
+		}
+	}
+	file, err := os.Open(cacheFilename)
 	if err != nil {
 		return nil
 	}

@@ -8,7 +8,7 @@ import (
 )
 
 func getBlockFile(filename string) {
-	api := prepare()
+	tdxApi := prepare()
 	fn := cache.GetBkPath() + "/" + filename
 	stat, err := os.Stat(fn)
 	if err == nil || os.IsExist(err) {
@@ -17,7 +17,7 @@ func getBlockFile(filename string) {
 			return
 		}
 	}
-	resp, err := api.GetBlockInfo(filename)
+	resp, err := tdxApi.GetBlockInfo(filename)
 	if err == nil {
 		fn := cache.GetBkPath() + "/" + filename
 		fp, err := os.Create(fn)

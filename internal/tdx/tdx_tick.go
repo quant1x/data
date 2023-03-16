@@ -56,8 +56,9 @@ func GetTickAll(code string) {
 	return
 }
 
+// GetTickData 获取指定日期的分笔成交记录
 func GetTickData(code string, date string) pandas.DataFrame {
-	api := prepare()
+	tdxApi := prepare()
 	marketId, marketName, code := category.DetectMarket(code)
 	offset := uint16(quotes.TDX_TRANSACTION_MAX)
 	start := uint16(0)
@@ -68,10 +69,10 @@ func GetTickData(code string, date string) pandas.DataFrame {
 		var data *quotes.TransactionReply
 		var err error
 		if date == cache.Today() {
-			data, err = api.GetTransactionData(marketId, code, start, offset)
+			data, err = tdxApi.GetTransactionData(marketId, code, start, offset)
 		} else {
 			iDate := stat.AnyToInt64(date)
-			data, err = api.GetHistoryTransactionData(marketId, code, uint32(iDate), start, offset)
+			data, err = tdxApi.GetHistoryTransactionData(marketId, code, uint32(iDate), start, offset)
 		}
 
 		if err != nil {

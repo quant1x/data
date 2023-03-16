@@ -97,7 +97,7 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 
 // GetKLineAll getKLine 获取日K线
 func GetKLineAll(fullCode string) pandas.DataFrame {
-	api := prepare()
+	tdxApi := prepare()
 	startDate := "19901219"
 	marketId, market, code := category.DetectMarket(fullCode)
 	dfCache := GetCacheKLine(market + code)
@@ -121,7 +121,7 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 		ds := dfCache.Col("date").Values().([]string)
 		startDate = ds[len(ds)-1]
 	} else {
-		info, err = api.GetFinanceInfo(marketId, code, 1)
+		info, err = tdxApi.GetFinanceInfo(marketId, code, 1)
 		if err != nil {
 			return dfCache
 		}
@@ -134,7 +134,7 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 	}
 	if !isIndex {
 		if info == nil {
-			info, err = api.GetFinanceInfo(marketId, code, 1)
+			info, err = tdxApi.GetFinanceInfo(marketId, code, 1)
 			if err != nil {
 				return dfCache
 			}
@@ -160,9 +160,9 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 		var data *quotes.SecurityBarsReply
 		var err error
 		if isIndex {
-			data, err = api.GetIndexBars(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+			data, err = tdxApi.GetIndexBars(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
 		} else {
-			data, err = api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+			data, err = tdxApi.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
 		}
 		if err != nil {
 			panic("接口异常")

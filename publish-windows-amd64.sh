@@ -10,6 +10,7 @@ PREFIX=stock-update
 version=$(git describe --tags `git rev-list --tags --max-count=1`)
 version=${version:1}
 echo "version: ${version}"
+
 # windows amd64
 GOOS=windows
 GOARCH=amd64

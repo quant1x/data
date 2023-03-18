@@ -51,7 +51,7 @@ func init() {
 		panic(err)
 	}
 
-	logger.SetLogPath(LOG_ROOT_PATH)
+	logger.InitLogger(LOG_ROOT_PATH, logger.INFO)
 
 	klinePath, err := homedir.Expand(KLINE_PATH)
 	if err != nil {

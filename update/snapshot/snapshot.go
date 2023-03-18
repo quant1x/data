@@ -111,7 +111,10 @@ func handleCodeData() {
 			bar.Add(1)
 			codes = append(codes, code)
 		}
-		logger.Infof("%+v", codes)
+		if logger.IsDebug() {
+			logger.Debugf("%+v", codes)
+		}
+
 		if len(codes) == 0 {
 			continue
 		}

@@ -2,16 +2,9 @@ package stock
 
 import (
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
-	"github.com/mymmsc/gox/api"
 )
-
-// KLine 加载K线
-func KLine(code string) pandas.DataFrame {
-	return tdx.GetCacheKLine(code, true)
-}
 
 // Tick 加载一个时间范围内的tick缓存数据
 func Tick(code string, dates []string) pandas.DataFrame {
@@ -89,24 +82,5 @@ func TickByDate(code string, date string) pandas.DataFrame {
 		return df
 	}
 	df = pandas.ReadCSV(filename)
-	return df
-}
-
-// BlockList 获取板块列表
-func BlockList() pandas.DataFrame {
-	bkListFile := cache.BlockFilename()
-	df := pandas.ReadCSV(bkListFile)
-	codes := df.Col("code").Strings()
-	names := df.Col("name").Strings()
-	types := df.Col("type").Ints()
-	for i, v := range codes {
-		if api.StartsWith(v, []string{"88"}) {
-			codes[i] = "sh" + v
-		}
-	}
-	oc := pandas.NewSeries(stat.SERIES_TYPE_STRING, "code", codes)
-	on := pandas.NewSeries(stat.SERIES_TYPE_STRING, "name", names)
-	ot := pandas.NewSeries(stat.SERIES_TYPE_INT32, "type", types)
-	df = pandas.NewDataFrame(oc, on, ot)
 	return df
 }

@@ -15,12 +15,13 @@ import (
 
 const (
 	url_sina_klc_td_sh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
-	kHoliday           = "trade_date"
+	kCalendar          = "trade_date"
+	kTradeDateFilename = "calendar"
 )
 
 var (
 	gTradeDates     []string // 交易日列表
-	holidayFilename = cache.GetInfoPath() + "/holiday.csv"
+	holidayFilename = cache.GetInfoPath() + "/" + kTradeDateFilename + ".csv"
 )
 
 func init() {
@@ -50,13 +51,13 @@ func updateHoliday() {
 		if err != nil {
 			panic("js解码失败: " + url_sina_klc_td_sh)
 		}
-		ds := []string{ /*kHoliday*/ }
+		ds := []string{ /*kCalendar*/ }
 		for _, v := range ret.([]any) {
 			ts := v.(time.Time)
 			date := ts.Format(time.DateOnly)
 			ds = append(ds, date)
 		}
-		td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kHoliday, ds)
+		td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kCalendar, ds)
 		df := pandas.NewDataFrame(td)
 		err = df.WriteCSV(holidayFilename)
 		if err != nil {
@@ -65,7 +66,7 @@ func updateHoliday() {
 		gTradeDates = ds
 	} else {
 		df := pandas.ReadCSV(holidayFilename)
-		ds := df.Col(kHoliday).Values().([]string)
+		ds := df.Col(kCalendar).Values().([]string)
 		gTradeDates = slices.Clone(ds)
 	}
 }

@@ -3,10 +3,10 @@ module gitee.com/quant1x/data
 go 1.20
 
 require (
-	gitee.com/quant1x/gotdx v1.5.1
+	gitee.com/quant1x/gotdx v1.5.2
 	gitee.com/quant1x/pandas v0.9.9
-	github.com/dop251/goja v0.0.0-20230216180835-5937a312edda
-	github.com/mymmsc/gox v1.3.15
+	github.com/dop251/goja v0.0.0-20230304130813-e2f543bf4b4c
+	github.com/mymmsc/gox v1.3.16
 	golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0
 )
 
@@ -18,6 +18,7 @@ require (
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/google/btree v1.0.0 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect

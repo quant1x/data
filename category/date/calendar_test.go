@@ -6,7 +6,7 @@ import (
 )
 
 func Test_updateHoliday(t *testing.T) {
-	updateHoliday()
+	updateCalendar()
 }
 
 func TestIsHoliday(t *testing.T) {

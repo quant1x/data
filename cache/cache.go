@@ -19,10 +19,12 @@ const (
 
 type CacheType int
 
+// 缓存类型
 const (
-	CACHE_TARS  CacheType = iota
-	CACHE_CSV             = 1 // CSV
-	CACHE_EXCEL           = 2 // EXCEL
+	CACHE_CSV      CacheType = iota // CSV
+	CACHE_EXCEL    CacheType = 1    // EXCEL
+	CACHE_TARS     CacheType = 2    // Tencent Tars
+	CACHE_PROTOBUF CacheType = 3    // ProtoBuf
 )
 
 var (

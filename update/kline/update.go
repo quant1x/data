@@ -11,13 +11,12 @@ import (
 	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security"
 	"gitee.com/quant1x/data/stock"
-	"gitee.com/quant1x/data/update/cross"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/cron"
 	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/progressbar"
+	"github.com/mymmsc/gox/signal"
 	"os"
-	"os/signal"
 	"time"
 )
 
@@ -29,9 +28,7 @@ var (
 // 更新日线数据工具
 func main() {
 	//创建监听退出chan
-	c := make(chan os.Signal)
-	//监听指定信号 ctrl+c kill
-	signal.Notify(c, cross.StopSignals...)
+	c := signal.Notify()
 	var (
 		//path       string // 数据路径
 		//logPath    string // 日志输出路径

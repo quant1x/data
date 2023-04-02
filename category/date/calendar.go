@@ -2,7 +2,7 @@ package date
 
 import (
 	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/internal/js"
+	"gitee.com/quant1x/data/util/js"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"

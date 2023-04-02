@@ -80,7 +80,7 @@ func GetTickData(code string, date string) pandas.DataFrame {
 		if err != nil {
 			panic("接口异常")
 		}
-		hs = append(hs, (*data))
+		hs = append(hs, *data)
 		if data.Count < offset {
 			// 已经是最早的记录
 			// 需要排序

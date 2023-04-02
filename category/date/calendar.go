@@ -70,7 +70,7 @@ func updateCalendar() {
 	if err != nil {
 		panic("js解码失败: " + url_sina_klc_td_sh)
 	}
-	ds := []string{ /*kCalendar*/ }
+	ds := []string{}
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
 		date := ts.Format(time.DateOnly)

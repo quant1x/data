@@ -72,3 +72,14 @@ func LastNDate(date string, n ...int) []string {
 	}
 	return slices.Clone(gTradeDates[s : e+1])
 }
+
+// NextTradeDate 获取指定日期的下一个交易日
+func NextTradeDate(date string) string {
+	date = fixTradeDate(date)
+	end := sort.SearchStrings(gTradeDates, date)
+	lastDay := gTradeDates[end]
+	if lastDay == date {
+		end = end + 1
+	}
+	return gTradeDates[end]
+}

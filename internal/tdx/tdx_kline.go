@@ -24,19 +24,19 @@ var (
 )
 
 // getKLine 获取日K线
-func getKLine(code string, start uint16, count uint16) pandas.DataFrame {
-	api := prepare()
-	marketId, _, code := category.DetectMarket(code)
-	data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
-	df := pandas.LoadStructs(data.List)
-	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
-	err := df.SetNames("open", "close", "high", "low", "volume", "amount", "date")
-	if err != nil {
-		return pandas.DataFrame{}
-	}
-	df = df.Select([]string{"date", "open", "close", "high", "low", "volume", "amount"})
-	return df
-}
+//func getKLine(code string, start uint16, count uint16) pandas.DataFrame {
+//	api := prepare()
+//	marketId, _, code := category.DetectMarket(code)
+//	data, _ := api.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+//	df := pandas.LoadStructs(data.List)
+//	df = df.Select([]string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"})
+//	err := df.SetNames("open", "close", "high", "low", "volume", "amount", "date")
+//	if err != nil {
+//		return pandas.DataFrame{}
+//	}
+//	df = df.Select([]string{"date", "open", "close", "high", "low", "volume", "amount"})
+//	return df
+//}
 
 // GetCacheKLine 加载K线
 func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
@@ -96,7 +96,11 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 }
 
 // GetKLineAll getKLine 获取日K线
-func GetKLineAll(fullCode string) pandas.DataFrame {
+func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
+	kType := uint16(proto.KLINE_TYPE_RI_K)
+	if len(argv) == 1 {
+		kType = uint16(argv[0])
+	}
 	tdxApi := prepare()
 	startDate := "19901219"
 	marketId, market, code := category.DetectMarket(fullCode)
@@ -160,9 +164,9 @@ func GetKLineAll(fullCode string) pandas.DataFrame {
 		var data *quotes.SecurityBarsReply
 		var err error
 		if isIndex {
-			data, err = tdxApi.GetIndexBars(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+			data, err = tdxApi.GetIndexBars(marketId, code, kType, start, count)
 		} else {
-			data, err = tdxApi.GetKLine(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+			data, err = tdxApi.GetKLine(marketId, code, kType, start, count)
 		}
 		if err != nil {
 			panic("接口异常")

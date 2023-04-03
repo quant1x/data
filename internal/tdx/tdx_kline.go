@@ -39,7 +39,10 @@ var (
 //}
 
 // GetCacheKLine 加载K线
+//
+//	第2个参数, 是否前复权
 func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
+	// 默认不复权
 	qfq := false
 	if len(argv) > 0 {
 		qfq = argv[0]

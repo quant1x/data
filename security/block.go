@@ -153,7 +153,8 @@ func get_zs_blocks() []BlockInfo {
 
 func genBlockFile() {
 	blockInfos := get_zs_blocks()
-	bks := []string{"block.dat", "block_gn.dat", "block_fg.dat", "block_zs.dat"}
+	//bks := []string{"block.dat", "block_gn.dat", "block_fg.dat", "block_zs.dat"}
+	bks := []string{"block_gn.dat", "block_zs.dat"}
 	name2block := map[string]__raw_block_info{}
 	for _, v := range bks {
 		bi := get_block_file(v)

@@ -10,6 +10,7 @@ import (
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/encoding/binary/struc"
 	"github.com/mymmsc/gox/text/encoding"
+	"golang.org/x/exp/slices"
 	"io"
 	"os"
 	"strings"
@@ -84,7 +85,6 @@ func get_block_file(blockFilename string) *__raw_block_data {
 			block.Data[i].List[j].Code = strings.ReplaceAll(s.Code, string([]byte{0x00}), "")
 		}
 	}
-	//fmt.Println(block)
 	return &block
 }
 
@@ -93,7 +93,14 @@ type BlockInfo struct {
 	Code  string   // 代码
 	Type  int      // 类型
 	Count int      // 个股数量
+	Block string   // 通达信板块编码
 	List  []string // 代码列表
+}
+
+type HyInfo struct {
+	Code   string // 股票代码
+	Block  string // 通达信板块代码
+	Block5 string // 通达信板块代码
 }
 
 func get_zs_file(name string) []BlockInfo {
@@ -120,18 +127,19 @@ func get_zs_file(name string) []BlockInfo {
 			break
 		}
 		line := decoder.ConvertString(string(data))
-		//fmt.Println(line)
 		arr := strings.Split(line, "|")
 		bk := BlockInfo{
-			Name: arr[0],
-			Code: arr[1],
-			Type: int(stat.AnyToInt32(arr[2])),
+			Name:  arr[0],
+			Code:  arr[1],
+			Type:  int(stat.AnyToInt32(arr[2])),
+			Block: arr[5],
 		}
 		blocks = append(blocks, bk)
 	}
 	return blocks
 }
 
+// 板块和板块名称对应
 func get_zs_blocks() []BlockInfo {
 	bks := []string{"tdxzs.cfg", "tdxzs3.cfg"}
 	bis := []BlockInfo{}
@@ -143,6 +151,9 @@ func get_zs_blocks() []BlockInfo {
 		}
 		for _, info := range bi {
 			if _, ok := tmpMap[info.Code]; !ok {
+				//if info.Code == "880482" {
+				//	fmt.Println(info)
+				//}
 				bis = append(bis, info)
 				tmpMap[info.Code] = true
 			}
@@ -151,10 +162,72 @@ func get_zs_blocks() []BlockInfo {
 	return bis
 }
 
+// 获取行业板块
+func get_hy_blocks() []HyInfo {
+	hyfile := "tdxhy.cfg"
+	name := hyfile
+	cacheFilename := cache.GetBkPath() + "/" + name
+	if !cache.FileExist(cacheFilename) {
+		// 如果文件不存在, 导出内嵌资源
+		err := export(cacheFilename, name)
+		if err != nil {
+			return nil
+		}
+	}
+	file, err := os.Open(cacheFilename)
+	if err != nil {
+		return nil
+	}
+	defer api.CloseQuietly(file)
+	reader := bufio.NewReader(file)
+	// 按行处理txt
+	decoder := encoding.NewDecoder("GBK")
+	var hys = []HyInfo{}
+	for {
+		data, _, err := reader.ReadLine()
+		if err == io.EOF {
+			break
+		}
+		line := decoder.ConvertString(string(data))
+		arr := strings.Split(line, "|")
+		bc := arr[2]
+		bc5 := bc
+		if len(bc5) >= 5 {
+			bc5 = bc5[0:5]
+		}
+		hy := HyInfo{
+			Code:   arr[1],
+			Block:  bc,
+			Block5: bc5,
+		}
+		hys = append(hys, hy)
+	}
+	return hys
+}
+
+// 从行业信息中提取股票代码列表
+func get_stock_list(hys []HyInfo, block string) []string {
+	list := []string{}
+	for _, v := range hys {
+		if len(block) == 5 {
+			if v.Block5 == block {
+				list = append(list, v.Code)
+			}
+		} else {
+			if v.Block == block {
+				list = append(list, v.Code)
+			}
+		}
+	}
+	slices.Sort(list)
+	return list
+}
+
+// 读取板块数据
 func genBlockFile() {
 	blockInfos := get_zs_blocks()
 	//bks := []string{"block.dat", "block_gn.dat", "block_fg.dat", "block_zs.dat"}
-	bks := []string{"block_gn.dat", "block_zs.dat"}
+	bks := []string{"block_gn.dat", "block_fg.dat", "block_zs.dat"}
 	name2block := map[string]__raw_block_info{}
 	for _, v := range bks {
 		bi := get_block_file(v)
@@ -164,9 +237,19 @@ func genBlockFile() {
 			}
 		}
 	}
+	// 行业代码映射
+	code2hy := map[string]string{}
+	for _, v := range blockInfos {
+		if v.Name != v.Block {
+			code2hy[v.Block] = v.Name
+		}
+	}
+	// 行业板块数据
+	hys := get_hy_blocks()
 	for i, v := range blockInfos {
 		bn := v.Name
-		if __info, ok := name2block[bn]; ok {
+		__info, ok := name2block[bn]
+		if ok {
 			list := []string{}
 			for _, sc := range __info.List {
 				if len(sc.Code) < 5 {
@@ -180,8 +263,16 @@ func genBlockFile() {
 			}
 			blockInfos[i].Count = int(__info.Num)
 			blockInfos[i].List = list
+			continue
+		}
+		bc := v.Block
+		stockList := get_stock_list(hys, bc)
+		if len(stockList) > 0 {
+			blockInfos[i].Count = len(stockList)
+			blockInfos[i].List = stockList
 		}
 	}
+
 	bk_code := []string{}
 	bk_name := []string{}
 	bk_type := []int{}

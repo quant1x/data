@@ -100,7 +100,7 @@ func transactionByDate(code string, date string, ignore bool) pandas.DataFrame {
 func attachVolume(df pandas.DataFrame, code string) pandas.DataFrame {
 	dates := df.Col("date").Strings()
 	if len(dates) == 0 {
-		panic("没有date序列")
+		return df
 	}
 	buyVolumes := []stat.DType{}
 	sellVolumes := []stat.DType{}

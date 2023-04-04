@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetTickAll(t *testing.T) {
-	df := GetTickData("sh881263", "2023-02-22")
+	df := GetTickData("sh600600", "2023-04-04")
 	fmt.Println(df)
 }

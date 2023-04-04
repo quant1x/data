@@ -15,6 +15,7 @@ func KLine(code string, argv ...bool) pandas.DataFrame {
 		weekday = stat.AnyToBool(argv[0])
 	}
 	df9 := tdx.GetCacheKLine(code, true)
+	df9 = attachVolume(df9, code)
 	if !weekday {
 		return df9
 	}
@@ -27,7 +28,8 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 	var df pandas.DataFrame
 	//date,open,close,high,low,volume,amount,up,down
 	var wdate string
-	var o, c, h, l, v, a float64
+	var o, c, h, l, v, a stat.DType
+	var bv, sv, ba, sa stat.DType
 	for i := 0; i < kline.Nrow(); i++ {
 		m := kline.IndexOf(i)
 		//date,open,close,high,low,volume,amount,up,down
@@ -68,6 +70,22 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 		if ok {
 			a += _amount
 		}
+		_bv, ok := m["bv"]
+		if ok {
+			bv += stat.Any2DType(_bv)
+		}
+		_sv, ok := m["sv"]
+		if ok {
+			sv += stat.Any2DType(_sv)
+		}
+		_ba, ok := m["ba"]
+		if ok {
+			ba += stat.Any2DType(_ba)
+		}
+		_sa, ok := m["sa"]
+		if ok {
+			sa += stat.Any2DType(_sa)
+		}
 		dt, _ := internal.ParseTime(wdate)
 		w := int(dt.Weekday())
 		last := false
@@ -96,6 +114,10 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "low", l),
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "volume", v),
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "amount", a),
+				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "bv", bv),
+				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "sv", sv),
+				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "ba", ba),
+				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "sa", sa),
 			)
 			df = df.Concat(df0)
 			wdate = ""

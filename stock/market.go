@@ -30,7 +30,6 @@ func GetCodeList() []string {
 			if len(code) == 0 || len(name) == 0 {
 				continue
 			}
-			code = "sh" + code
 			fullCodes = append(fullCodes, code)
 			//mapIndexes[code] = true
 		}

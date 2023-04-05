@@ -31,7 +31,7 @@ type RTSecurityBar struct {
 
 var (
 	//RTBarsRaw         = []string{"Date", "Open", "Close", "High", "Low", "Volume", "Amount", "UpCount", "DownCount"}
-	//RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv"}
+	RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv"}
 	RTBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "bv", "sv", "ba", "sa"}
 	RTBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv", "ba", "sa"}
 )
@@ -92,8 +92,8 @@ func BatchRealtime(codes []string) {
 		last := pandas.LoadStructs([]RTSecurityBar{kl})
 		fullCode := category.GetMarketName(v.Market) + v.Code
 		isIndex := category.IndexFromMarketAndCode(v.Market, v.Code)
-		//newFields := RTBarsRename
-		//_ = last.SetNames(newFields...)
+		newFields := RTBarsRename
+		_ = last.SetNames(newFields...)
 		fields := RTBarsStockFields
 		if isIndex {
 			fields = RTBarsIndexFields

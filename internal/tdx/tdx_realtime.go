@@ -31,7 +31,7 @@ type RTSecurityBar struct {
 
 var (
 	//RTBarsRaw         = []string{"Date", "Open", "Close", "High", "Low", "Volume", "Amount", "UpCount", "DownCount"}
-	RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv"}
+	RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv", "ba", "sa"}
 	RTBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "bv", "sv", "ba", "sa"}
 	RTBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv", "ba", "sa"}
 )

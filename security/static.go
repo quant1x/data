@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/data/category"
 	"gitee.com/quant1x/data/internal"
+	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/data/security/futu"
 	"gitee.com/quant1x/data/stock"
 	"gitee.com/quant1x/pandas"
@@ -143,6 +144,10 @@ func init() {
 					continue
 				}
 				code := GetStockCode(market, item.Security.Code)
+				name, ok := tdx.GetStockName(code)
+				if ok {
+					item.Name = name
+				}
 				cacheSecurity[code] = item
 			}
 		}

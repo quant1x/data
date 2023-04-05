@@ -16,12 +16,34 @@ import (
 var (
 	FBarsStockRaw    = []string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime"}
 	FBarsStockRename = []string{"open", "close", "high", "low", "volume", "amount", "date"}
-	FBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount"}
+	FBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "bv", "sv", "ba", "sa"}
 
 	FBarsIndexRaw    = []string{"Open", "Close", "High", "Low", "Vol", "Amount", "DateTime", "UpCount", "DownCount"}
 	FBarsIndexRename = []string{"open", "close", "high", "low", "volume", "amount", "date", "up", "down"}
-	FBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
+	FBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv", "ba", "sa"}
 )
+
+// SecurityBar K线数据
+//type SecurityBar struct {
+//	Open      float64
+//	Close     float64
+//	High      float64
+//	Low       float64
+//	Vol       float64
+//	Amount    float64
+//	Year      int
+//	Month     int
+//	Day       int
+//	Hour      int
+//	Minute    int
+//	DateTime  string
+//	UpCount   uint16  // 指数有效, 上涨家数
+//	DownCount uint16  // 指数有效, 下跌家数
+//	BuyVol    float64 // 外盘
+//	SellVol   float64 // 内盘
+//	BuyAmt    float64 // 外盘成交金额
+//	SellAmt   float64 // 内盘成交金额
+//}
 
 // getKLine 获取日K线
 //func getKLine(code string, start uint16, count uint16) pandas.DataFrame {
@@ -125,7 +147,7 @@ func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
 	var info *quotes.FinanceInfo
 	var err error
 	if dfCache.Nrow() > 0 {
-		ds := dfCache.Col("date").Values().([]string)
+		ds := dfCache.Col("date").Strings()
 		startDate = ds[len(ds)-1]
 	} else {
 		info, err = tdxApi.GetFinanceInfo(marketId, code, 1)
@@ -196,7 +218,6 @@ func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
 	if err != nil {
 		return pandas.DataFrame{}
 	}
-	df1 = df1.Select(fields)
 	ds1 := df1.Col("date", true)
 	ds1.Apply2(func(idx int, v any) any {
 		date1 := v.(string)
@@ -206,7 +227,8 @@ func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
 		}
 		return dt.Format(category.INDEX_DATE)
 	}, true)
-
+	df1 = attachVolume(df1, fullCode)
+	df1 = df1.Select(fields)
 	df := dfCache.Subset(0, dfCache.Nrow()-1)
 	if df.Nrow() > 0 {
 		df = df.Concat(df1)

@@ -97,6 +97,8 @@ func transactionByDate(code string, date string, ignore bool) pandas.DataFrame {
 }
 
 // 附加成交量
+//
+//	Deprecated: 弃用
 func attachVolume(df pandas.DataFrame, code string) pandas.DataFrame {
 	dates := df.Col("date").Strings()
 	if len(dates) == 0 {

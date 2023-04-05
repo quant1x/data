@@ -13,10 +13,16 @@ var (
 
 // TickFilename tick文件比较多, 目录结构${tick}/${YYYY}/${YYYYMMDD}/${CacheIdPath}
 func TickFilename(code string, date string) string {
+	return GetTickFilename(code, date, true)
+}
+
+func GetTickFilename(code string, date string, createPath bool) string {
 	date = CorrectDate(date)
 	cacheId := CacheId(code)
 	tickPath := fmt.Sprintf("%s/%s/%s/%s.csv", GetTickPath(), date[0:4], date, cacheId)
-	_ = CheckFilepath(tickPath)
+	if createPath {
+		_ = CheckFilepath(tickPath)
+	}
 	return tickPath
 }
 

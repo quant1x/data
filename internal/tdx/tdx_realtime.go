@@ -21,15 +21,19 @@ type RTSecurityBar struct {
 	Low       float64
 	Volume    float64
 	Amount    float64
-	UpCount   int // 指数有效, 上涨家数
-	DownCount int // 指数有效, 下跌家数
+	UpCount   int     // 指数有效, 上涨家数
+	DownCount int     // 指数有效, 下跌家数
+	BuyVol    float64 // 外盘
+	SellVol   float64 // 内盘
+	BuyAmt    float64 // 外盘成交金额
+	SellAmt   float64 // 内盘成交金额
 }
 
 var (
-	RTBarsRaw         = []string{"Date", "Open", "Close", "High", "Low", "Volume", "Amount", "UpCount", "DownCount"}
-	RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
-	RTBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount"}
-	RTBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down"}
+	//RTBarsRaw         = []string{"Date", "Open", "Close", "High", "Low", "Volume", "Amount", "UpCount", "DownCount"}
+	//RTBarsRename      = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv"}
+	RTBarsStockFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "bv", "sv", "ba", "sa"}
+	RTBarsIndexFields = []string{"date", "open", "close", "high", "low", "volume", "amount", "up", "down", "bv", "sv", "ba", "sa"}
 )
 
 // RealTime 即时行情数据
@@ -82,12 +86,14 @@ func BatchRealtime(codes []string) {
 			Amount:    v.Amount,
 			UpCount:   v.BidVol1,
 			DownCount: v.AskVol1,
+			BuyVol:    float64(v.BVol),
+			SellVol:   float64(v.SVol),
 		}
 		last := pandas.LoadStructs([]RTSecurityBar{kl})
 		fullCode := category.GetMarketName(v.Market) + v.Code
 		isIndex := category.IndexFromMarketAndCode(v.Market, v.Code)
-		newFields := RTBarsRename
-		_ = last.SetNames(newFields...)
+		//newFields := RTBarsRename
+		//_ = last.SetNames(newFields...)
 		fields := RTBarsStockFields
 		if isIndex {
 			fields = RTBarsIndexFields

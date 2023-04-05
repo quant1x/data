@@ -88,7 +88,7 @@ func get_stock_list() pandas.DataFrame {
 			return df
 		}
 		for i := 0; i < int(reply.Count); i++ {
-			reply.List[i].Name = "sz" + reply.List[i].Name
+			reply.List[i].Code = "sz" + reply.List[i].Code
 		}
 		tmp := pandas.LoadStructs(reply.List)
 		df = df.Concat(tmp)

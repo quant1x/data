@@ -2,12 +2,33 @@ package stock
 
 import (
 	"fmt"
+	"gitee.com/quant1x/data/internal/tdx"
 	"gitee.com/quant1x/pandas/stat"
+	"strings"
 )
 
-var (
-// mapIndexes = map[string]bool{}
-)
+// 需要忽略的个股
+func needIgnore(fullCode string) bool {
+	name, ok := tdx.GetStockName(fullCode)
+	if !ok {
+		// 没找到, 忽略
+		return true
+	}
+	name = strings.ToUpper(name)
+	if strings.Contains(name, "ST") {
+		// ST标志, 忽略
+		return true
+	}
+	if strings.Contains(name, "退") {
+		// 退市标志, 忽略
+		return true
+	}
+	if strings.Contains(name, "摘牌") {
+		// 摘牌标志, 忽略
+		return true
+	}
+	return false
+}
 
 // GetCodeList 加载全部股票代码
 func GetCodeList() []string {
@@ -45,6 +66,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sh%d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -56,6 +80,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sh%d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -67,6 +94,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sh%d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -78,6 +108,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sh%d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -90,6 +123,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sz000%03d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -101,6 +137,9 @@ func GetCodeList() []string {
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sz00%04d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}
@@ -108,10 +147,13 @@ func GetCodeList() []string {
 	{
 		var (
 			codeBegin = 300000
-			codeEnd   = 300999
+			codeEnd   = 309999
 		)
 		for i := codeBegin; i <= codeEnd; i++ {
 			fc := fmt.Sprintf("sz%06d", i)
+			if needIgnore(fc) {
+				continue
+			}
 			fullCodes = append(fullCodes, fc)
 		}
 	}

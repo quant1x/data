@@ -15,7 +15,7 @@ func KLine(code string, argv ...bool) pandas.DataFrame {
 		weekday = stat.AnyToBool(argv[0])
 	}
 	df9 := tdx.GetCacheKLine(code, true)
-	df9 = attachVolume(df9, code)
+	//df9 = attachVolume(df9, code)
 	if !weekday {
 		return df9
 	}

@@ -6,7 +6,15 @@ import (
 	"testing"
 )
 
-func TestKLine(t *testing.T) {
+func TestKLine1(t *testing.T) {
+	symbol := "sh600018"
+	symbol = "sz002528"
+	symbol = "600600.sh"
+	df := KLine(symbol, false)
+	fmt.Println(df)
+}
+
+func TestKLine2(t *testing.T) {
 	symbol := "sh600018"
 	symbol = "sz002528"
 	symbol = "600600.sh"

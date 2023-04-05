@@ -3,6 +3,7 @@ package date
 import (
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/util/js"
+	"gitee.com/quant1x/data/util/unique"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
@@ -19,6 +20,7 @@ const (
 	url_sina_klc_td_sh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	kCalendar          = "trade_date"
 	kTradeDateFilename = "calendar"
+	kIgnoreDate        = "1992-05-04"
 )
 
 var (
@@ -65,18 +67,20 @@ func updateCalendar() {
 		gTradeDates = slices.Clone(ds)
 		return
 	}
-
 	ret, err := js.SinaJsDecode(api.Bytes2String(data))
 	if err != nil {
 		panic("js解码失败: " + url_sina_klc_td_sh)
 	}
-	ds := []string{}
+	dates := []string{}
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
 		date := ts.Format(time.DateOnly)
-		ds = append(ds, date)
+		dates = append(dates, date)
 	}
-	td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kCalendar, ds)
+	dates = append(dates, kIgnoreDate)
+	unique.Sort(unique.StringSlice{&dates})
+
+	td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kCalendar, dates)
 	df := pandas.NewDataFrame(td)
 	err = df.WriteCSV(calendarFilename)
 	if err != nil {
@@ -86,6 +90,5 @@ func updateCalendar() {
 	if err != nil {
 		logger.Error(err)
 	}
-	gTradeDates = ds
-
+	gTradeDates = dates
 }

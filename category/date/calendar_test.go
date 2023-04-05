@@ -2,6 +2,7 @@ package date
 
 import (
 	"fmt"
+	"gitee.com/quant1x/data/util/unique"
 	"testing"
 )
 
@@ -48,10 +49,18 @@ func TestIsHoliday(t *testing.T) {
 	}
 }
 
-func TestTradeRange(t *testing.T) {
-	ds := TradeRange("2023-02-17", "2023-03-01")
+func TestTradeRange1(t *testing.T) {
+	ds := TradeRange("1992-04-01", "1992-05-05")
 	fmt.Println(len(ds))
 	for _, v := range ds {
 		fmt.Println(v)
 	}
+}
+
+func TestUnique(t *testing.T) {
+	a := []int{4, 1, 2, 1, 2, 3, 3, 3}
+	unique.Sort(unique.IntSlice{&a})
+	fmt.Println(a)
+	unique.Ints(&a)
+	fmt.Println(a)
 }

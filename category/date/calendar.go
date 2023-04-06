@@ -95,6 +95,7 @@ func updateCalendar() {
 	gTradeDates = dates
 }
 
+// TODO: 未整合进日历
 func checkCalendar() (dates []string, err error) {
 	kls, err := dfcf.A("sh000001")
 	if err != nil {

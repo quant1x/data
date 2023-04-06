@@ -31,7 +31,7 @@ var (
 )
 
 // K线历史
-func stock_hist(symbol string, args ...string) ([]byte, error) {
+func stock_hist(marketId int, symbol string, args ...string) ([]byte, error) {
 	period := "daily"
 	start_date := "19700101"
 	end_date := "20500101"
@@ -47,15 +47,13 @@ func stock_hist(symbol string, args ...string) ([]byte, error) {
 		adjust = args[2]
 	}
 
-	markerId := proto.GetMarketId(symbol)
-
 	params := urlpkg.Values{
 		"fields1": {"f1,f2,f3,f4,f5,f6"},
 		"fields2": {"f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f116"},
 		"ut":      {"7eea3edcaed734bea9cbfc24409ed989"},
 		"klt":     {period_dict[period]},
 		"fqt":     {adjust_dict[adjust]},
-		"secid":   {fmt.Sprintf("%d.%s", markerId, symbol)},
+		"secid":   {fmt.Sprintf("%d.%s", marketId, symbol)},
 		"beg":     {start_date},
 		"end":     {end_date},
 		"_":       {"1623766962675"},
@@ -67,8 +65,9 @@ func stock_hist(symbol string, args ...string) ([]byte, error) {
 
 // A 下载A股数据
 func A(code string) ([]KLine, error) {
+	marketId := proto.GetMarketId(code)
 	symbol := code[len(code)-6:]
-	data, err := stock_hist(symbol)
+	data, err := stock_hist(int(marketId), symbol)
 	var kl = []KLine{}
 	obj, err := json.ParseBytes(data)
 	if err != nil {

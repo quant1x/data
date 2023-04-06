@@ -1,7 +1,9 @@
 package date
 
 import (
+	"fmt"
 	"gitee.com/quant1x/data/cache"
+	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/data/util/js"
 	"gitee.com/quant1x/data/util/unique"
 	"gitee.com/quant1x/pandas"
@@ -91,4 +93,30 @@ func updateCalendar() {
 		logger.Error(err)
 	}
 	gTradeDates = dates
+}
+
+func checkCalendar() (dates []string, err error) {
+	kls, err := dfcf.A("sh000001")
+	if err != nil {
+		return nil, err
+	}
+	df := pandas.LoadStructs(kls)
+	if df.Nrow() == 0 {
+		return nil, df.Err
+	}
+	dateList := df.Col("date").Strings()
+	// 校验日期的缺失
+	start := "1990-12-19"
+	end := "2023-04-05"
+	dest := TradeRange(start, end)
+	fmt.Println(len(dest))
+	for i, v := range dates {
+		found := slices.Contains(dest, v)
+		if !found {
+			fmt.Println(v)
+			tmp := df.IndexOf(i)
+			fmt.Println(tmp)
+		}
+	}
+	return dateList, nil
 }

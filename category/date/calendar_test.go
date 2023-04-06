@@ -64,3 +64,8 @@ func TestUnique(t *testing.T) {
 	unique.Ints(&a)
 	fmt.Println(a)
 }
+
+func Test_checkCalendar(t *testing.T) {
+	dates, err := checkCalendar()
+	fmt.Println(dates, err)
+}

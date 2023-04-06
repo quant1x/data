@@ -7,11 +7,11 @@ import (
 )
 
 func Test_stock_hist(t *testing.T) {
-	ks, err := A("600600")
+	ks, err := A("sh000001")
 	if err != nil {
 		_ = fmt.Errorf("error :%v", err.Error())
 	}
-	fmt.Println(ks)
+	//fmt.Println(ks)
 	df := pandas.LoadStructs(ks)
 	fmt.Println(df)
 }

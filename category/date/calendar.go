@@ -1,7 +1,6 @@
 package date
 
 import (
-	"fmt"
 	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/data/util/js"
@@ -32,6 +31,11 @@ var (
 
 func init() {
 	updateCalendar()
+	noDates, err := checkCalendar()
+	if err == nil && len(noDates) > 0 {
+		_ = os.Remove(calendarFilename)
+		updateCalendar(noDates...)
+	}
 }
 
 // IsHoliday 是否节假日
@@ -43,7 +47,7 @@ func IsHoliday(date string) bool {
 	return !found
 }
 
-func updateCalendar() {
+func updateCalendar(noDates ...string) {
 	if !cache.FileExist(calendarFilename) {
 		err := cache.CheckFilepath(calendarFilename)
 		if err != nil {
@@ -79,7 +83,9 @@ func updateCalendar() {
 		date := ts.Format(time.DateOnly)
 		dates = append(dates, date)
 	}
-	dates = append(dates, kIgnoreDate)
+	for _, v := range noDates {
+		dates = append(dates, v)
+	}
 	unique.Sort(unique.StringSlice{&dates})
 
 	td := pandas.NewSeries(stat.SERIES_TYPE_STRING, kCalendar, dates)
@@ -95,8 +101,8 @@ func updateCalendar() {
 	gTradeDates = dates
 }
 
-// TODO: 未整合进日历
-func checkCalendar() (dates []string, err error) {
+// 校验缺失的日期, 返回没有的日期列表
+func checkCalendar() (noDates []string, err error) {
 	kls, err := dfcf.A("sh000001")
 	if err != nil {
 		return nil, err
@@ -107,17 +113,15 @@ func checkCalendar() (dates []string, err error) {
 	}
 	dateList := df.Col("date").Strings()
 	// 校验日期的缺失
-	start := "1990-12-19"
-	end := "2023-04-05"
+	start := dateList[0]
+	end := dateList[len(dateList)-1]
 	dest := TradeRange(start, end)
-	fmt.Println(len(dest))
-	for i, v := range dates {
+	noDates = []string{}
+	for _, v := range dateList {
 		found := slices.Contains(dest, v)
 		if !found {
-			fmt.Println(v)
-			tmp := df.IndexOf(i)
-			fmt.Println(tmp)
+			noDates = append(noDates, v)
 		}
 	}
-	return dateList, nil
+	return noDates, nil
 }

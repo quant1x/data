@@ -16,13 +16,16 @@ import (
 	"strings"
 )
 
+type BlockType int
+
 const (
-	BK_HANGYE  = 2  // 行业
-	BK_DIQU    = 3  // 地区
-	BK_GAINIAN = 4  // 概念
-	BK_FENGGE  = 5  // 风格
-	BK_ZHISHU  = 6  // 指数
-	BK_YJHY    = 12 // ??
+	//BK_UNKNOWN BlockType = iota
+	BK_HANGYE  BlockType = 2  // 行业
+	BK_DIQU    BlockType = 3  // 地区
+	BK_GAINIAN BlockType = 4  // 概念
+	BK_FENGGE  BlockType = 5  // 风格
+	BK_ZHISHU  BlockType = 6  // 指数
+	BK_YJHY    BlockType = 12 // 研究行业
 
 	BKN_HANGYE  = "行业"
 	BKN_DIQU    = "地区"
@@ -33,7 +36,7 @@ const (
 )
 
 var (
-	kMapBlock = map[int]string{
+	kMapBlock = map[BlockType]string{
 		BK_HANGYE:  BKN_HANGYE,
 		BK_DIQU:    BKN_DIQU,
 		BK_GAINIAN: BKN_GAINIAN,
@@ -88,6 +91,7 @@ func get_block_file(blockFilename string) *__raw_block_data {
 	return &block
 }
 
+// BlockInfo 板块信息
 type BlockInfo struct {
 	Name  string   // 名称
 	Code  string   // 代码
@@ -97,6 +101,7 @@ type BlockInfo struct {
 	List  []string // 代码列表
 }
 
+// HyInfo 行业板块对应
 type HyInfo struct {
 	Code   string // 股票代码
 	Block  string // 通达信板块代码
@@ -323,4 +328,11 @@ func init() {
 	if reCreate {
 		genBlockFile()
 	}
+}
+
+// BlockTypeNameByCode 通过板块类型代码获取板块类型名称
+func BlockTypeNameByCode(blockCode int) (name string, ok bool) {
+	blockType := BlockType(blockCode)
+	bkName, found := kMapBlock[blockType]
+	return bkName, found
 }

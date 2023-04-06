@@ -69,3 +69,8 @@ func Test_checkCalendar(t *testing.T) {
 	dates, err := checkCalendar()
 	fmt.Println(dates, err)
 }
+
+func TestGetShangHaiTradeDates(t *testing.T) {
+	dates := getShangHaiTradeDates()
+	fmt.Println(dates)
+}

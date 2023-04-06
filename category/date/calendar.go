@@ -2,9 +2,13 @@ package date
 
 import (
 	"gitee.com/quant1x/data/cache"
+	"gitee.com/quant1x/data/category"
+	"gitee.com/quant1x/data/internal"
 	"gitee.com/quant1x/data/internal/dfcf"
 	"gitee.com/quant1x/data/util/js"
 	"gitee.com/quant1x/data/util/unique"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
 	"gitee.com/quant1x/pandas/stat"
 	"github.com/mymmsc/gox/api"
@@ -21,7 +25,7 @@ const (
 	url_sina_klc_td_sh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	kCalendar          = "trade_date"
 	kTradeDateFilename = "calendar"
-	kIgnoreDate        = "1992-05-04"
+	kIgnoreDate        = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
 var (
@@ -101,8 +105,25 @@ func updateCalendar(noDates ...string) {
 	gTradeDates = dates
 }
 
-// 校验缺失的日期, 返回没有的日期列表
+// // 校验缺失的日期, 返回没有的日期列表
 func checkCalendar() (noDates []string, err error) {
+	dateList := getShangHaiTradeDates()
+	// 校验日期的缺失
+	start := dateList[0]
+	end := dateList[len(dateList)-1]
+	dest := TradeRange(start, end)
+	noDates = []string{}
+	for _, v := range dateList {
+		found := slices.Contains(dest, v)
+		if !found {
+			noDates = append(noDates, v)
+		}
+	}
+	return noDates, nil
+}
+
+// 校验缺失的日期, 返回没有的日期列表
+func dfcf_checkCalendar() (noDates []string, err error) {
 	kls, err := dfcf.A("sh000001")
 	if err != nil {
 		return nil, err
@@ -124,4 +145,48 @@ func checkCalendar() (noDates []string, err error) {
 		}
 	}
 	return noDates, nil
+}
+
+// 获取上证指数的交易日期, 目的是校验日期
+func getShangHaiTradeDates() (dates []string) {
+	fullCode := "sh000001"
+	tdxApi, err := quotes.NewStdApi()
+	if err != nil {
+		return nil
+	}
+	defer tdxApi.Close()
+	marketId, _, code := category.DetectMarket(fullCode)
+	history := make([]quotes.SecurityBar, 0)
+	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
+	start := uint16(0)
+	hs := make([]quotes.SecurityBarsReply, 0)
+	for {
+		count := step
+		var data *quotes.SecurityBarsReply
+		var err error
+		data, err = tdxApi.GetIndexBars(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+		if err != nil {
+			panic("接口异常")
+		}
+		hs = append(hs, *data)
+		if data.Count < count {
+			// 已经是最早的记录
+			// 需要排序
+			break
+		}
+		start += count
+	}
+	hs = stat.Reverse(hs)
+	for _, v := range hs {
+		history = append(history, v.List...)
+	}
+	dates = []string{}
+	for _, v := range history {
+		date1 := v.DateTime
+		dt, _ := internal.ParseTime(date1)
+		date1 = dt.Format(category.INDEX_DATE)
+		dates = append(dates, date1)
+	}
+
+	return dates
 }

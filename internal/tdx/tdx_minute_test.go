@@ -12,6 +12,7 @@ func TestGetMinuteHistory(t *testing.T) {
 
 func TestQuantityRelativeRatio(t *testing.T) {
 	code := "sh603789"
+	code = "sz002483"
 	ratio := QuantityRelativeRatio(code)
 	fmt.Println(code, ratio)
 }

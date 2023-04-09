@@ -24,7 +24,7 @@ func GetMinuteHistory(code, date string) *quotes.HistoryMinuteTimeReply {
 // QuantityRelativeRatio 获得指定日期的分时数据
 //
 //	量比是衡量相对成交量的指标。
-//	它是指股市开市后平均每分钟的成交量与过去5个交易日平均每分钟成交量之比。
+//	它是指股市开市后平均每分钟的成交量与过去5个交易日(不包含当日)平均每分钟成交量之比。
 //	其计算公式为：量比=（现成交总手数 / 现累计开市时间(分) ）/ 过去5日平均每分钟成交量
 func QuantityRelativeRatio(code string) float64 {
 	today := cache.Today()

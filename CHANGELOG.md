@@ -97,7 +97,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.6...HEAD
+[1.0.6]: https://gitee.com/quant1x/data/compare/v1.0.5...v1.0.6
 [1.0.5]: https://gitee.com/quant1x/data/compare/v1.0.4...v1.0.5
 [1.0.4]: https://gitee.com/quant1x/data/compare/v1.0.3...v1.0.4
 [1.0.3]: https://gitee.com/quant1x/data/compare/v1.0.2...v1.0.3

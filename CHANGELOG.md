@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.7] - 2023-04-09
+### Changed
+- Update changelog.
+- 修改changelog.
+
 ## [1.0.6] - 2023-04-09
 ### Changed
 - Update changelog.
@@ -217,7 +222,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.7...HEAD
+[1.0.7]: https://gitee.com/quant1x/data/compare/v1.0.6...v1.0.7
 [1.0.6]: https://gitee.com/quant1x/data/compare/v1.0.5...v1.0.6
 [1.0.5]: https://gitee.com/quant1x/data/compare/v1.0.4...v1.0.5
 [1.0.4]: https://gitee.com/quant1x/data/compare/v1.0.3...v1.0.4

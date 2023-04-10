@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.8] - 2023-04-10
+### Changed
+- 删除废弃的代码.
+
 ## [1.0.7] - 2023-04-10
 ### Changed
 - !12 #I6U890 修复tick数据的bug * 增加对空文件的判断.
@@ -229,7 +233,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.8...HEAD
+[1.0.8]: https://gitee.com/quant1x/data/compare/v1.0.7...v1.0.8
 [1.0.7]: https://gitee.com/quant1x/data/compare/v1.0.6...v1.0.7
 [1.0.6]: https://gitee.com/quant1x/data/compare/v1.0.5...v1.0.6
 [1.0.5]: https://gitee.com/quant1x/data/compare/v1.0.4...v1.0.5

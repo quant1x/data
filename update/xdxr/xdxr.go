@@ -24,7 +24,6 @@ func main() {
 	//创建监听退出chan
 	c := signal.Notify()
 	var (
-		//path       string // 数据路径
 		//logPath    string // 日志输出路径
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器

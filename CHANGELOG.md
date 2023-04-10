@@ -3,8 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [1.0.7] - 2023-04-09
+## [1.0.7] - 2023-04-10
 ### Changed
+- !12 #I6U890 修复tick数据的bug * 增加对空文件的判断.
+- 修订量比函数的注释, 过去5个交易日(不包含当日).
+- 删除废弃的代码.
+- Update changelog.
+- Add change log.
+- 删除英文版本README.
 - Update changelog.
 - Update changelog.
 - 修改changelog.

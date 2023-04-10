@@ -41,7 +41,7 @@ func GetTickAll(code string) {
 			continue
 		}
 		fname := cache.TickFilename(code, tradeDate)
-		if tradeDate != today && cache.FileExist(fname) {
+		if tradeDate != today && cache.FileIsValid(fname) {
 			// 如果已经存在, 假定之前的数据已经下载过了, 不需要继续
 			ignore = true
 			continue
@@ -60,9 +60,10 @@ func GetTickAll(code string) {
 }
 
 // 获取指定日期的分笔成交记录
-func tickData(code string, date string, ignore bool) pandas.DataFrame {
+// K线附加成交数据
+func tickData(code string, date string, ignorePreviousData bool) pandas.DataFrame {
 	var df pandas.DataFrame
-	if ignore {
+	if ignorePreviousData {
 		// 在默认日期之前的数据直接返回空
 		startDate := cache.CorrectDate(cache.TickStartDate)
 		if date < startDate {
@@ -72,7 +73,9 @@ func tickData(code string, date string, ignore bool) pandas.DataFrame {
 	filename := cache.GetTickFilename(code, date, false)
 	if cache.FileExist(filename) {
 		df = pandas.ReadCSV(filename)
-		return df
+		if df.Nrow() > 0 {
+			return df
+		}
 	}
 
 	tdxApi := prepare()

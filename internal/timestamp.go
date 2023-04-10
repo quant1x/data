@@ -105,8 +105,6 @@ func KLineRequireDays(currentDate, lastDay time.Time) int {
 		return 0
 	}
 	offset := 0
-	//t1 = time.Date(t1.Year(), t1.Month(), t1.Day(), 0, 0, 0, 0, time.Local)
-	//t2 = time.Date(t2.Year(), t2.Month(), t2.Day(), 0, 0, 0, 0, time.Local)
 	hours := int(currentDate.Sub(lastDay).Hours())
 	if CanUpdate(currentDate) && (hours%24) != 0 {
 		offset = 1

@@ -24,7 +24,6 @@ func main() {
 	//创建监听退出chan
 	c := signal.Notify()
 	var (
-		//logPath    string // 日志输出路径
 		cronConfig string // 定时脚本
 		cronTrue   bool   // 是否启用应用内定时器
 		version    bool   // 显示版本号

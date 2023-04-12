@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.13] - 2023-04-12
+### Changed
+- 字段对齐.
+
 ## [1.0.12] - 2023-04-12
 ### Changed
 - !14 #I6V0A6 K线增加涨幅 * 日线周线增加涨跌幅字段 * 日K线增加涨跌幅字段.
@@ -250,7 +254,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.12...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.13...HEAD
+[1.0.13]: https://gitee.com/quant1x/data/compare/v1.0.12...v1.0.13
 [1.0.12]: https://gitee.com/quant1x/data/compare/v1.0.11...v1.0.12
 [1.0.11]: https://gitee.com/quant1x/data/compare/v1.0.10...v1.0.11
 [1.0.10]: https://gitee.com/quant1x/data/compare/v1.0.9...v1.0.10

@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/pandas"
+	"gitee.com/quant1x/pandas/formula"
 	"gitee.com/quant1x/pandas/stat"
 	"reflect"
 	"strconv"
@@ -117,6 +118,28 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 			}
 		}
 	}
+	// 取出成交量序列
+	VOL := df.Col("volume")
+	DATES := df.Col("date")
+	lastDay := DATES.IndexOf(-1).(string)
+	total := df.Nrow()
+	// 计算5日均量
+	mv5 := formula.MA(VOL, 5)
+	mav := formula.REF(mv5, 1)
+	lb := VOL.Div(mav)
+	lb = lb.Apply2(func(idx int, v any) any {
+		if idx+1 < total {
+			return v
+		} else {
+			tmp := stat.Any2DType(v)
+			ms := stat.DType(date.Minutes(lastDay)) / float64(date.CN_FULL_MINUTES)
+			tmp /= ms
+			return tmp
+		}
+	}, true)
+	// 链接量比序列
+	oLB := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "lb", lb)
+	df = df.Join(oLB)
 	return df
 }
 

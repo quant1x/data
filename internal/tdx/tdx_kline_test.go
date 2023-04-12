@@ -34,3 +34,9 @@ func TestGetKLineAll2(t *testing.T) {
 	df = GetKLineAll("000001.sz", proto.KLINE_TYPE_WEEKLY)
 	fmt.Println(df)
 }
+
+func TestGetCacheKLine(t *testing.T) {
+	code := "sh688981"
+	df := GetCacheKLine(code, true)
+	fmt.Println(df)
+}

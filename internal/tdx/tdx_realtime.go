@@ -27,6 +27,8 @@ type RTSecurityBar struct {
 	SellVol   float64 // 内盘
 	BuyAmt    float64 // 外盘成交金额
 	SellAmt   float64 // 内盘成交金额
+	//Lb        float64 // 量比
+	//Zf        float64 // 涨幅
 }
 
 var (
@@ -102,6 +104,7 @@ func BatchRealtime(codes []string) {
 		if df.Nrow() == 0 || last.Nrow() == 0 {
 			continue
 		}
+		df = df.Select(fields)
 		lastDay := df.Col("date").IndexOf(-1).(string)
 		ts := date.TradeRange(lastDay, lastTradeday)
 		if len(ts) > 2 {

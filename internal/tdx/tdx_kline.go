@@ -83,6 +83,9 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 		df = pandas.ReadCSV(filename)
 	}
 	df = df.Select(fields)
+	if df.Nrow() == 0 {
+		return df
+	}
 	if qfq {
 		drdf := GetCacheXdxr(code)
 		for i := 0; i < drdf.Nrow(); i++ {

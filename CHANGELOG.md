@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.11] - 2023-04-12
+### Changed
+- !13 #I6UL6N 日K线增加量比 * 日K线增加量比 * 增加注释 * 删除无用的代码 * 增加计算某个交易日的分钟数.
+- 更新pandas版本号.
+
 ## [1.0.10] - 2023-04-11
 ### Changed
 - 删除无用的代码.
@@ -241,7 +246,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.11...HEAD
+[1.0.11]: https://gitee.com/quant1x/data/compare/v1.0.10...v1.0.11
 [1.0.10]: https://gitee.com/quant1x/data/compare/v1.0.9...v1.0.10
 [1.0.9]: https://gitee.com/quant1x/data/compare/v1.0.8...v1.0.9
 [1.0.8]: https://gitee.com/quant1x/data/compare/v1.0.7...v1.0.8

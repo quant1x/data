@@ -121,6 +121,7 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 	// 取出成交量序列
 	VOL := df.Col("volume")
 	DATES := df.Col("date")
+	CLOSE := df.Col("close")
 	lastDay := DATES.IndexOf(-1).(string)
 	total := df.Nrow()
 	// 计算5日均量
@@ -137,9 +138,13 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 			return tmp
 		}
 	}, true)
+	prevClose := stat.NewSeries(stat.Shift(CLOSE.DTypes(), 1)...)
+	zf := CLOSE.Div(prevClose).Sub(1).Mul(100)
+
 	// 链接量比序列
 	oLB := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "lb", lb)
-	df = df.Join(oLB)
+	oZF := pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "zf", zf)
+	df = df.Join(oLB, oZF)
 	return df
 }
 

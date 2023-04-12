@@ -29,6 +29,7 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 	var wdate string
 	var o, c, h, l, v, a stat.DType
 	var bv, sv, ba, sa stat.DType
+	var prevClose stat.DType
 	for i := 0; i < kline.Nrow(); i++ {
 		m := kline.IndexOf(i)
 		//date,open,close,high,low,volume,amount,up,down
@@ -47,6 +48,8 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 		if ok {
 			c = _close
 		}
+		// 涨幅
+		zf := (c/prevClose - 1.00) * 100.00
 		_high, ok := m["high"].(stat.DType)
 		if ok && h == stat.DType(0) {
 			h = _high
@@ -117,9 +120,11 @@ func KLineToWeekly(kline pandas.DataFrame) pandas.DataFrame {
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "sv", sv),
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "ba", ba),
 				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "sa", sa),
+				pandas.NewSeries(stat.SERIES_TYPE_DTYPE, "zf", zf),
 			)
 			df = df.Concat(df0)
 			wdate = ""
+			prevClose = c
 			o = stat.DType(0)
 			c = stat.DType(0)
 			h = stat.DType(0)

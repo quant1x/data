@@ -26,6 +26,7 @@ func TestKLineToWeekly(t *testing.T) {
 	symbol := "600600.sh"
 	symbol = "000001.sh"
 	symbol = "880081.sh"
+	symbol = "600600.sh"
 	df := KLine(symbol)
 	fmt.Println(df)
 	df = KLineToWeekly(df)

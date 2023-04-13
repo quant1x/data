@@ -13,6 +13,10 @@ import (
 	"strconv"
 )
 
+const (
+	kTransactionLastTime = "15:00"
+)
+
 // GetTickAll 下载全部tick数据
 func GetTickAll(code string) {
 	api := prepare()
@@ -74,7 +78,10 @@ func tickData(code string, date string, ignorePreviousData bool) pandas.DataFram
 	if cache.FileExist(filename) {
 		df = pandas.ReadCSV(filename)
 		if df.Nrow() > 0 {
-			return df
+			lastTime := df.Col("time").IndexOf(-1).(string)
+			if lastTime == kTransactionLastTime {
+				return df
+			}
 		}
 	}
 

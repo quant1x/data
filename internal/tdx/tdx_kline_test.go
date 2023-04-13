@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestGetKLineAll(t *testing.T) {
+func TestGetKLineAll1(t *testing.T) {
 	df := GetKLineAll("000001.sh")
 	fmt.Println(df)
 	dates := df.Col("date").Strings()
@@ -28,10 +28,15 @@ func TestGetKLineAll(t *testing.T) {
 	}
 }
 
-func TestGetKLineAll2(t *testing.T) {
-	df := GetKLineAll("000001.sh")
+func TestGetKLineAll(t *testing.T) {
+	code := "sh600600"
+	df := GetKLineAll(code)
 	fmt.Println(df)
-	df = GetKLineAll("000001.sz", proto.KLINE_TYPE_WEEKLY)
+}
+
+// 测试周线
+func TestGetKLineAll2(t *testing.T) {
+	df := GetKLineAll("000001.sz", proto.KLINE_TYPE_WEEKLY)
 	fmt.Println(df)
 }
 

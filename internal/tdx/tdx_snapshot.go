@@ -79,7 +79,6 @@ func BatchSnapShot(codes []string) []QuoteSnapshot {
 		logger.Errorf("获取即时行情数据失败", err)
 		return list
 	}
-	//fmt.Printf("%+v\n", hq)
 	lastTradeday := time.Now().Format(category.INDEX_DATE)
 	td := date.TradeRange("2023-01-01", lastTradeday)
 	lastTradeday = td[len(td)-1]

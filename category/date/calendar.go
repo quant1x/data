@@ -24,6 +24,7 @@ import (
 const (
 	url_sina_klc_td_sh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	kCalendar          = "trade_date"
+	kCalendarFormat    = "2006-01-02" // 交易日历日期格式
 	kTradeDateFilename = "calendar"
 	kIgnoreDate        = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
@@ -42,10 +43,15 @@ func init() {
 	}
 }
 
+func getAllDates() []string {
+	return slices.Clone(gTradeDates)
+}
+
 // IsHoliday 是否节假日
 func IsHoliday(date string) bool {
-	iRet, found := sort.Find(len(gTradeDates), func(i int) int {
-		return strings.Compare(date, gTradeDates[i])
+	dates := getAllDates()
+	iRet, found := sort.Find(len(dates), func(i int) int {
+		return strings.Compare(date, dates[i])
 	})
 	_ = iRet
 	return !found
@@ -84,7 +90,7 @@ func updateCalendar(noDates ...string) {
 	dates := []string{}
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
-		date := ts.Format(time.DateOnly)
+		date := ts.Format(kCalendarFormat)
 		dates = append(dates, date)
 	}
 	for _, v := range noDates {
@@ -184,7 +190,7 @@ func getShangHaiTradeDates() (dates []string) {
 	for _, v := range history {
 		date1 := v.DateTime
 		dt, _ := internal.ParseTime(date1)
-		date1 = dt.Format(category.INDEX_DATE)
+		date1 = dt.Format(kCalendarFormat)
 		dates = append(dates, date1)
 	}
 

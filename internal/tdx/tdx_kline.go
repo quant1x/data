@@ -136,7 +136,7 @@ func GetCacheKLine(code string, argv ...bool) pandas.DataFrame {
 			return v
 		} else {
 			tmp := stat.Any2DType(v)
-			ms := stat.DType(date.Minutes(lastDay)) / float64(date.CN_FULL_MINUTES)
+			ms := stat.DType(date.Minutes(lastDay)) / float64(date.CN_TOTALFZNUM)
 			tmp /= ms
 			return tmp
 		}
@@ -260,6 +260,10 @@ func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
 	}, true)
 	df1 = attachVolume(df1, fullCode)
 	df1 = df1.Select(fields)
+	// 计算新增的天数
+	//tmpDates := df1.Col("date").Strings()
+	//tmpDays := df1.Nrow()
+	//fixDays := int(total) - tmpDays
 	df := dfCache.Subset(0, dfCache.Nrow()-1)
 	if df.Nrow() > 0 {
 		df = df.Concat(df1)

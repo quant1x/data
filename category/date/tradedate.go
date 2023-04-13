@@ -17,7 +17,13 @@ func fixTradeDate(date string) string {
 	if err != nil {
 		panic(err)
 	}
-	return dt.Format(kIndexDate)
+	return dt.Format(kCalendarFormat)
+}
+
+// Today 当日, 区别于IndexToday, IndexToday可能存在调整
+func Today() string {
+	now := time.Now()
+	return now.Format(kCalendarFormat)
 }
 
 // IndexToday 当天

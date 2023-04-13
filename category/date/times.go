@@ -6,19 +6,22 @@ import (
 )
 
 const (
-	kAMBegin          = "09:30"
-	kAMEnd            = "11:30"
-	kPMBegin          = "13:00"
-	kPMEnd            = "15:00"
-	kTimeMinute       = "15:04"
-	BEGIN_A_AM_HOUR   = 9  // A股开市-时
-	BEGIN_A_AM_MINUTE = 30 // A股开市-分
-	END_A_AM_HOUR     = 11 // A股休市-时
-	END_A_AM_MINUTE   = 30 // A股休市-分
-	BEGIN_A_PM_HOUR   = 13 // A股开市-时
-	BEGIN_A_PM_MINUTE = 0  // A股开市-分
-	END_A_PM_HOUR     = 15 // A股休市-时
-	END_A_PM_MINUTE   = 0  // A股休市-分
+	kAMBegin             = "09:30"
+	kAMEnd               = "11:30"
+	kPMBegin             = "13:00"
+	kPMEnd               = "15:00"
+	kTimeMinute          = "15:04"        // 分笔成交时间格式
+	CN_SERVERTIME_FORMAT = "15:04:05.000" // 服务器时间格式
+	CN_StartTime         = "09:15:00.000" // A股数据初始化时间
+	CN_StopTime          = "15:00:00.000" // A股数据结束时间
+	BEGIN_A_AM_HOUR      = 9              // A股开市-时
+	BEGIN_A_AM_MINUTE    = 30             // A股开市-分
+	END_A_AM_HOUR        = 11             // A股休市-时
+	END_A_AM_MINUTE      = 30             // A股休市-分
+	BEGIN_A_PM_HOUR      = 13             // A股开市-时
+	BEGIN_A_PM_MINUTE    = 0              // A股开市-分
+	END_A_PM_HOUR        = 15             // A股休市-时
+	END_A_PM_MINUTE      = 0              // A股休市-分
 )
 
 type TimeRange struct {
@@ -27,12 +30,12 @@ type TimeRange struct {
 }
 
 var (
-	cnTimeRange     []TimeRange // 交易时间范围
-	trAMBegin       time.Time   // 上午开盘时间
-	trAMEnd         time.Time
-	trPMBegin       time.Time
-	trPMEnd         time.Time
-	CN_FULL_MINUTES = 0 // A股全天交易的分钟数
+	cnTimeRange   []TimeRange // 交易时间范围
+	trAMBegin     time.Time   // 上午开盘时间
+	trAMEnd       time.Time
+	trPMBegin     time.Time
+	trPMEnd       time.Time
+	CN_TOTALFZNUM = 0 // A股全天交易的分钟数
 )
 
 func init() {
@@ -56,7 +59,7 @@ func init() {
 	for _, v := range cnTimeRange {
 		_minutes += int(v.End.Sub(v.Begin).Minutes())
 	}
-	CN_FULL_MINUTES = _minutes
+	CN_TOTALFZNUM = _minutes
 }
 
 func fixMinute(m time.Time) time.Time {
@@ -71,7 +74,7 @@ func Minutes(date ...string) int {
 		today = fixTradeDate(date[0])
 	}
 	if today != lastDay {
-		return CN_FULL_MINUTES
+		return CN_TOTALFZNUM
 	}
 	tm := time.Now()
 	//tm, _ = utils.ParseTime("2023-04-11 09:29:00")
@@ -114,4 +117,13 @@ func Minutes(date ...string) int {
 		m -= int(trPMBegin.Sub(trAMEnd).Minutes())
 	}
 	return m
+}
+
+func IsTrading(date ...string) bool {
+	lastDay := LastTradeDate()
+	today := Today()
+	if len(date) > 0 {
+		today = fixTradeDate(date[0])
+	}
+	return lastDay == today
 }

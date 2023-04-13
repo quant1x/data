@@ -54,6 +54,21 @@ func BatchRealtime(codes []string) {
 	if len(codes) > int(quotes.TDX_SECURITY_QUOTES_MAX) {
 		panic(fmt.Sprintf("BatchRealtime: codes count > %d", quotes.TDX_SECURITY_QUOTES_MAX))
 	}
+	now := time.Now()
+	lastTradeday := now.Format(category.INDEX_DATE)
+	nowServerTime := now.Format(date.CN_SERVERTIME_FORMAT)
+	td := date.TradeRange("2023-01-01", lastTradeday)
+	lastTradeday = td[len(td)-1]
+	today := date.Today()
+	if lastTradeday != today {
+		// 当天非交易日, 不更新, 直接返回
+		return
+	}
+	if nowServerTime < date.CN_StartTime || nowServerTime > date.CN_StopTime {
+		// 非交易时间, 不更新, 直接返回
+		return
+	}
+
 	marketIds := []proto.Market{}
 	symbols := []string{}
 
@@ -70,10 +85,6 @@ func BatchRealtime(codes []string) {
 		logger.Errorf("获取即时行情数据失败", err)
 		return
 	}
-	//fmt.Printf("%+v\n", hq)
-	lastTradeday := time.Now().Format(category.INDEX_DATE)
-	td := date.TradeRange("2023-01-01", lastTradeday)
-	lastTradeday = td[len(td)-1]
 	for _, v := range hq.List {
 		if v.Code == proto.StockDelisting || v.LastClose == float64(0) {
 			continue
@@ -109,11 +120,21 @@ func BatchRealtime(codes []string) {
 		ts := date.TradeRange(lastDay, lastTradeday)
 		if len(ts) > 2 {
 			// 超过2天的差距, 不能用realtime更新K线数据
+			// 只能是当天更新 或者是新增, 跨越2个以上的交易日不更新
 			continue
 		}
+		// 数据差异数
+		diffDays := 0
+		// 当日的K线数据已经存在
 		if lastDay == lastTradeday {
-			// 如果最后一条数据和当前日期相同, 那么去掉缓存中的最后一条, 用实时数据填补
-			df = df.Subset(0, df.Nrow()-1)
+			// 如果最后一条数据和最后一个交易日相同, 那么去掉缓存中的最后一条, 用实时数据填补
+			// 这种情况的出现是K线被更新过了, 现在做的是用快照更新K线
+			diffDays = 1
+		} else if nowServerTime > v.ServerTime {
+			diffDays = 0
+		}
+		if diffDays > 0 {
+			df = df.Subset(0, df.Nrow()-diffDays)
 		}
 		// 连接缓存和实时数据
 		tmp := last.Select(fields)

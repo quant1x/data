@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.16] - 2023-04-13
+### Changed
+- 如果分笔成交数据不足15:00, 继续下载.
+
 ## [1.0.15] - 2023-04-13
 ### Changed
 - 调整tick的告警信息日志.
@@ -262,7 +266,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.15...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.16...HEAD
+[1.0.16]: https://gitee.com/quant1x/data/compare/v1.0.15...v1.0.16
 [1.0.15]: https://gitee.com/quant1x/data/compare/v1.0.14...v1.0.15
 [1.0.14]: https://gitee.com/quant1x/data/compare/v1.0.13...v1.0.14
 [1.0.13]: https://gitee.com/quant1x/data/compare/v1.0.12...v1.0.13

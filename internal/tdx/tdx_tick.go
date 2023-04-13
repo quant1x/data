@@ -33,7 +33,7 @@ func GetTickAll(code string) {
 	// 反转切片
 	dateRange = stat.Reverse(dateRange)
 	bar := progressbar.NewBar(2, fmt.Sprintf("同步[%s]", code), len(dateRange))
-	today := date.IndexToday()
+	today := date.Today()
 	ignore := false
 	for _, tradeDate := range dateRange {
 		bar.Add(1)
@@ -50,7 +50,7 @@ func GetTickAll(code string) {
 		if df.Nrow() == 0 && tradeDate != today {
 			// 如果数据为空, 且不是当前日期, 认定为从这天起往前是没有分笔成交数据的
 			if logger.IsDebug() {
-				logger.Errorf("[%s]tick数据[%s<->%s]空, 后面忽略", code, tradeDate, today)
+				logger.Debugf("[%s]tick数据[%s<->%s]空, 后面忽略", code, tradeDate, today)
 			}
 			ignore = true
 		}

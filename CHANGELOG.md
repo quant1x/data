@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.15] - 2023-04-13
+### Changed
+- 调整tick的告警信息日志.
+
+## [1.0.14] - 2023-04-13
+### Changed
+- !15 #I6V85X 调整实时数据的更新策略 * 调整实时数据的更新策略, 非交易时段不更新 * 梳理K线新增计算方法 * 对齐分钟数.
+
 ## [1.0.13] - 2023-04-12
 ### Changed
 - 字段对齐.
@@ -254,7 +262,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.13...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.15...HEAD
+[1.0.15]: https://gitee.com/quant1x/data/compare/v1.0.14...v1.0.15
+[1.0.14]: https://gitee.com/quant1x/data/compare/v1.0.13...v1.0.14
 [1.0.13]: https://gitee.com/quant1x/data/compare/v1.0.12...v1.0.13
 [1.0.12]: https://gitee.com/quant1x/data/compare/v1.0.11...v1.0.12
 [1.0.11]: https://gitee.com/quant1x/data/compare/v1.0.10...v1.0.11

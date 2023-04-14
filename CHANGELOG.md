@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.17] - 2023-04-14
+### Changed
+- !16 #I6VKC6 修复KLine在盘前下载时缓存中最后一个交易日期重叠的bug * 过滤缓存中最后一个交易日的数据.
+- 调整测试代码.
+
 ## [1.0.16] - 2023-04-13
 ### Changed
 - 如果分笔成交数据不足15:00, 继续下载.
@@ -266,7 +271,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - 重新构建 quant1x.data.
 
-[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.16...HEAD
+[Unreleased]: https://gitee.com/quant1x/data/compare/v1.0.17...HEAD
+[1.0.17]: https://gitee.com/quant1x/data/compare/v1.0.16...v1.0.17
 [1.0.16]: https://gitee.com/quant1x/data/compare/v1.0.15...v1.0.16
 [1.0.15]: https://gitee.com/quant1x/data/compare/v1.0.14...v1.0.15
 [1.0.14]: https://gitee.com/quant1x/data/compare/v1.0.13...v1.0.14

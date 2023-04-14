@@ -240,7 +240,19 @@ func GetKLineAll(fullCode string, argv ...int) pandas.DataFrame {
 	}
 	hs = stat.Reverse(hs)
 	for _, v := range hs {
-		history = append(history, v.List...)
+		for _, row := range v.List {
+			dateTime := row.DateTime
+			dt, err := internal.ParseTime(dateTime)
+			if err != nil {
+				dateTime = row.DateTime[0:len(category.INDEX_DATE)]
+			} else {
+				dateTime = dt.Format(category.INDEX_DATE)
+			}
+			if dateTime < startDate {
+				continue
+			}
+			history = append(history, row)
+		}
 	}
 
 	df1 := pandas.LoadStructs(history)

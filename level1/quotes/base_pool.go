@@ -1,0 +1,85 @@
+package quotes
+
+import (
+	"time"
+
+	"gitee.com/quant1x/asio"
+	"gitee.com/quant1x/gox/logger"
+)
+
+const (
+	// POOL_INITED 连接池初始化
+	POOL_INITED = 1
+	// POOL_MAX 连接池最大 2
+	POOL_MAX = 10
+	// CONN_TIMEOUT 链接超时 10 s
+	CONN_TIMEOUT = 10
+	// RECV_TIMEOUT 接收数据超时
+	RECV_TIMEOUT = 5
+)
+
+// ConnPool 连接池
+type ConnPool struct {
+	addr    string
+	pool    asio.ConnectionPool
+	maxIdle int
+}
+
+// NewConnPool 创新一个新连接池
+func NewConnPool(maxCap, maxIdle int, factory func() (any, error), close func(any) error, ping func(any) error) (*ConnPool, error) {
+	initialCap := POOL_INITED
+	if maxIdle < POOL_INITED {
+		maxIdle = POOL_INITED
+	}
+	maxIdle = maxCap
+	// 创建一个连接池: 初始化5,最大连接30
+	poolConfig := &asio.Config{
+		InitialCap: initialCap,
+		MaxCap:     maxCap,
+		MaxIdle:    maxIdle,
+		Factory:    factory,
+		Close:      close,
+		Ping:       ping,
+		//连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
+		IdleTimeout: CONN_TIMEOUT * time.Second,
+	}
+	_pool, err := asio.NewConnectionPool(poolConfig)
+	if err != nil {
+		logger.Errorf("create channel pool failed, error=%+v", err)
+		return nil, err
+	}
+	cp := &ConnPool{
+		pool:    _pool,
+		maxIdle: maxIdle,
+	}
+	return cp, nil
+}
+
+func (p *ConnPool) GetMaxIdleCount() int {
+	return p.maxIdle
+}
+
+func (p *ConnPool) GetConn() any {
+	conn, err := p.pool.Acquire()
+	if err != nil {
+		logger.Errorf("获取连接失败, error=%+v", err)
+		return nil
+	}
+	return conn
+}
+
+func (p *ConnPool) CloseConn(conn any) error {
+	return p.pool.CloseConnection(conn)
+}
+
+func (p *ConnPool) ReturnConn(conn any) {
+	_ = p.pool.Release(conn)
+}
+
+func (p *ConnPool) CloseAll() {
+	p.pool.CloseAll()
+}
+
+func (p *ConnPool) Close() {
+	_ = p.pool.Close()
+}

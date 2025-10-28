@@ -11,10 +11,8 @@ import (
 )
 
 type LabClient struct {
-	conn net.Conn
-	addr string
-	//Host          string
-	//Port          int
+	conn          net.Conn
+	addr          string
 	Timeout       time.Duration
 	MaxRetryTimes int
 	RetryDuration time.Duration
@@ -27,10 +25,8 @@ func NewClientForTest(addr string) (*LabClient, error) {
 		return nil, err
 	}
 	return &LabClient{
-		conn: conn,
-		addr: addr,
-		//Host:          host,
-		//Port:          port,
+		conn:          conn,
+		addr:          addr,
 		MaxRetryTimes: 5,
 		Timeout:       1 * time.Second,
 		RetryDuration: time.Millisecond * 200,

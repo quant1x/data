@@ -3,8 +3,8 @@ package securities
 import (
 	"fmt"
 
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/data/exchange"
+	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 )
 

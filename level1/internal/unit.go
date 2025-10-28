@@ -1,6 +1,6 @@
 package internal
 
-import "gitee.com/quant1x/exchange"
+import "gitee.com/quant1x/data/exchange"
 
 // BaseUnit 交易单位
 //

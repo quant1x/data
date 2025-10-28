@@ -1,8 +1,8 @@
 package std
 
 import (
+	"gitee.com/quant1x/data/exchange"
 	"gitee.com/quant1x/data/level1/internal"
-	"gitee.com/quant1x/exchange"
 )
 
 // SecurityCountRequest 请求包结构

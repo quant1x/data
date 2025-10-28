@@ -3,8 +3,8 @@ package securities
 import (
 	"os"
 
+	"gitee.com/quant1x/data/exchange"
 	"gitee.com/quant1x/data/level1/quotes"
-	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gox/api"
 )
 

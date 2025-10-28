@@ -1,6 +1,6 @@
 package quotes
 
-import "gitee.com/quant1x/exchange"
+import "gitee.com/quant1x/data/exchange"
 
 type ExchangeState int8
 

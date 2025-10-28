@@ -7,8 +7,8 @@ import (
 	"slices"
 	"time"
 
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/data/exchange"
+	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"

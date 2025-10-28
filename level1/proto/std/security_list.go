@@ -2,8 +2,8 @@ package std
 
 // 获取股票列表
 import (
+	"gitee.com/quant1x/data/exchange"
 	"gitee.com/quant1x/data/level1/internal"
-	"gitee.com/quant1x/exchange"
 )
 
 // GetSecurityListRequest 请求包结构

@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/text/encoding"
 )

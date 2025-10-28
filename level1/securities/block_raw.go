@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
+	"gitee.com/quant1x/data/exchange"
+	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/data/level1"
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"gitee.com/quant1x/gox/text/encoding"

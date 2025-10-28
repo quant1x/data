@@ -1,0 +1,37 @@
+pub const STD_MSG_HEARTBEAT: u16 = 0x0004;
+pub const STD_MSG_LOGIN1: u16 = 0x000d;
+pub const STD_MSG_LOGIN2: u16 = 0x0fdb;
+pub const STD_MSG_XDXR_INFO: u16 = 0x000f;
+pub const STD_MSG_FINANCE_INFO: u16 = 0x0010;
+pub const STD_MSG_PING: u16 = 0x0015;
+pub const STD_MSG_COMPANY_CATEGORY: u16 = 0x02cf;
+pub const STD_MSG_COMPANY_CONTENT: u16 = 0x02d0;
+pub const STD_MSG_SECURITY_COUNT: u16 = 0x044e;
+pub const STD_MSG_SECURITY_LIST: u16 = 0x0450;
+pub const STD_MSG_INDEXBARS: u16 = 0x052d;
+pub const STD_MSG_SECURITY_BARS: u16 = 0x052d;
+pub const STD_MSG_SECURITY_QUOTES_OLD: u16 = 0x053e;
+pub const STD_MSG_SECURITY_QUOTES_NEW: u16 = 0x054c;
+pub const STD_MSG_MINUTETIME_DATA: u16 = 0x051d;
+pub const STD_MSG_BLOCK_META: u16 = 0x02c5;
+pub const STD_MSG_BLOCK_DATA: u16 = 0x06b9;
+pub const STD_MSG_TRANSACTION_DATA: u16 = 0x0fc5;
+pub const STD_MSG_HISTORY_MINUTETIME_DATA: u16 = 0x0fb4;
+pub const STD_MSG_HISTORY_TRANSACTION_DATA: u16 = 0x0fb5;
+
+pub const KLINE_TYPE_5MIN: i32 = 0;
+pub const KLINE_TYPE_15MIN: i32 = 1;
+pub const KLINE_TYPE_30MIN: i32 = 2;
+pub const KLINE_TYPE_1HOUR: i32 = 3;
+pub const KLINE_TYPE_DAILY: i32 = 4;
+pub const KLINE_TYPE_WEEKLY: i32 = 5;
+pub const KLINE_TYPE_MONTHLY: i32 = 6;
+pub const KLINE_TYPE_EXHQ_1MIN: i32 = 7;
+pub const KLINE_TYPE_1MIN: i32 = 8;
+pub const KLINE_TYPE_RI_K: i32 = 9;
+pub const KLINE_TYPE_3MONTH: i32 = 10;
+pub const KLINE_TYPE_YEARLY: i32 = 11;
+
+pub const COMPRESSED: u8 = 0x10;
+pub const FLAG_NOT_ZIPPED: u8 = 0x0c;
+pub const FLAG_ZIPPED: u8 = COMPRESSED | FLAG_NOT_ZIPPED;

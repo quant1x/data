@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.8] - 2025-10-28
+### Changed
+- 修订缓存的证券列表, 改由最新的接口更新
+
 ## [0.0.7] - 2025-10-28
 ### Changed
 - 更新pkg版本到0.9.0, 剔除对javescript的依赖
+- update changelog
 
 ## [0.0.6] - 2025-10-28
 ### Changed
@@ -43,7 +48,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.0.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.0.8...HEAD
+[0.0.8]: https://gitee.com/quant1x/data.git/compare/v0.0.7...v0.0.8
 [0.0.7]: https://gitee.com/quant1x/data.git/compare/v0.0.6...v0.0.7
 [0.0.6]: https://gitee.com/quant1x/data.git/compare/v0.0.5...v0.0.6
 [0.0.5]: https://gitee.com/quant1x/data.git/compare/v0.0.4...v0.0.5

@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.7] - 2025-10-28
+### Changed
+- 更新pkg版本到0.9.0, 剔除对javescript的依赖
+
 ## [0.0.6] - 2025-10-28
 ### Changed
 - 新增exchange代码
+- update changelog
 
 ## [0.0.5] - 2025-10-28
 ### Changed
@@ -38,7 +43,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.0.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.0.7...HEAD
+[0.0.7]: https://gitee.com/quant1x/data.git/compare/v0.0.6...v0.0.7
 [0.0.6]: https://gitee.com/quant1x/data.git/compare/v0.0.5...v0.0.6
 [0.0.5]: https://gitee.com/quant1x/data.git/compare/v0.0.4...v0.0.5
 [0.0.4]: https://gitee.com/quant1x/data.git/compare/v0.0.3...v0.0.4

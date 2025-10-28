@@ -24,11 +24,11 @@ var (
 var resources embed.FS
 
 const (
-	sectionStandardServer  = "HQHOST"
-	defaultStandardPort    = 7709
+	sectionStandardServer = "HQHOST"
+	//defaultStandardPort    = 7709
 	keyHostNum             = "HostNum"
 	sectionExtensionServer = "DSHOST"
-	defaultExtensionPort   = 7727
+	//defaultExtensionPort   = 7727
 )
 
 var (

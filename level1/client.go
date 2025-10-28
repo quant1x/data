@@ -8,7 +8,7 @@ import (
 
 var (
 	stdApi   *quotes.StdApi = nil
-	tdxMutex sync.Mutex
+	apiMutex sync.Mutex
 )
 
 func initStdApi() {
@@ -22,15 +22,15 @@ func initStdApi() {
 }
 
 func GetApi() *quotes.StdApi {
-	tdxMutex.Lock()
-	defer tdxMutex.Unlock()
+	apiMutex.Lock()
+	defer apiMutex.Unlock()
 	initStdApi()
 	return stdApi
 }
 
 func ReOpen() {
-	tdxMutex.Lock()
-	defer tdxMutex.Unlock()
+	apiMutex.Lock()
+	defer apiMutex.Unlock()
 	if stdApi != nil {
 		stdApi.Close()
 	}

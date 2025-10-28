@@ -13,6 +13,7 @@ const (
 	STD_MSG_COMPANY_CATEGORY         = 0x02cf // 公司信息文件信息
 	STD_MSG_COMPANY_CONTENT          = 0x02d0 // 公司信息描述
 	STD_MSG_SECURITY_COUNT           = 0x044e // 证券数量
+	STD_MSG_SECURITY_LIST_A          = 0x044d // 证券列表
 	STD_MSG_SECURITY_LIST            = 0x0450 // 证券列表
 	STD_MSG_INDEXBARS                = 0x052d // 指数K线
 	STD_MSG_SECURITY_BARS            = 0x052d // 股票K线

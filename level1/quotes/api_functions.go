@@ -193,6 +193,19 @@ func (this *StdApi) GetSecurityCount(market exchange.MarketType) (*SecurityCount
 }
 
 // GetSecurityList 股票列表
+func (this *StdApi) GetSecurityListA(market exchange.MarketType, start, count uint32) (*SecurityListAReply, error) {
+	msg := NewSecurityListAPackage()
+	_market := uint16(market)
+	msg.SetParams(&SecurityListARequest{Market: _market, Start: start, Count: count})
+	reply, err := this.command(msg)
+	if err != nil {
+		return nil, err
+	}
+
+	return reply.(*SecurityListAReply), nil
+}
+
+// GetSecurityList 股票列表
 func (this *StdApi) GetSecurityList(market exchange.MarketType, start uint16) (*SecurityListReply, error) {
 	msg := NewSecurityListPackage()
 	_market := uint16(market)

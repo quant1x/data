@@ -1,6 +1,7 @@
 package securities
 
 import (
+	"fmt"
 	"math"
 	"os"
 	"path/filepath"
@@ -91,12 +92,12 @@ func lazyLoadStockList() {
 // getSecurityList 证券列表
 func getSecurityList() (allList []quotes.Security) {
 	stdApi := level1.GetApi()
-	offset := uint16(quotes.SECURITY_LIST_MAX)
-	start := uint16(0)
+	offset := uint16(quotes.SECURITY_LIST_A_PER_REQUEST_MAX)
+	start := uint32(0)
 	for {
-		reply, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, start)
+		reply, err := stdApi.GetSecurityListA(exchange.MarketIdShangHai, start, uint32(offset))
 		if err != nil {
-			return
+			break
 		}
 		for i := 0; i < int(reply.Count); i++ {
 			security := &reply.List[i]
@@ -113,15 +114,16 @@ func getSecurityList() (allList []quotes.Security) {
 			allList = append(allList, list...)
 		}
 		if reply.Count < offset {
+			fmt.Println(reply.Count)
 			break
 		}
-		start += reply.Count
+		start += uint32(reply.Count)
 	}
-	start = uint16(0)
+	start = uint32(0)
 	for {
-		reply, err := stdApi.GetSecurityList(exchange.MarketIdShenZhen, start)
+		reply, err := stdApi.GetSecurityListA(exchange.MarketIdShenZhen, start, uint32(offset))
 		if err != nil {
-			return
+			break
 		}
 		for i := 0; i < int(reply.Count); i++ {
 			reply.List[i].Code = "sz" + reply.List[i].Code
@@ -133,7 +135,26 @@ func getSecurityList() (allList []quotes.Security) {
 		if reply.Count < offset {
 			break
 		}
-		start += reply.Count
+		start += uint32(reply.Count)
+	}
+
+	start = uint32(0)
+	for {
+		reply, err := stdApi.GetSecurityListA(exchange.MarketIdBeiJing, start, uint32(offset))
+		if err != nil {
+			break
+		}
+		for i := 0; i < int(reply.Count); i++ {
+			reply.List[i].Code = "bj" + reply.List[i].Code
+		}
+		list := api.Filter(reply.List, checkIndexAndStock)
+		if len(list) > 0 {
+			allList = append(allList, list...)
+		}
+		if reply.Count < offset {
+			break
+		}
+		start += uint32(reply.Count)
 	}
 
 	return

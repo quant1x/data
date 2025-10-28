@@ -192,7 +192,7 @@ func (this *StdApi) GetSecurityCount(market exchange.MarketType) (*SecurityCount
 	return reply.(*SecurityCountReply), err
 }
 
-// GetSecurityList 股票列表
+// GetSecurityListA 股票列表
 func (this *StdApi) GetSecurityListA(market exchange.MarketType, start, count uint32) (*SecurityListAReply, error) {
 	msg := NewSecurityListAPackage()
 	_market := uint16(market)
@@ -206,6 +206,8 @@ func (this *StdApi) GetSecurityListA(market exchange.MarketType, start, count ui
 }
 
 // GetSecurityList 股票列表
+//
+// Deprecated: 废弃, 推荐 GetSecurityListA
 func (this *StdApi) GetSecurityList(market exchange.MarketType, start uint16) (*SecurityListReply, error) {
 	msg := NewSecurityListPackage()
 	_market := uint16(market)

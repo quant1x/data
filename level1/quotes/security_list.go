@@ -9,7 +9,8 @@ import (
 )
 
 const (
-	SECURITY_LIST_A_MAX = 1000 // 单次最大获取多少条股票数据
+	// SECURITY_LIST_A_PER_REQUEST_MAX 单次最大获取多少条股票数据
+	SECURITY_LIST_A_PER_REQUEST_MAX = 1600
 )
 
 // SecurityListAPackage 股票列表
@@ -31,23 +32,23 @@ type SecurityListARequest struct {
 
 type SecurityListAReply struct {
 	Count uint16
-	List  []SecurityA
+	List  []Security
 }
 
-type SecurityA struct {
-	Code      string
-	VolUnit   uint16
-	Reversed1 [4]byte `dataframe:"-"`
-	//R1           uint32
-	//P1           float64
-	DecimalPoint int8
-	Name         string
-	IgnoreString string
-	PreClose     float64
-	Reversed2    [4]byte `dataframe:"-"`
-	//R2           uint32
-	//P2           float64
-}
+// type SecurityA struct {
+// 	Code      string
+// 	VolUnit   uint16
+// 	Reversed1 [4]byte `dataframe:"-"`
+// 	//R1           uint32
+// 	//P1           float64
+// 	DecimalPoint int8
+// 	Name         string
+// 	IgnoreString string
+// 	PreClose     float64
+// 	Reversed2    [4]byte `dataframe:"-"`
+// 	//R2           uint32
+// 	//P2           float64
+// }
 
 func NewSecurityListAPackage() *SecurityListAPackage {
 	obj := new(SecurityListAPackage)
@@ -93,7 +94,7 @@ func (obj *SecurityListAPackage) UnSerialize(header interface{}, data []byte) er
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := SecurityA{}
+		ele := Security{}
 		var code [6]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		pos += 6
@@ -109,7 +110,7 @@ func (obj *SecurityListAPackage) UnSerialize(header interface{}, data []byte) er
 
 		var ignore_string [8]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &ignore_string)
-		ele.IgnoreString = internal.Utf8ToGbk(ignore_string[:])
+		//ele.IgnoreString = internal.Utf8ToGbk(ignore_string[:])
 		pos += 8
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)

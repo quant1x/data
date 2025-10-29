@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.7] - 2025-10-29
+### Changed
+- 添加北证50指数
+
 ## [0.1.6] - 2025-10-29
 ### Changed
 - 去掉K上datetime字段上的毫秒
+- update changelog
 
 ## [0.1.5] - 2025-10-29
 ### Changed
@@ -88,7 +93,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.7...HEAD
+[0.1.7]: https://gitee.com/quant1x/data.git/compare/v0.1.6...v0.1.7
 [0.1.6]: https://gitee.com/quant1x/data.git/compare/v0.1.5...v0.1.6
 [0.1.5]: https://gitee.com/quant1x/data.git/compare/v0.1.4...v0.1.5
 [0.1.4]: https://gitee.com/quant1x/data.git/compare/v0.1.3...v0.1.4

@@ -34,20 +34,21 @@ pub struct XdxrInfoRequest {
 
 #[derive(Debug, Clone, Default)]
 pub struct XdxrInfo {
-    pub date: String,
-    pub category: i32,
-    pub name: String,
-    pub fen_hong: f64,        // 分红
-    pub pei_gu_jia: f64,      // 配股价
-    pub song_zhuan_gu: f64,   // 送转股
-    pub pei_gu: f64,          // 配股
-    pub suo_gu: f64,          // 缩股
-    pub qian_liu_tong: f64,   // 前流通
-    pub hou_liu_tong: f64,    // 后流通
+    pub date: String,          // 日期
+    pub category: i32,         // 类型
+    pub name: String,          // 类型名称
+    pub market: u8,            // 市场
+    pub fen_hong: f64,         // 分红
+    pub pei_gu_jia: f64,       // 配股价
+    pub song_zhuan_gu: f64,    // 送转股
+    pub pei_gu: f64,           // 配股
+    pub suo_gu: f64,           // 缩股
+    pub qian_liu_tong: f64,    // 前流通
+    pub hou_liu_tong: f64,     // 后流通
     pub qian_zong_gu_ben: f64, // 前总股本
     pub hou_zong_gu_ben: f64,  // 后总股本
-    pub fen_shu: f64,         // 份数
-    pub xing_quan_jia: f64,   // 行权价
+    pub fen_shu: f64,          // 份数
+    pub xing_quan_jia: f64,    // 行权价
 }
 
 impl XdxrInfo {
@@ -278,11 +279,11 @@ mod tests {
         // Test 除权除息 (category 1) adjustment
         let xdxr = XdxrInfo {
             category: 1,
-            fen_hong: 2.0,        // 分红 2元
-            pei_gu_jia: 10.0,     // 配股价 10元
-            song_zhuan_gu: 5.0,   // 送转股 5股
-            pei_gu: 3.0,          // 配股 3股
-            suo_gu: 1.0,          // 缩股 1股
+            fen_hong: 2.0,      // 分红 2元
+            pei_gu_jia: 10.0,   // 配股价 10元
+            song_zhuan_gu: 5.0, // 送转股 5股
+            pei_gu: 3.0,        // 配股 3股
+            suo_gu: 1.0,        // 缩股 1股
             ..Default::default()
         };
 
@@ -318,7 +319,7 @@ mod tests {
     fn test_xdxr_info_adjust_negative_price() {
         let xdxr = XdxrInfo {
             category: 1,
-            fen_hong: 10.0,       // High dividend
+            fen_hong: 10.0, // High dividend
             pei_gu_jia: 5.0,
             song_zhuan_gu: 0.0,
             pei_gu: 0.0,
@@ -328,7 +329,7 @@ mod tests {
 
         let adjust_fn = xdxr.adjust();
         let result = adjust_fn(1.0); // Very low price
-        // Should still produce a valid result
+                                     // Should still produce a valid result
         assert!(result.is_finite());
         assert!(result >= 0.0);
     }
@@ -398,7 +399,7 @@ mod tests {
 
         // Check that data contains expected elements
         assert!(data.len() >= 16); // Header + content
-        // The serialized data should contain the market and code bytes
+                                   // The serialized data should contain the market and code bytes
         assert!(data.len() >= 25); // Header (16) + content (at least 9 bytes)
     }
 

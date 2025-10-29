@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.4] - 2025-10-29
+### Changed
+- 删除废弃的代码
+
 ## [0.1.3] - 2025-10-29
 ### Changed
 - 删除废弃的协议文档
@@ -11,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - 日期时间类功能源文件改为datetime
 - 删除废弃的命令字
 - 整理协议包, 删除废弃的代码
+- update changelog
 
 ## [0.1.2] - 2025-10-29
 ### Changed
@@ -73,7 +78,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.4...HEAD
+[0.1.4]: https://gitee.com/quant1x/data.git/compare/v0.1.3...v0.1.4
 [0.1.3]: https://gitee.com/quant1x/data.git/compare/v0.1.2...v0.1.3
 [0.1.2]: https://gitee.com/quant1x/data.git/compare/v0.1.1...v0.1.2
 [0.1.1]: https://gitee.com/quant1x/data.git/compare/v0.1.0...v0.1.1

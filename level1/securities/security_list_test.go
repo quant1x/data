@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 func TestGetStockName(t *testing.T) {
@@ -22,6 +22,6 @@ func TestAllCodeList(t *testing.T) {
 func TestBaseUnit(t *testing.T) {
 	marketId := exchange.MarketIdShangHai
 	code := "000001"
-	v := internal.BaseUnit(marketId, code)
+	v := utils.BaseUnit(marketId, code)
 	fmt.Println(v)
 }

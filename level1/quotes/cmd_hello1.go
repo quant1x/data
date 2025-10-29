@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 type Hello1Package struct {
@@ -34,7 +34,7 @@ func NewHello1() *Hello1Package {
 	obj.reply = new(Hello1Reply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_LOGIN1
 	obj.contentHex = "01"
@@ -59,7 +59,7 @@ func (obj *Hello1Package) Serialize() ([]byte, error) {
 //	分  时    秒                                                                      日期
 func (obj *Hello1Package) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-	serverInfo := internal.Utf8ToGbk(data[68:])
+	serverInfo := utils.Utf8ToGbk(data[68:])
 	obj.reply.Info = serverInfo
 	return nil
 }

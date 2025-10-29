@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 )
 
@@ -64,7 +64,7 @@ func NewTransactionPackage() *TransactionPackage {
 	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -99,7 +99,7 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 
 	market := exchange.MarketType(obj.request.Market)
 	code := api.Bytes2String(obj.request.Code[:])
-	baseUnit := internal.BaseUnit(market, code)
+	baseUnit := utils.BaseUnit(market, code)
 	isIndex := exchange.AssertIndexByMarketAndCode(market, code)
 
 	pos := 0
@@ -109,12 +109,12 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		hour, minute := internal.GetTime(data, &pos)
+		hour, minute := utils.GetTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", hour, minute)
-		rawPrice := internal.DecodeVarint(data, &pos)
-		ele.Vol = internal.DecodeVarint(data, &pos)
-		ele.Num = internal.DecodeVarint(data, &pos)
-		ele.BuyOrSell = internal.DecodeVarint(data, &pos)
+		rawPrice := utils.DecodeVarint(data, &pos)
+		ele.Vol = utils.DecodeVarint(data, &pos)
+		ele.Num = utils.DecodeVarint(data, &pos)
+		ele.BuyOrSell = utils.DecodeVarint(data, &pos)
 		lastPrice += rawPrice
 		ele.Price = float64(lastPrice) / baseUnit
 		if isIndex {
@@ -125,7 +125,7 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 			ele.Vol *= 100
 			ele.Amount = float64(ele.Vol) * ele.Price
 		}
-		tmp := internal.DecodeVarint(data, &pos)
+		tmp := utils.DecodeVarint(data, &pos)
 		_ = tmp
 		obj.reply.List = append(obj.reply.List, ele)
 	}

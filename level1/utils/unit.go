@@ -1,4 +1,4 @@
-package internal
+package utils
 
 import "gitee.com/quant1x/data/exchange"
 

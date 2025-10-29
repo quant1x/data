@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 	"gopkg.in/ini.v1"
@@ -135,7 +135,7 @@ func loadTdxConfig(config tdxConfig) (std, ext []Server) {
 	hostNum := int(api.ParseInt(v))
 	for i := 0; i < hostNum; i++ {
 		hostName := section.Key(fmt.Sprintf("HostName%02d", i+1)).Value()
-		hostName = internal.Utf8ToGbk(api.String2Bytes(hostName))
+		hostName = utils.Utf8ToGbk(api.String2Bytes(hostName))
 		ipAddress := section.Key(fmt.Sprintf("IPAddress%02d", i+1)).Value()
 		if isIPV6(ipAddress) {
 			continue
@@ -157,7 +157,7 @@ func loadTdxConfig(config tdxConfig) (std, ext []Server) {
 	hostNum = int(api.ParseInt(v))
 	for i := 0; i < hostNum; i++ {
 		hostName := section.Key(fmt.Sprintf("HostName%02d", i+1)).Value()
-		hostName = internal.Utf8ToGbk(api.String2Bytes(hostName))
+		hostName = utils.Utf8ToGbk(api.String2Bytes(hostName))
 		ipAddress := section.Key(fmt.Sprintf("IPAddress%02d", i+1)).Value()
 		if isIPV6(ipAddress) {
 			continue

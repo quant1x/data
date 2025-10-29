@@ -220,5 +220,5 @@ func SecurityPriceDigits(marketId exchange.MarketType, code string) int {
 }
 
 //func init() {
-//	internal.RegisterBaseUnitFunction(SecurityBaseUnit)
+//	utils.RegisterBaseUnitFunction(SecurityBaseUnit)
 //}

@@ -7,7 +7,7 @@ import (
 
 	"gitee.com/quant1x/data/exchange"
 	"gitee.com/quant1x/data/exchange/cache"
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 )
@@ -180,5 +180,5 @@ func SecurityBaseUnit(marketId exchange.MarketType, code string) float64 {
 }
 
 func init() {
-	internal.RegisterBaseUnitFunction(SecurityBaseUnit)
+	utils.RegisterBaseUnitFunction(SecurityBaseUnit)
 }

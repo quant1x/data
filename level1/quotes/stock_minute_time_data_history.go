@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 )
 
@@ -44,7 +44,7 @@ func NewHistoryMinuteTimePackage() *HistoryMinuteTimePackage {
 	obj.reply = new(MinuteTimeReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -98,7 +98,7 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 	}
 	_, _, _, bType := data[pos], data[pos+1], data[pos+2], data[pos+3]
 	pos += 4
-	baseUnit := internal.BaseUnit(market, code)
+	baseUnit := utils.BaseUnit(market, code)
 	//var baseUnit float32
 	//if bType > 0x40 {
 	//	baseUnit = 100.0
@@ -107,10 +107,10 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 	//}
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		rawPrice := internal.DecodeVarint(data, &pos)
-		reversed1 := internal.DecodeVarint(data, &pos)
+		rawPrice := utils.DecodeVarint(data, &pos)
+		reversed1 := utils.DecodeVarint(data, &pos)
 		_ = reversed1
-		vol := internal.DecodeVarint(data, &pos)
+		vol := utils.DecodeVarint(data, &pos)
 		lastPrice += rawPrice
 
 		p := float32(lastPrice) / float32(baseUnit)

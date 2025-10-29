@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto/std"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 type LabClient struct {
@@ -79,7 +79,7 @@ SEND:
 	}
 	// zlib解压缩
 	if header.Compressed() {
-		bodyBytes, err = internal.ZlibUnCompress(bodyBytes)
+		bodyBytes, err = utils.ZlibUnCompress(bodyBytes)
 	}
 	// 反序列化为响应体结构
 	err = response.Unmarshal(bodyBytes)

@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 )
 
@@ -50,7 +50,7 @@ func NewHistoryTransactionPackage() *HistoryTransactionPackage {
 	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -98,16 +98,16 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 	//binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &b)
 	// 跳过4个字节
 	pos += 4
-	baseUnit := internal.BaseUnit(market, code)
+	baseUnit := utils.BaseUnit(market, code)
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		h, m := internal.GetTime(data, &pos)
+		h, m := utils.GetTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", h, m)
-		rawPrice := internal.DecodeVarint(data, &pos)
-		ele.Vol = internal.DecodeVarint(data, &pos)
-		ele.BuyOrSell = internal.DecodeVarint(data, &pos)
-		internal.DecodeVarint(data, &pos)
+		rawPrice := utils.DecodeVarint(data, &pos)
+		ele.Vol = utils.DecodeVarint(data, &pos)
+		ele.BuyOrSell = utils.DecodeVarint(data, &pos)
+		utils.DecodeVarint(data, &pos)
 
 		lastPrice = lastPrice + rawPrice
 		ele.Price = float64(lastPrice) / baseUnit

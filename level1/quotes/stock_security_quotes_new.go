@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/logger"
 )
 
@@ -101,7 +101,7 @@ func NewV2SecurityQuotesPackage() *V2SecurityQuotesPackage {
 	obj.reply = new(V2SecurityQuotesReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_new
 	obj.contentHex = "0500000000000000" // 1.3.5以前的版本
@@ -152,43 +152,43 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		//enc := mahonia.NewDecoder("gbk")
 		//ele.Code = enc.ConvertString(string(code[:]))
-		ele.Code = internal.Utf8ToGbk(code[:])
+		ele.Code = utils.Utf8ToGbk(code[:])
 		pos += 6
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
-		price := internal.DecodeVarint(data, &pos)
+		price := utils.DecodeVarint(data, &pos)
 		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.Open = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.High = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.Low = obj.getPrice(price, internal.DecodeVarint(data, &pos))
+		ele.LastClose = obj.getPrice(price, utils.DecodeVarint(data, &pos))
+		ele.Open = obj.getPrice(price, utils.DecodeVarint(data, &pos))
+		ele.High = obj.getPrice(price, utils.DecodeVarint(data, &pos))
+		ele.Low = obj.getPrice(price, utils.DecodeVarint(data, &pos))
 
-		ele.ReversedBytes0 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes0 = utils.DecodeVarint(data, &pos)
 		if ele.ReversedBytes0 > 0 {
 			//ele.ServerTime = timeFromStr(fmt.Sprintf("%d", ele.ReversedBytes0))
-			ele.ServerTime = internal.TimeFromInt(ele.ReversedBytes0)
+			ele.ServerTime = utils.TimeFromInt(ele.ReversedBytes0)
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
 			ele.Code = exchange.StockDelisting
 		}
 
-		ele.ReversedBytes1 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes1 = utils.DecodeVarint(data, &pos)
 
-		ele.Vol = internal.DecodeVarint(data, &pos)
-		ele.CurVol = internal.DecodeVarint(data, &pos)
+		ele.Vol = utils.DecodeVarint(data, &pos)
+		ele.CurVol = utils.DecodeVarint(data, &pos)
 
 		var amountraw uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
-		ele.Amount = internal.IntToFloat64(int(amountraw))
+		ele.Amount = utils.IntToFloat64(int(amountraw))
 
-		ele.SVol = internal.DecodeVarint(data, &pos)
-		ele.BVol = internal.DecodeVarint(data, &pos)
+		ele.SVol = utils.DecodeVarint(data, &pos)
+		ele.BVol = utils.DecodeVarint(data, &pos)
 
-		ele.ReversedBytes2 = internal.DecodeVarint(data, &pos)
-		ele.ReversedBytes3 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes2 = utils.DecodeVarint(data, &pos)
+		ele.ReversedBytes3 = utils.DecodeVarint(data, &pos)
 		//fmt.Printf("pos: %d\n", pos)
 		//fmt.Println(hex.EncodeToString(data[:pos]))
 
@@ -197,10 +197,10 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		//baNum := 5
 		baNum := 1
 		for i := 0; i < baNum; i++ {
-			bidele := V2Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
-			offerele := V2Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
-			bidele.Vol = internal.DecodeVarint(data, &pos)
-			offerele.Vol = internal.DecodeVarint(data, &pos)
+			bidele := V2Level{Price: obj.getPrice(utils.DecodeVarint(data, &pos), price)}
+			offerele := V2Level{Price: obj.getPrice(utils.DecodeVarint(data, &pos), price)}
+			bidele.Vol = utils.DecodeVarint(data, &pos)
+			offerele.Vol = utils.DecodeVarint(data, &pos)
 			bidLevels = append(bidLevels, bidele)
 			askLevels = append(askLevels, offerele)
 		}
@@ -253,7 +253,7 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_r2 := data[pos : pos+_lenth]
 		_pos2 := 0
 		for {
-			_p2 := obj.getPrice(internal.DecodeVarint(_r2, &_pos2), price)
+			_p2 := obj.getPrice(utils.DecodeVarint(_r2, &_pos2), price)
 			//_p2 := getPrice(_r2, &_pos2)
 			if logger.IsDebug() {
 				logger.Debug(_p2)

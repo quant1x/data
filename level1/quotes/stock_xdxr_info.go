@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
@@ -121,7 +121,7 @@ func NewXdxrInfoPackage() *XdxrInfoPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = internal.SequenceId()
+	pkg.reqHeader.SeqID = utils.SequenceId()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00
@@ -161,7 +161,7 @@ func (obj *XdxrInfoPackage) UnSerialize(header interface{}, data []byte) error {
 	}
 	var list = []XdxrInfo{}
 	for _, v := range reply.List {
-		year, month, day, hour, minute := internal.GetDatetimeFromUint32(9, v.Date, 0)
+		year, month, day, hour, minute := utils.GetDatetimeFromUint32(9, v.Date, 0)
 		xdxr := XdxrInfo{
 			//Date           string // 日期
 			Date: fmt.Sprintf("%04d-%02d-%02d", year, month, day),
@@ -240,5 +240,5 @@ func __get_v(v uint32) float64 {
 	if v == 0 {
 		return 0
 	}
-	return internal.IntToFloat64(int(v))
+	return utils.IntToFloat64(int(v))
 }

@@ -1,4 +1,4 @@
-package internal
+package utils
 
 // DecodeVarint pytdx : 类似utf-8的编码方式保存有符号数字
 func DecodeVarint(b []byte, pos *int) int {

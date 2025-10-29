@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
@@ -57,7 +57,7 @@ func NewCompanyInfoCategoryPackage() *CompanyInfoCategoryPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = internal.SequenceId()
+	pkg.reqHeader.SeqID = utils.SequenceId()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00
@@ -98,8 +98,8 @@ func (obj *CompanyInfoCategoryPackage) UnSerialize(header interface{}, data []by
 	list := []CompanyInfoCategory{}
 	for _, v := range reply.Data {
 		info := CompanyInfoCategory{
-			Name:     internal.Utf8ToGbk(v.Name[:]),
-			Filename: internal.Utf8ToGbk(v.Filename[:]),
+			Name:     utils.Utf8ToGbk(v.Name[:]),
+			Filename: utils.Utf8ToGbk(v.Filename[:]),
 			Offset:   v.Offset,
 			Length:   v.Length,
 		}

@@ -2,7 +2,7 @@ package std
 
 import (
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 // SecurityCountRequest 请求包结构
@@ -29,9 +29,9 @@ func (resp *SecurityCountResponse) Unmarshal(data []byte) error {
 // todo: 检测market是否为合法值
 func NewSecurityCountRequest(market exchange.MarketType) (*SecurityCountRequest, error) {
 	request := &SecurityCountRequest{
-		Unknown1: internal.HexString2Bytes("0c 0c 18 6c 00 01 08 00 08 00 4e 04"),
+		Unknown1: utils.HexString2Bytes("0c 0c 18 6c 00 01 08 00 08 00 4e 04"),
 		Market:   market,
-		Unknown2: internal.HexString2Bytes("75 c7 33 01"),
+		Unknown2: utils.HexString2Bytes("75 c7 33 01"),
 	}
 	return request, nil
 }

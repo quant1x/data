@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
@@ -54,7 +54,7 @@ func NewBlockInfoPackage() *BlockInfoPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = 0x0c
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = internal.SequenceId()
+	pkg.reqHeader.SeqID = utils.SequenceId()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

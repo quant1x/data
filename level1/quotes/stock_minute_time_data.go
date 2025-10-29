@@ -8,8 +8,8 @@ import (
 	"encoding/hex"
 
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 )
 
@@ -49,7 +49,7 @@ func NewMinuteTimePackage() *MinuteTimePackage {
 	obj.reply = new(MinuteTimeReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -94,14 +94,14 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 
 	pos += 3
 
-	baseUnit := internal.BaseUnit(market, code)
+	baseUnit := utils.BaseUnit(market, code)
 	lastPrice := 0
 	//TODO: ETF的数据不对需要进一步处理
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		rawPrice := internal.DecodeVarint(data, &pos)
-		reversed1 := internal.DecodeVarint(data, &pos)
+		rawPrice := utils.DecodeVarint(data, &pos)
+		reversed1 := utils.DecodeVarint(data, &pos)
 		_ = reversed1
-		vol := internal.DecodeVarint(data, &pos)
+		vol := utils.DecodeVarint(data, &pos)
 		lastPrice += rawPrice
 
 		p := float32(lastPrice) / float32(baseUnit)

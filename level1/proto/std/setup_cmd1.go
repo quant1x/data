@@ -1,7 +1,7 @@
 package std
 
 import (
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 // SetupCmd1Request 请求包结构
@@ -23,14 +23,14 @@ type SetupCmd1Response struct {
 
 func (resp *SetupCmd1Response) Unmarshal(data []byte) error {
 	//resp.Unknown = data
-	resp.Reply = internal.Utf8ToGbk(data[68:])
+	resp.Reply = utils.Utf8ToGbk(data[68:])
 	return nil
 }
 
 // 创建SetupCmd1请求包
 func NewSetupCmd1Request() (*SetupCmd1Request, error) {
 	request := &SetupCmd1Request{
-		Cmd: internal.HexString2Bytes("0c 02 18 93 00 01 03 00 03 00 0d 00 01"),
+		Cmd: utils.HexString2Bytes("0c 02 18 93 00 01 03 00 03 00 0d 00 01"),
 	}
 	return request, nil
 }

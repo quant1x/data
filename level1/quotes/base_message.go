@@ -8,7 +8,7 @@ import (
 	"io"
 	"time"
 
-	"gitee.com/quant1x/data/level1/internal"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 )
@@ -59,7 +59,7 @@ func process(client *TcpClient, msg Message) error {
 	// 2. 发送指令
 	retryTimes := 0
 	if logger.IsDebug() {
-		logger.Debug(internal.Bytes2HexString(sendData))
+		logger.Debug(utils.Bytes2HexString(sendData))
 	}
 	for {
 		// 设置写timeout

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"gitee.com/quant1x/data/level1/internal"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/data/level1/utils"
 )
 
 const (
@@ -58,7 +58,7 @@ func NewSecurityListAPackage() *SecurityListAPackage {
 	obj.reply = new(SecurityListAReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SequenceId()
+	obj.reqHeader.SeqID = utils.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_LIST_A
 	return obj
@@ -105,12 +105,12 @@ func (obj *SecurityListAPackage) UnSerialize(header interface{}, data []byte) er
 
 		var name [8]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
-		ele.Name = internal.Utf8ToGbk(name[:])
+		ele.Name = utils.Utf8ToGbk(name[:])
 		pos += 8
 
 		var ignore_string [8]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &ignore_string)
-		//ele.IgnoreString = internal.Utf8ToGbk(ignore_string[:])
+		//ele.IgnoreString = utils.Utf8ToGbk(ignore_string[:])
 		pos += 8
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)
@@ -120,7 +120,7 @@ func (obj *SecurityListAPackage) UnSerialize(header interface{}, data []byte) er
 		pos += 1
 		var rawPreClose uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &rawPreClose)
-		ele.PreClose = internal.IntToFloat64(int(rawPreClose))
+		ele.PreClose = utils.IntToFloat64(int(rawPreClose))
 		pos += 4
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed2)

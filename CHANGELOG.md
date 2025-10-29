@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.2] - 2025-10-29
+### Changed
+- 新增公开的command函数
+
 ## [0.1.1] - 2025-10-29
 ### Changed
 - 更新num依赖库版本到0.7.15
+- update changelog
 
 ## [0.1.0] - 2025-10-29
 ### Changed
@@ -58,7 +63,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.2...HEAD
+[0.1.2]: https://gitee.com/quant1x/data.git/compare/v0.1.1...v0.1.2
 [0.1.1]: https://gitee.com/quant1x/data.git/compare/v0.1.0...v0.1.1
 [0.1.0]: https://gitee.com/quant1x/data.git/compare/v0.0.8...v0.1.0
 [0.0.8]: https://gitee.com/quant1x/data.git/compare/v0.0.7...v0.0.8

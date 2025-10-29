@@ -2,13 +2,34 @@ package utils
 
 import (
 	"bytes"
+	"encoding/hex"
+	"fmt"
 	"io"
+	"log"
 	"strings"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/encoding/traditionalchinese"
 	"golang.org/x/text/transform"
 )
+
+// HexString2Bytes 16进制字符串转bytes
+func HexString2Bytes(hexStr string) []byte {
+	hexStr = strings.Replace(hexStr, " ", "", -1)
+	data, err := hex.DecodeString(hexStr)
+	if err != nil {
+		// handle error
+		log.Println(err.Error())
+		return nil
+	}
+	return data
+}
+
+// Bytes2HexString bytes转16进制字符串
+func Bytes2HexString(b []byte) string {
+	// with "%x" format byte array into hex string
+	return fmt.Sprintf("% x", b)
+}
 
 func Utf8ToGbk(text []byte) string {
 	pos := bytes.IndexByte(text, 0x00)

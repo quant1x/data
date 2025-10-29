@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.8] - 2025-10-30
+### Changed
+- 通过协议下载zhb.zip文件，并指定解压需要的板块文件
+
 ## [0.1.7] - 2025-10-29
 ### Changed
 - 添加北证50指数
+- update changelog
 
 ## [0.1.6] - 2025-10-29
 ### Changed
@@ -93,7 +98,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.8...HEAD
+[0.1.8]: https://gitee.com/quant1x/data.git/compare/v0.1.7...v0.1.8
 [0.1.7]: https://gitee.com/quant1x/data.git/compare/v0.1.6...v0.1.7
 [0.1.6]: https://gitee.com/quant1x/data.git/compare/v0.1.5...v0.1.6
 [0.1.5]: https://gitee.com/quant1x/data.git/compare/v0.1.4...v0.1.5

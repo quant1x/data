@@ -7,12 +7,17 @@ import (
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
+// 扩展协议包的定义
+
+// Factory 协议包工厂方法定义
 type Factory func() (Marshaler, Unmarshaler, error)
 
+// Marshaler 协议包序列化接口定义
 type Marshaler interface {
 	Marshal() ([]byte, error)
 }
 
+// Unmarshaler 协议包反序列化接口定义
 type Unmarshaler interface {
 	Unmarshal([]byte) error
 }

@@ -68,7 +68,7 @@ func (this *StdApi) tdxPing(client *TcpClient) error {
 	return nil
 }
 
-func (this *StdApi) command(msg Message) (interface{}, error) {
+func (this *StdApi) command(msg Message) (any, error) {
 	// 2.1 获取TCP连接
 	_conn := this.connPool.GetConn()
 	if _conn == nil {
@@ -83,6 +83,10 @@ func (this *StdApi) command(msg Message) (interface{}, error) {
 
 	this.connPool.ReturnConn(_conn)
 	return msg.Reply(), nil
+}
+
+func (this *StdApi) Command(msg Message) (any, error) {
+	return this.command(msg)
 }
 
 func (this *StdApi) Hello1() (*Hello1Reply, error) {

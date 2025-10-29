@@ -3,9 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-10-29
+### Changed
+- 删除废弃的协议文档
+- 合并字符串功能函数
+- 解压缩功能源文件名改为bytes
+- 日期时间类功能源文件改为datetime
+- 删除废弃的命令字
+- 整理协议包, 删除废弃的代码
+
 ## [0.1.2] - 2025-10-29
 ### Changed
 - 新增公开的command函数
+- update changelog
 
 ## [0.1.1] - 2025-10-29
 ### Changed
@@ -63,7 +73,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.3...HEAD
+[0.1.3]: https://gitee.com/quant1x/data.git/compare/v0.1.2...v0.1.3
 [0.1.2]: https://gitee.com/quant1x/data.git/compare/v0.1.1...v0.1.2
 [0.1.1]: https://gitee.com/quant1x/data.git/compare/v0.1.0...v0.1.1
 [0.1.0]: https://gitee.com/quant1x/data.git/compare/v0.0.8...v0.1.0

@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-10-29
+### Changed
+- 更新num依赖库版本到0.7.15
+
 ## [0.1.0] - 2025-10-29
 ### Changed
 - go代码改内部功能为utils
+- update changelog
 
 ## [0.0.8] - 2025-10-28
 ### Changed
@@ -53,7 +58,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.1...HEAD
+[0.1.1]: https://gitee.com/quant1x/data.git/compare/v0.1.0...v0.1.1
 [0.1.0]: https://gitee.com/quant1x/data.git/compare/v0.0.8...v0.1.0
 [0.0.8]: https://gitee.com/quant1x/data.git/compare/v0.0.7...v0.0.8
 [0.0.7]: https://gitee.com/quant1x/data.git/compare/v0.0.6...v0.0.7

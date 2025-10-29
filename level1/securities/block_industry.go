@@ -12,6 +12,10 @@ import (
 	"gitee.com/quant1x/gox/text/encoding"
 )
 
+const (
+	BLK_INDUSTRY_FILENAME = "tdxhy.cfg"
+)
+
 // IndustryInfo 行业板块对应
 type IndustryInfo struct {
 	MarketId int    // 市场代码
@@ -24,8 +28,8 @@ type IndustryInfo struct {
 
 // 获取行业板块
 func loadIndustryBlocks() []IndustryInfo {
-	hyfile := "tdxhy.cfg"
-	name := hyfile
+	//hyfile := "tdxhy.cfg"
+	name := BLK_INDUSTRY_FILENAME
 	cacheFilename := cache.GetBlockPath() + "/" + name
 	if !api.FileExist(cacheFilename) {
 		// 如果文件不存在, 导出内嵌资源

@@ -11,9 +11,22 @@ import (
 	"gitee.com/quant1x/gox/text/encoding"
 )
 
+const (
+	BLK_ZIP_FILENAME = "zhb.zip"
+	BLK_ZS_FILENAME  = "tdxzs.cfg"
+	BLK_ZS3_FILENAME = "tdxzs3.cfg"
+)
+
+var (
+	need_blk_files = []string{
+		BLK_ZS_FILENAME,
+		BLK_ZS3_FILENAME,
+	}
+)
+
 // 加载板块和板块名称对应
 func loadIndexBlockInfos() []BlockInfo {
-	bks := []string{"tdxzs.cfg", "tdxzs3.cfg"}
+	bks := need_blk_files
 	bis := []BlockInfo{}
 	tmpMap := map[string]BlockInfo{}
 	for _, v := range bks {

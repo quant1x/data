@@ -4,12 +4,20 @@ import (
 	"os"
 
 	"gitee.com/quant1x/data/exchange"
+	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/data/level1/quotes"
+	"gitee.com/quant1x/data/level1/utils"
 	"gitee.com/quant1x/gox/api"
 )
 
 // 同步板块数据
 func syncBlockFiles() {
+	downloadBlockRawData(BLK_INDUSTRY_FILENAME)
+	downloadBlockRawData(BLK_ZIP_FILENAME)
+
+	srcZip := cache.GetBlockPath() + "/" + BLK_ZIP_FILENAME
+	_ = utils.UnzipPreserveTimes(srcZip, cache.GetBlockPath(), need_blk_files...)
+
 	downloadBlockRawData(quotes.BLOCK_DEFAULT)
 	downloadBlockRawData(quotes.BLOCK_GAINIAN)
 	downloadBlockRawData(quotes.BLOCK_FENGGE)

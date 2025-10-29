@@ -6,6 +6,7 @@ import (
 
 	"gitee.com/quant1x/data/exchange"
 	"gitee.com/quant1x/data/level1/proto"
+	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 )
 
@@ -136,4 +137,19 @@ func TestStdApi_ALL(t *testing.T) {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", blkInfo)
+}
+
+func TestStdApi_GetBlockInfo(t *testing.T) {
+	stdApi, err := NewStdApi()
+	if err != nil {
+		panic(err)
+	}
+	defer stdApi.Close()
+	filename := "zhb.zip"
+	filename = "tdxhy.cfg"
+	blkInfo, err := stdApi.GetBlockInfo(filename)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", api.Bytes2String(blkInfo.Data))
 }

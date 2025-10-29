@@ -111,7 +111,7 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 		ele := SecurityBar{}
 		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = utils.GetDatetime(int(obj.request.Category), data, &pos)
 
-		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00.000", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
+		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
 
 		price_open_diff := utils.DecodeVarint(data, &pos)
 		price_close_diff := utils.DecodeVarint(data, &pos)

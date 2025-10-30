@@ -35,21 +35,6 @@ type SecurityListAReply struct {
 	List  []Security
 }
 
-// type SecurityA struct {
-// 	Code      string
-// 	VolUnit   uint16
-// 	Reversed1 [4]byte `dataframe:"-"`
-// 	//R1           uint32
-// 	//P1           float64
-// 	DecimalPoint int8
-// 	Name         string
-// 	IgnoreString string
-// 	PreClose     float64
-// 	Reversed2    [4]byte `dataframe:"-"`
-// 	//R2           uint32
-// 	//P2           float64
-// }
-
 func NewSecurityListAPackage() *SecurityListAPackage {
 	obj := new(SecurityListAPackage)
 	obj.reqHeader = new(StdRequestHeader)
@@ -79,11 +64,6 @@ func (obj *SecurityListAPackage) Serialize() ([]byte, error) {
 	}
 	err = binary.Write(buf, binary.LittleEndian, obj.request)
 
-	//b, err := hex.DecodeString(obj.contentHex)
-	//buf.Write(b)
-
-	//err = binary.Write(buf, binary.LittleEndian, uint16(len(obj.stocks)))
-
 	return buf.Bytes(), err
 }
 
@@ -103,15 +83,15 @@ func (obj *SecurityListAPackage) UnSerialize(header interface{}, data []byte) er
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.VolUnit)
 		pos += 2
 
-		var name [8]byte
-		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
+		var name [16]byte
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+16]), binary.LittleEndian, &name)
 		ele.Name = utils.Utf8ToGbk(name[:])
-		pos += 8
+		pos += 16
 
-		var ignore_string [8]byte
-		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &ignore_string)
-		//ele.IgnoreString = utils.Utf8ToGbk(ignore_string[:])
-		pos += 8
+		// var ignore_string [8]byte
+		// _ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &ignore_string)
+		// //ele.IgnoreString = utils.Utf8ToGbk(ignore_string[:])
+		// pos += 8
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)
 		pos += 4

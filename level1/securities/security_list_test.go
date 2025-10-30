@@ -17,6 +17,7 @@ func TestGetStockName(t *testing.T) {
 func TestAllCodeList(t *testing.T) {
 	v := AllCodeList()
 	fmt.Println(v)
+	_ = v
 }
 
 func TestBaseUnit(t *testing.T) {

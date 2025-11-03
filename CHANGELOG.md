@@ -3,10 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.10] - 2025-11-03
+### Changed
+- 如果没有数据不更新缓存文件的修改时间
+
 ## [0.1.9] - 2025-10-30
 ### Changed
 - 删除废弃的单元测试
 - 将证券名称扩展到16个字节
+- update changelog
 
 ## [0.1.8] - 2025-10-30
 ### Changed
@@ -104,7 +109,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.10...HEAD
+[0.1.10]: https://gitee.com/quant1x/data.git/compare/v0.1.9...v0.1.10
 [0.1.9]: https://gitee.com/quant1x/data.git/compare/v0.1.8...v0.1.9
 [0.1.8]: https://gitee.com/quant1x/data.git/compare/v0.1.7...v0.1.8
 [0.1.7]: https://gitee.com/quant1x/data.git/compare/v0.1.6...v0.1.7

@@ -142,12 +142,12 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	dates, lastModified := downloadCalendar(fileModTime)
 	if len(dates) == 0 {
 		// 如果没有数据, 则直接用缓存
-		if !lastModified.IsZero() {
-			err := os.Chtimes(calendarFilename, lastModified, lastModified)
-			if err != nil {
-				logger.Error(err)
-			}
-		}
+		// if !lastModified.IsZero() {
+		// 	err := os.Chtimes(calendarFilename, lastModified, lastModified)
+		// 	if err != nil {
+		// 		logger.Error(err)
+		// 	}
+		// }
 		return
 	}
 	for _, v := range noDates {

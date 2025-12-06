@@ -63,6 +63,26 @@ pub fn zlib_compress(src: &[u8]) -> Result<Vec<u8>> {
     Ok(encoder.finish()?)
 }
 
+/// Decompresses zlib-compressed data into a byte vector.
+///
+/// # Arguments
+/// * `compressed` - A slice containing the zlib-compressed data
+///
+/// # Returns
+/// A `Result` containing:
+/// * `Ok(Vec<u8>)` - The decompressed byte vector on success
+/// * `Err` - If decompression fails
+///
+/// # Errors
+/// Returns an error if:
+/// * The input data is not valid zlib-compressed data
+/// * The decompression process fails
+///
+/// # Examples
+/// ```
+/// let compressed_data = vec![...]; // zlib-compressed bytes
+/// let decompressed = zlib_decompress(&compressed_data)?;
+/// ```
 pub fn zlib_decompress(compressed: &[u8]) -> Result<Vec<u8>> {
     let mut decoder = ZlibDecoder::new(compressed);
     let mut out = Vec::new();

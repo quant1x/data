@@ -1,10 +1,9 @@
-module github.com/quant1x/data
+module gitee.com/quant1x/data
 
 go 1.25.0
 
 require (
 	gitee.com/quant1x/asio v1.1.5
-	gitee.com/quant1x/data v0.1.12
 	gitee.com/quant1x/gox v1.25.2
 	gitee.com/quant1x/num v0.7.15
 	gitee.com/quant1x/pkg v0.9.1

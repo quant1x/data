@@ -3,9 +3,24 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.14] - 2025-12-07
+### Changed
+
+## [0.1.13] - 2025-12-07
+### Changed
+
+## [0.1.12] - 2025-12-07
+### Changed
+
+## [0.1.11] - 2025-12-07
+### Changed
+- 新增vscode的launch配置
+- 调整测试代码
+
 ## [0.1.10] - 2025-11-03
 ### Changed
 - 如果没有数据不更新缓存文件的修改时间
+- update changelog
 
 ## [0.1.9] - 2025-10-30
 ### Changed
@@ -109,7 +124,11 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.14...HEAD
+[0.1.14]: https://gitee.com/quant1x/data.git/compare/v0.1.13...v0.1.14
+[0.1.13]: https://gitee.com/quant1x/data.git/compare/v0.1.12...v0.1.13
+[0.1.12]: https://gitee.com/quant1x/data.git/compare/v0.1.11...v0.1.12
+[0.1.11]: https://gitee.com/quant1x/data.git/compare/v0.1.10...v0.1.11
 [0.1.10]: https://gitee.com/quant1x/data.git/compare/v0.1.9...v0.1.10
 [0.1.9]: https://gitee.com/quant1x/data.git/compare/v0.1.8...v0.1.9
 [0.1.8]: https://gitee.com/quant1x/data.git/compare/v0.1.7...v0.1.8

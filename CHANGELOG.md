@@ -3,8 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.16] - 2025-12-07
+### Changed
+- 增加演示add函数
+
 ## [0.1.15] - 2025-12-07
 ### Changed
+- update changelog
 
 ## [0.1.14] - 2025-12-07
 ### Changed
@@ -135,7 +140,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.15...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.16...HEAD
+[0.1.16]: https://gitee.com/quant1x/data.git/compare/v0.1.15...v0.1.16
 [0.1.15]: https://gitee.com/quant1x/data.git/compare/v0.1.14...v0.1.15
 [0.1.14]: https://gitee.com/quant1x/data.git/compare/v0.1.13...v0.1.14
 [0.1.13]: https://gitee.com/quant1x/data.git/compare/v0.1.12...v0.1.13

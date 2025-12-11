@@ -1,16 +1,9 @@
 package utils
 
 import (
-	"archive/zip"
-	"errors"
-	"io"
-	"os"
-	"path/filepath"
-	"slices"
-	"strings"
 	"testing"
 
-	"gitee.com/quant1x/data/exchange/cache"
+	"gitee.com/quant1x/data/cache"
 )
 
 func TestUnzipPreserveTimes(t *testing.T) {

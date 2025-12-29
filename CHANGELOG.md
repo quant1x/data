@@ -3,9 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.18] - 2025-12-29
+### Changed
+- rust: 重构代码结构，与go匹配
+- 将cache目录提升到项目顶层
+- git忽略vscode的项目配置
+- go: 删除废弃的cache测试代码
+- go: 基础配置信息
+- Merge branch 'fix-pkg' into 0.1.x
+
 ## [0.1.17] - 2025-12-07
 ### Changed
 - 删除根路径的go模块配置
+- update changelog
 
 ## [0.1.16] - 2025-12-07
 ### Changed
@@ -18,6 +28,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.14] - 2025-12-07
 ### Changed
+- update changelog
 
 ## [0.1.13] - 2025-12-07
 ### Changed
@@ -32,11 +43,11 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.11] - 2025-12-07
 ### Changed
-- 新增vscode的launch配置
-- 调整测试代码
 - 补充注释
 - go: 尝试将git子目录作为go module
 - update changelog
+- 新增vscode的launch配置
+- 调整测试代码
 
 ## [0.1.10] - 2025-11-03
 ### Changed
@@ -145,7 +156,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.17...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.18...HEAD
+[0.1.18]: https://gitee.com/quant1x/data.git/compare/v0.1.17...v0.1.18
 [0.1.17]: https://gitee.com/quant1x/data.git/compare/v0.1.16...v0.1.17
 [0.1.16]: https://gitee.com/quant1x/data.git/compare/v0.1.15...v0.1.16
 [0.1.15]: https://gitee.com/quant1x/data.git/compare/v0.1.14...v0.1.15

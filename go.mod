@@ -8,7 +8,7 @@ require (
 	gitee.com/quant1x/num v0.7.15
 	gitee.com/quant1x/pkg v0.9.1
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/text v0.30.0
+	golang.org/x/text v0.32.0
 	gopkg.in/ini.v1 v1.67.0
 )
 
@@ -19,5 +19,3 @@ require (
 	golang.org/x/sys v0.37.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-//replace gitee.com/quant1x/pkg => ../pkg

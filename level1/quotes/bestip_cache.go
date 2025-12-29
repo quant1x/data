@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"gitee.com/quant1x/data/cache"
 	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/logger"

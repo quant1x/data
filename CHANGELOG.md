@@ -3,19 +3,40 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.17] - 2025-12-07
+### Changed
+- 删除根路径的go模块配置
+
+## [0.1.16] - 2025-12-07
+### Changed
+- 增加演示add函数
+- update changelog
+
+## [0.1.15] - 2025-12-07
+### Changed
+- update changelog
+
 ## [0.1.14] - 2025-12-07
 ### Changed
 
 ## [0.1.13] - 2025-12-07
 ### Changed
+- 删除git 子目录的尝试的代码
+- 恢复gitee.com仓库
+- update changelog
 
 ## [0.1.12] - 2025-12-07
 ### Changed
+- 修改index.html，去掉body
+- update changelog
 
 ## [0.1.11] - 2025-12-07
 ### Changed
 - 新增vscode的launch配置
 - 调整测试代码
+- 补充注释
+- go: 尝试将git子目录作为go module
+- update changelog
 
 ## [0.1.10] - 2025-11-03
 ### Changed
@@ -124,7 +145,10 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.14...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.1.17...HEAD
+[0.1.17]: https://gitee.com/quant1x/data.git/compare/v0.1.16...v0.1.17
+[0.1.16]: https://gitee.com/quant1x/data.git/compare/v0.1.15...v0.1.16
+[0.1.15]: https://gitee.com/quant1x/data.git/compare/v0.1.14...v0.1.15
 [0.1.14]: https://gitee.com/quant1x/data.git/compare/v0.1.13...v0.1.14
 [0.1.13]: https://gitee.com/quant1x/data.git/compare/v0.1.12...v0.1.13
 [0.1.12]: https://gitee.com/quant1x/data.git/compare/v0.1.11...v0.1.12

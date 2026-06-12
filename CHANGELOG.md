@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-12
+### Changed
+- 调整git仓库地址
+
 ## [0.1.18] - 2025-12-29
 ### Changed
 - rust: 重构代码结构，与go匹配
@@ -11,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - go: 删除废弃的cache测试代码
 - go: 基础配置信息
 - Merge branch 'fix-pkg' into 0.1.x
+- update changelog
 
 ## [0.1.17] - 2025-12-07
 ### Changed
@@ -156,32 +161,33 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://github.com/quant1x/data.git/compare/v0.1.18...HEAD
-[0.1.18]: https://github.com/quant1x/data.git/compare/v0.1.17...v0.1.18
-[0.1.17]: https://github.com/quant1x/data.git/compare/v0.1.16...v0.1.17
-[0.1.16]: https://github.com/quant1x/data.git/compare/v0.1.15...v0.1.16
-[0.1.15]: https://github.com/quant1x/data.git/compare/v0.1.14...v0.1.15
-[0.1.14]: https://github.com/quant1x/data.git/compare/v0.1.13...v0.1.14
-[0.1.13]: https://github.com/quant1x/data.git/compare/v0.1.12...v0.1.13
-[0.1.12]: https://github.com/quant1x/data.git/compare/v0.1.11...v0.1.12
-[0.1.11]: https://github.com/quant1x/data.git/compare/v0.1.10...v0.1.11
-[0.1.10]: https://github.com/quant1x/data.git/compare/v0.1.9...v0.1.10
-[0.1.9]: https://github.com/quant1x/data.git/compare/v0.1.8...v0.1.9
-[0.1.8]: https://github.com/quant1x/data.git/compare/v0.1.7...v0.1.8
-[0.1.7]: https://github.com/quant1x/data.git/compare/v0.1.6...v0.1.7
-[0.1.6]: https://github.com/quant1x/data.git/compare/v0.1.5...v0.1.6
-[0.1.5]: https://github.com/quant1x/data.git/compare/v0.1.4...v0.1.5
-[0.1.4]: https://github.com/quant1x/data.git/compare/v0.1.3...v0.1.4
-[0.1.3]: https://github.com/quant1x/data.git/compare/v0.1.2...v0.1.3
-[0.1.2]: https://github.com/quant1x/data.git/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/quant1x/data.git/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/quant1x/data.git/compare/v0.0.8...v0.1.0
-[0.0.8]: https://github.com/quant1x/data.git/compare/v0.0.7...v0.0.8
-[0.0.7]: https://github.com/quant1x/data.git/compare/v0.0.6...v0.0.7
-[0.0.6]: https://github.com/quant1x/data.git/compare/v0.0.5...v0.0.6
-[0.0.5]: https://github.com/quant1x/data.git/compare/v0.0.4...v0.0.5
-[0.0.4]: https://github.com/quant1x/data.git/compare/v0.0.3...v0.0.4
-[0.0.3]: https://github.com/quant1x/data.git/compare/v0.0.2...v0.0.3
-[0.0.2]: https://github.com/quant1x/data.git/compare/v0.0.1...v0.0.2
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.0...HEAD
+[0.2.0]: https://gitee.com/quant1x/data.git/compare/v0.1.18...v0.2.0
+[0.1.18]: https://gitee.com/quant1x/data.git/compare/v0.1.17...v0.1.18
+[0.1.17]: https://gitee.com/quant1x/data.git/compare/v0.1.16...v0.1.17
+[0.1.16]: https://gitee.com/quant1x/data.git/compare/v0.1.15...v0.1.16
+[0.1.15]: https://gitee.com/quant1x/data.git/compare/v0.1.14...v0.1.15
+[0.1.14]: https://gitee.com/quant1x/data.git/compare/v0.1.13...v0.1.14
+[0.1.13]: https://gitee.com/quant1x/data.git/compare/v0.1.12...v0.1.13
+[0.1.12]: https://gitee.com/quant1x/data.git/compare/v0.1.11...v0.1.12
+[0.1.11]: https://gitee.com/quant1x/data.git/compare/v0.1.10...v0.1.11
+[0.1.10]: https://gitee.com/quant1x/data.git/compare/v0.1.9...v0.1.10
+[0.1.9]: https://gitee.com/quant1x/data.git/compare/v0.1.8...v0.1.9
+[0.1.8]: https://gitee.com/quant1x/data.git/compare/v0.1.7...v0.1.8
+[0.1.7]: https://gitee.com/quant1x/data.git/compare/v0.1.6...v0.1.7
+[0.1.6]: https://gitee.com/quant1x/data.git/compare/v0.1.5...v0.1.6
+[0.1.5]: https://gitee.com/quant1x/data.git/compare/v0.1.4...v0.1.5
+[0.1.4]: https://gitee.com/quant1x/data.git/compare/v0.1.3...v0.1.4
+[0.1.3]: https://gitee.com/quant1x/data.git/compare/v0.1.2...v0.1.3
+[0.1.2]: https://gitee.com/quant1x/data.git/compare/v0.1.1...v0.1.2
+[0.1.1]: https://gitee.com/quant1x/data.git/compare/v0.1.0...v0.1.1
+[0.1.0]: https://gitee.com/quant1x/data.git/compare/v0.0.8...v0.1.0
+[0.0.8]: https://gitee.com/quant1x/data.git/compare/v0.0.7...v0.0.8
+[0.0.7]: https://gitee.com/quant1x/data.git/compare/v0.0.6...v0.0.7
+[0.0.6]: https://gitee.com/quant1x/data.git/compare/v0.0.5...v0.0.6
+[0.0.5]: https://gitee.com/quant1x/data.git/compare/v0.0.4...v0.0.5
+[0.0.4]: https://gitee.com/quant1x/data.git/compare/v0.0.3...v0.0.4
+[0.0.3]: https://gitee.com/quant1x/data.git/compare/v0.0.2...v0.0.3
+[0.0.2]: https://gitee.com/quant1x/data.git/compare/v0.0.1...v0.0.2
 
-[0.0.1]: https://github.com/quant1x/data.git/releases/tag/v0.0.1
+[0.0.1]: https://gitee.com/quant1x/data.git/releases/tag/v0.0.1

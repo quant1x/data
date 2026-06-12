@@ -1,7 +1,7 @@
 package std
 
 import (
-	"gitee.com/quant1x/data/level1/utils"
+	"github.com/quant1x/data/level1/utils"
 )
 
 // SetupCmd1Request 请求包结构

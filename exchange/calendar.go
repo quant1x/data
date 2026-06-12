@@ -6,10 +6,10 @@ import (
 	"slices"
 	"time"
 
-	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/coroutine"
-	"gitee.com/quant1x/gox/logger"
+	"github.com/quant1x/data/cache"
+	"github.com/quant1x/gox/api"
+	"github.com/quant1x/gox/coroutine"
+	"github.com/quant1x/gox/logger"
 )
 
 const (

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"text/template"
 
-	"gitee.com/quant1x/data/level1/utils"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/logger"
+	"github.com/quant1x/data/level1/utils"
+	"github.com/quant1x/gox/api"
+	"github.com/quant1x/gox/logger"
 	"gopkg.in/ini.v1"
 )
 

@@ -3,11 +3,11 @@ package securities
 import (
 	"os"
 
-	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/quotes"
-	"gitee.com/quant1x/data/level1/utils"
-	"gitee.com/quant1x/gox/api"
+	"github.com/quant1x/data/cache"
+	"github.com/quant1x/data/exchange"
+	"github.com/quant1x/data/level1/quotes"
+	"github.com/quant1x/data/level1/utils"
+	"github.com/quant1x/gox/api"
 )
 
 // 同步板块数据

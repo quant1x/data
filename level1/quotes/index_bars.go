@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"gitee.com/quant1x/data/level1/proto"
-	"gitee.com/quant1x/data/level1/utils"
+	"github.com/quant1x/data/level1/proto"
+	"github.com/quant1x/data/level1/utils"
 )
 
 // IndexBarsPackage 指数K线

@@ -1,6 +1,6 @@
 package utils
 
-import "gitee.com/quant1x/data/exchange"
+import "github.com/quant1x/data/exchange"
 
 // BaseUnit 交易单位
 //

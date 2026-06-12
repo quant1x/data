@@ -7,10 +7,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/data/exchange"
-	"gitee.com/quant1x/data/level1/proto"
-	"gitee.com/quant1x/data/level1/utils"
-	"gitee.com/quant1x/gox/api"
+	"github.com/quant1x/data/exchange"
+	"github.com/quant1x/data/level1/proto"
+	"github.com/quant1x/data/level1/utils"
+	"github.com/quant1x/gox/api"
 )
 
 type MinuteTimePackage struct {

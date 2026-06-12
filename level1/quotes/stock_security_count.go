@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/data/level1/proto"
-	"gitee.com/quant1x/data/level1/utils"
+	"github.com/quant1x/data/level1/proto"
+	"github.com/quant1x/data/level1/utils"
 )
 
 // SecurityCountPackage 市场股票数量

@@ -3,7 +3,7 @@ package utils
 import (
 	"testing"
 
-	"gitee.com/quant1x/data/cache"
+	"github.com/quant1x/data/cache"
 )
 
 func TestUnzipPreserveTimes(t *testing.T) {

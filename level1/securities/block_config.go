@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"gitee.com/quant1x/data/cache"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/text/encoding"
+	"github.com/quant1x/data/cache"
+	"github.com/quant1x/gox/api"
+	"github.com/quant1x/gox/text/encoding"
 )
 
 const (

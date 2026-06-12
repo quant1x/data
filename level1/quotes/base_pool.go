@@ -3,8 +3,8 @@ package quotes
 import (
 	"time"
 
-	"gitee.com/quant1x/asio"
-	"gitee.com/quant1x/gox/logger"
+	"github.com/quant1x/asio"
+	"github.com/quant1x/gox/logger"
 )
 
 const (

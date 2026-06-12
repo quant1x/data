@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"gitee.com/quant1x/data/level1/proto"
-	"gitee.com/quant1x/gox/api"
+	"github.com/quant1x/data/level1/proto"
+	"github.com/quant1x/gox/api"
 )
 
 const (

@@ -11,7 +11,7 @@ import (
 	"slices"
 	"strings"
 
-	"gitee.com/quant1x/gox/api"
+	"github.com/quant1x/gox/api"
 )
 
 // ZlibCompress 进行zlib压缩

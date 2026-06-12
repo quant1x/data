@@ -15,8 +15,8 @@ package main
 
 import (
 	"fmt"
-	"gitee.com/quant1x/data/level1"
-	"gitee.com/quant1x/data/level1/proto"
+	"github.com/quant1x/data/level1"
+	"github.com/quant1x/data/level1/proto"
 )
 
 func main() {

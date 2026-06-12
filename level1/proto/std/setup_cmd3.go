@@ -1,6 +1,6 @@
 package std
 
-import "gitee.com/quant1x/data/level1/utils"
+import "github.com/quant1x/data/level1/utils"
 
 // SetupCmd3Request 请求包结构
 type SetupCmd3Request struct {

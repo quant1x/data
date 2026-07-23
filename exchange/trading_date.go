@@ -15,6 +15,17 @@ const (
 	TimeOnly  = time.TimeOnly // 时分秒的格式
 )
 
+func safeTradeDateIndex(tradeDates []string, date string) int {
+	if len(tradeDates) == 0 {
+		return -1
+	}
+	idx := sort.SearchStrings(tradeDates, date)
+	if idx >= len(tradeDates) {
+		return len(tradeDates) - 1
+	}
+	return idx
+}
+
 // IsHoliday 是否节假日
 func IsHoliday(date string) bool {
 	dates := readOnlyDates()
@@ -83,9 +94,15 @@ func TradeRange(start, end string, threadSafe ...bool) []string {
 
 	start = FixTradeDate(start)
 	end = FixTradeDate(end)
+	if start > end {
+		return nil
+	}
 
-	is := sort.SearchStrings(tradeDates, start)
-	ie := sort.SearchStrings(tradeDates, end)
+	if len(tradeDates) == 0 {
+		return nil
+	}
+	is := safeTradeDateIndex(tradeDates, start)
+	ie := safeTradeDateIndex(tradeDates, end)
 
 	today := IndexToday()
 	lastDay := tradeDates[ie]
@@ -118,8 +135,11 @@ func transactionDateRange(start, end string, threadSafe, skipToday bool) []strin
 		tradeDates = unsafeDates()
 	}
 
-	is := sort.SearchStrings(tradeDates, start)
-	ie := sort.SearchStrings(tradeDates, end)
+	if len(tradeDates) == 0 {
+		return nil
+	}
+	is := safeTradeDateIndex(tradeDates, start)
+	ie := safeTradeDateIndex(tradeDates, end)
 
 	if skipToday {
 		today := IndexToday()
@@ -129,6 +149,9 @@ func transactionDateRange(start, end string, threadSafe, skipToday bool) []strin
 		}
 	} else {
 		for {
+			if ie < 0 {
+				break
+			}
 			if tradeDates[ie] <= end {
 				break
 			}
@@ -164,10 +187,16 @@ func TradingDateRange(start, end string, threadSafe ...bool) []string {
 func LastTradeDate() string {
 	today := IndexToday()
 	tradeDates := readOnlyDates()
-	end := sort.SearchStrings(tradeDates, today)
+	if len(tradeDates) == 0 {
+		return ""
+	}
+	end := safeTradeDateIndex(tradeDates, today)
 	lastDay := tradeDates[end]
 	if lastDay > today {
 		end = end - 1
+	}
+	if end < 0 {
+		return ""
 	}
 	return tradeDates[end]
 }
@@ -181,10 +210,19 @@ func LastNDate(date string, n ...int) []string {
 	r := api.RangeFinite(-__opt_end)
 	date = FixTradeDate(date)
 	tradeDates := readOnlyDates()
-	end := sort.SearchStrings(tradeDates, date)
+	if len(tradeDates) == 0 {
+		return nil
+	}
+	end := safeTradeDateIndex(tradeDates, date)
+	if end < 0 {
+		return nil
+	}
 	lastDay := tradeDates[end]
 	if lastDay > date {
 		end = end - 1
+	}
+	if end < 0 {
+		return nil
 	}
 	date_length := len(tradeDates[0:end])
 	s, e, err := r.Limits(date_length)
@@ -206,10 +244,16 @@ func GetFrontTradeDay() string {
 func NextTradeDate(date string) string {
 	date = FixTradeDate(date)
 	tradeDates := readOnlyDates()
-	end := sort.SearchStrings(tradeDates, date)
+	if len(tradeDates) == 0 {
+		return ""
+	}
+	end := safeTradeDateIndex(tradeDates, date)
 	lastDay := tradeDates[end]
 	if lastDay == date {
 		end = end + 1
+	}
+	if end >= len(tradeDates) {
+		return ""
 	}
 	return tradeDates[end]
 }

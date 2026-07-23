@@ -1,8 +1,6 @@
 package exchange
 
-import (
-	"sort"
-)
+import ()
 
 // unsafeDateIsTradingDay date是否交易日?默认是今天
 func unsafeDateIsTradingDay(date ...string) bool {
@@ -21,14 +19,19 @@ func unsafeDateIsTradingDay(date ...string) bool {
 func unsafeLastTradeDate() string {
 	today := IndexToday()
 	tradeDates := unsafeDates()
-	end := sort.SearchStrings(tradeDates, today)
-	datesLength := len(tradeDates)
-	if end >= datesLength {
-		end = datesLength - 1
+	if len(tradeDates) == 0 {
+		return ""
+	}
+	end := safeTradeDateIndex(tradeDates, today)
+	if end < 0 {
+		return ""
 	}
 	lastDay := tradeDates[end]
 	if lastDay > today {
 		end = end - 1
+	}
+	if end < 0 {
+		return ""
 	}
 	return tradeDates[end]
 }
@@ -37,9 +40,11 @@ func unsafeLastTradeDate() string {
 func unsafeCalendarIsEOF() bool {
 	today := IndexToday()
 	tradeDates := unsafeDates()
-	end := sort.SearchStrings(tradeDates, today)
-	datesLength := len(tradeDates)
-	if end >= datesLength {
+	if len(tradeDates) == 0 {
+		return true
+	}
+	end := safeTradeDateIndex(tradeDates, today)
+	if end >= len(tradeDates) {
 		return true
 	}
 	return false

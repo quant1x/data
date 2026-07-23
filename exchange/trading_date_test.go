@@ -25,6 +25,14 @@ func TestTradeRange(t *testing.T) {
 	fmt.Println(dates)
 }
 
+func TestTradeRange_OutOfRangeEndDoesNotPanic(t *testing.T) {
+	assert.NotPanics(t, func() {
+		dates := TradeRange("2023-04-29", "2099-12-31")
+		assert.NotNil(t, dates)
+		assert.NotEmpty(t, dates)
+	})
+}
+
 func TestGetLastDayForUpdate(t *testing.T) {
 	fmt.Println(GetLastDayForUpdate())
 }

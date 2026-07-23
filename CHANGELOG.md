@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-23
+### Changed
+- 修复交易日范围越界问题并补充回归测试
+
 ## [0.2.0] - 2026-06-12
 ### Changed
 - 调整git仓库地址
+- update changelog
 
 ## [0.1.18] - 2025-12-29
 ### Changed
@@ -161,7 +166,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.1...HEAD
+[0.2.1]: https://gitee.com/quant1x/data.git/compare/v0.2.0...v0.2.1
 [0.2.0]: https://gitee.com/quant1x/data.git/compare/v0.1.18...v0.2.0
 [0.1.18]: https://gitee.com/quant1x/data.git/compare/v0.1.17...v0.1.18
 [0.1.17]: https://gitee.com/quant1x/data.git/compare/v0.1.16...v0.1.17

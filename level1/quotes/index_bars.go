@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"errors"
 	"fmt"
 
 	"github.com/quant1x/data/level1/proto"
@@ -98,6 +99,10 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
+
+	if pos+4 > len(data) {
+		return errors.New(DATA_LOSS)
+	}
 
 	pre_diff_base := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {

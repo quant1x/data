@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-08-24
+### Changed
+- bug fix: slice out of range
+
 ## [0.2.1] - 2026-07-23
 ### Changed
 - 修复交易日范围越界问题并补充回归测试
+- release v0.2.1
 
 ## [0.2.0] - 2026-06-12
 ### Changed
@@ -166,7 +171,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.2...HEAD
+[0.2.2]: https://gitee.com/quant1x/data.git/compare/v0.2.1...v0.2.2
 [0.2.1]: https://gitee.com/quant1x/data.git/compare/v0.2.0...v0.2.1
 [0.2.0]: https://gitee.com/quant1x/data.git/compare/v0.1.18...v0.2.0
 [0.1.18]: https://gitee.com/quant1x/data.git/compare/v0.1.17...v0.1.18

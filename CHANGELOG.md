@@ -3,8 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-08-26
+### Changed
+- Merge branch 'master' of https://gitee.com/quant1x/data
+- release v0.2.4
+
 ## [0.2.3] - 2026-08-26
 ### Changed
+- 更新go版本到1.27.0
 - 更新go版本到1.27.0
 - release v0.2.3
 
@@ -177,7 +183,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.4...HEAD
+[0.2.4]: https://gitee.com/quant1x/data.git/compare/v0.2.3...v0.2.4
 [0.2.3]: https://gitee.com/quant1x/data.git/compare/v0.2.2...v0.2.3
 [0.2.2]: https://gitee.com/quant1x/data.git/compare/v0.2.1...v0.2.2
 [0.2.1]: https://gitee.com/quant1x/data.git/compare/v0.2.0...v0.2.1

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"errors"
 	"fmt"
 
 	"github.com/quant1x/data/level1/proto"
@@ -13,7 +12,6 @@ import (
 
 const (
 	SECURITY_BARS_MAX = 800 // 单次最大获取800条K线数据
-	DATA_LOSS         = "data缺失"
 )
 
 // SecurityBars K线
@@ -108,7 +106,7 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 	pos += 2
 
 	if pos+4 > len(data) {
-		return errors.New(DATA_LOSS)
+		return nil
 	}
 
 	pre_diff_base := 0

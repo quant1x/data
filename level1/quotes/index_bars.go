@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"errors"
 	"fmt"
 
 	"github.com/quant1x/data/level1/proto"
@@ -101,7 +100,7 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	pos += 2
 
 	if pos+4 > len(data) {
-		return errors.New(DATA_LOSS)
+		return nil
 	}
 
 	pre_diff_base := 0

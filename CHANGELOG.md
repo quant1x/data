@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-09-02
+### Changed
+- fix: slice bounds out of range
+- release version 0.2.5
+
 ## [0.2.4] - 2026-08-26
 ### Changed
 - Merge branch 'master' of https://gitee.com/quant1x/data
@@ -183,7 +188,8 @@ All notable changes to this project will be documented in this file.
 - update changelog
 
 
-[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/data.git/compare/v0.2.5...HEAD
+[0.2.5]: https://gitee.com/quant1x/data.git/compare/v0.2.4...v0.2.5
 [0.2.4]: https://gitee.com/quant1x/data.git/compare/v0.2.3...v0.2.4
 [0.2.3]: https://gitee.com/quant1x/data.git/compare/v0.2.2...v0.2.3
 [0.2.2]: https://gitee.com/quant1x/data.git/compare/v0.2.1...v0.2.2

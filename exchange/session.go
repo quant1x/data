@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/quant1x/gox/api"
+	"github.com/quant1x/gox/encoding/yaml"
 	"github.com/quant1x/gox/timestamp"
-	"github.com/quant1x/pkg/yaml"
 )
 
 // TradingSession 交易时段

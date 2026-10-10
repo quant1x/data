@@ -3,12 +3,12 @@ module github.com/quant1x/data
 go 1.27.2
 
 require (
-	github.com/quant1x/asio v1.2.1
-	github.com/quant1x/gox v1.27.0
-	github.com/quant1x/num v0.8.2
-	github.com/quant1x/pkg v0.10.0
+	github.com/quant1x/asio v1.2.2
+	github.com/quant1x/gox v1.27.1
+	github.com/quant1x/num v0.8.3
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/text v0.42.0
+	github.com/valyala/fastjson v1.6.10
+	golang.org/x/text v0.43.0
 	gopkg.in/ini.v1 v1.67.3
 	gopkg.in/yaml.v3 v3.0.1
 )

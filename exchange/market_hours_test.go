@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/quant1x/gox/api"
-	"github.com/quant1x/pkg/yaml"
+	"github.com/quant1x/gox/encoding/yaml"
 	"github.com/stretchr/testify/assert"
 )
 

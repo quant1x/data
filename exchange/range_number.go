@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/quant1x/gox/api"
+	"github.com/quant1x/gox/encoding/yaml"
 	"github.com/quant1x/gox/exception"
 	"github.com/quant1x/num"
-	"github.com/quant1x/pkg/yaml"
 )
 
 // 数值范围正则表达式

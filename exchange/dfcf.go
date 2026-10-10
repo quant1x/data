@@ -9,7 +9,7 @@ import (
 	"github.com/quant1x/gox/api"
 	"github.com/quant1x/gox/http"
 	"github.com/quant1x/gox/logger"
-	"github.com/quant1x/pkg/fastjson"
+	"github.com/valyala/fastjson"
 )
 
 const (
@@ -91,7 +91,7 @@ func A(code string) ([]KLine, error) {
 	}
 	errCode := obj.GetInt("rc")
 	if errCode != 0 {
-		logger.Errorf("%d: %s\n", err, obj.GetString("msg"))
+		logger.Errorf("%d: %s\n", err, string(obj.GetStringBytes("msg")))
 		return kl, nil
 	}
 	_ = data
